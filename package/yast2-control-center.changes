@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Tue Mar 23 18:39:53 CET 2004 - sh@suse.de
+
+- V 2.9.8
+- Moved icons to yast2-theme
+- Changed icon paths to new yast2-theme paths 
+
+-------------------------------------------------------------------
 Sat Mar 06 12:41:27 CET 2004 - arvin@suse.de
 
 - added icon for uml installation
