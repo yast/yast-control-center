@@ -18,13 +18,19 @@
 
 /-*/
 
-// -*- c++ -*-
 
 
 #include "QY2Settings.h"
 
+#include <qfile.h>
 #include <qtextstream.h>
 #include <qregexp.h>
+
+#include <iostream>
+
+using std::cout;
+using std::cerr;
+using std::endl;
 
 
 QY2Settings::QY2Settings( const QString & fileName, AccessMode accessMode )
@@ -32,19 +38,20 @@ QY2Settings::QY2Settings( const QString & fileName, AccessMode accessMode )
     , _accessMode( accessMode )
 {
     _sections.setAutoDelete( true );
-    initSections();
 
     if ( _accessMode == ReadOnly || _accessMode == ReadWrite )
 	load();
+    else
+	initSections();
 }
 
 void QY2Settings::initSections()
 {
-    _defaultSection = new Section( QString::null );
+    _defaultSection = new Section( "" );
     CHECK_PTR( _defaultSection );
 
     _currentSection = _defaultSection;
-    _sections.insert( QString::null, _defaultSection );
+    _sections.insert( "", _defaultSection );
 }
 
 
@@ -137,24 +144,48 @@ QStringList QY2Settings::keys() const
 }
 
 
-void QY2Settings::load()
+bool QY2Settings::load()
 {
+    initSections();
+    _readError = false;
+    
     if ( _accessMode == WriteOnly )
-	return;
+	return false;
 
-    initSections();	// Clear any old settings
-    QTextIStream str( &_fileName );
+    
+    QFile file( _fileName );
 
-    while ( ! str.atEnd() )
+    if ( ! file.open( IO_ReadOnly ) )
     {
-	str.skipWhiteSpace();
-	QString line = str.readLine();
+	cerr << "Can't load settings from " << _fileName
+	     << ": " << file.errorString()
+	     << endl;
+	
+	_readError = true;
+	
+	return false;
+    }
+    
+    QTextStream str( &file );
+    str.setEncoding( QTextStream::UnicodeUTF8 );
+    QString line;
+    int lineCount = 0;
 
+    while ( ! file.atEnd() )
+    {
+	line = str.readLine().stripWhiteSpace();
+	lineCount++;
+	
+	
+	// Skip empty lines
+	
+	if ( line.isEmpty() ) continue;
 
+	
 	// Skip comment lines
 
 	if ( line.startsWith( "#"  ) ) continue;
-	if ( line.startsWith( ";;" ) ) continue;
+	if ( line.startsWith( ";"  ) ) continue;
 	if ( line.startsWith( "//" ) ) continue;
 
 
@@ -170,12 +201,9 @@ void QY2Settings::load()
 	{
 	    // key=value pair
 
-	    QString key   = line.section( "=", 0 );
-	    QString value = line.section( "=", 1 );
+	    QString key   = line.section( "=", 0, 0 ).stripWhiteSpace();
+	    QString value = line.section( "=", 1, 1 ).stripWhiteSpace();
 
-	    key.stripWhiteSpace();
-
-	    value.stripWhiteSpace();
 	    value.replace( QRegExp( "^\"" ), "" );	// strip leading "
 	    value.replace( QRegExp( "\"$" ), "" );	// strip trailing "
 	    value.replace( "\\\"", "\"" );		// un-escape "
@@ -184,21 +212,34 @@ void QY2Settings::load()
 	}
 	else
 	{
-	    qWarning( "Syntax error in %s: %s",
-		      (const char *) _fileName, (const char *) line );
+	    qWarning( "%s:%d: Syntax error: %s",
+		      (const char *) _fileName, lineCount, (const char *) line );
 	}
     }
 
     _dirty = false;
+
+    return true;
 }
 
 
-void QY2Settings::save()
+bool QY2Settings::save()
 {
     if ( _accessMode == ReadOnly )
-	return;
+	return false;
 
-    QTextOStream str( &_fileName );
+    QFile file( _fileName );
+
+    if ( ! file.open( IO_WriteOnly ) )
+    {
+	cerr << "Can't save settings to " << _fileName
+	     << ": " << file.errorString()
+	     << endl;
+	
+	return false;
+    }
+    
+    QTextStream str( &file );
     str.setEncoding( QTextStream::UnicodeUTF8 );
 
     SectionIterator sectIt( _sections );
@@ -229,6 +270,8 @@ void QY2Settings::save()
     }
 
     _dirty = false;
+
+    return true;
 }
 
 

@@ -34,11 +34,12 @@
  *
  * 	key="value"
  * 	key2 = value
- * 	;; comment
+ * 	; comment
  * 	# comment
  *
  *	[section-title]
  *	key = "value"
+ *      ; comment
  *	key2="value"
  *	key3 = _( "message that needs to be translated" )
  *
@@ -180,7 +181,7 @@ public:
      *
      * Returns 'true' on success.
      **/
-    void save();
+    bool save();
 
     /**
      * Returns 'true' if there are any changes that need to be written.
@@ -200,7 +201,10 @@ protected:
     class Section: public QMap<QString, QString>
     {
     public:
-	Section( const QString & name ) : QMap<QString, QString>() {};
+	Section( const QString & name )
+	    : QMap<QString, QString>()
+	    , _name( name )
+	    {}
 	QString name() const { return _name; }
 
     protected:
@@ -218,8 +222,9 @@ protected:
 
     /**
      * Read the settings file. Sets _readError depending on success or failure.
+     * Returns 'true' upon success.
      **/
-    void load();
+    bool load();
 
 
     // Data members
