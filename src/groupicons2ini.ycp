@@ -25,8 +25,7 @@
 
 */
 {
-    // prevent translation
-    textdomain "INVALID";
+    textdomain "control-center";
 
     define addkeyvalue(string key, string value)
     ``{

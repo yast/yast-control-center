@@ -28,7 +28,7 @@
 
 */
 {
-   textdomain "menu";
+   textdomain "control-center";
 
    string MENUENTRYDIR="/usr/lib/YaST2/menuentries";
    string configfile  ="/usr/lib/YaST2/etc/y2controlcentericons.ycp";
@@ -54,10 +54,6 @@
    ////////////////////////////////////////////////////////////
    // Read the group and group-icon information from
    // /usr/lib/YaST2/etc/y2controlcentericons.ycp
-
-   // this file comes from inst-general, so we need use this
-   // textdomain
-   textdomain "general";
 
    y2debug( "y2..conf: %1", configfile);
    any cont = SCR(`Read(.target.ycp, configfile));
@@ -96,8 +92,6 @@
    {
        // go on without group icons ...
    }
-
-   textdomain "menu";
 
    SCR(`Write(.target.string, tmpfile, "[Modules]\n"));
 

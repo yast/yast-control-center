@@ -25,8 +25,7 @@
 
 */
 {
-    // we do not want any translated text
-    textdomain "INVALID";
+    textdomain "control-center";
 
     define addkeyvalue(string key, string value, string description)
     ``{
@@ -96,7 +95,7 @@
 	addkeyvalue("Icon",icon,"icon displayed in y2cc");
 	add_keyvalue("Helptext",helptext,"*one* *short* descriptive line for y2cc");
 	addkeyvalue("Arguments",arguments,"arguments, seperated by space");
-	addkeyvalue("RequiresRoot",sformat("%1",requiresroot),"whether root privileges are required to run this module"); 
+	addkeyvalue("RequiresRoot",sformat("%1",requiresroot),"whether root privileges are required to run this module");
 	addkeyvalue("Geometry",geometry,"default size for window, Y2CC will set $Y2_GEOMETRY to this value");
 	addkeyvalue("SortKey",sortkey,"string to use for sorting instead of Name");
 
