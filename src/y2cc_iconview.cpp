@@ -100,7 +100,7 @@ QDragObject * MyQIconView::dragObject()
 	if ( item->isSelected() ) {
 	    QIconDragItem id;
 	    id.setData( QCString( "isthiseverused?" ) );
-	    if(item->getModule())
+	    if (item->getModule())
 	    {
 		    QString desktopentry="[Desktop Entry]\n"
 					"Exec=" SBINYAST2 " %1\n"
@@ -129,9 +129,9 @@ QDragObject * MyQIconView::dragObject()
 #else
     MyQIconViewItem *item = (MyQIconViewItem*)currentItem();
     QTextDrag *drag=0L;
-    if(item)
+    if (item)
     {
-	if(item->getModule())
+	if (item->getModule())
 	{
 		drag = new QTextDrag( viewport() );
 		drag->setSubtype("plain");

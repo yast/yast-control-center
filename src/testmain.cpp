@@ -5,7 +5,7 @@
 
 int main(void)
 {
-	YastModules y;
+	YModules y;
 	const QString* s;
 	y.dumpmods();
 #if WAS==1
@@ -13,13 +13,13 @@ int main(void)
 	for(s=y.firstGroup();s;s=y.nextGroup())
 	{
 		cout << "  " << *s << endl;
-		const YastModule* m;
+		const YModule* m;
 		y.begin();
 		do
 		{
 			m=y.get();
 			cout << "    " << m->getName()  << endl;
-		}while(y.next());
+		}while (y.next());
 	}
 #else
 	int number;
@@ -29,13 +29,13 @@ int main(void)
 	{
 		s=y.setGroup(i);
 		cout << *s  << endl;
-		const YastModule* m;
+		const YModule* m;
 		y.begin();
 		do
 		{
 			m=y.get();
 			cout << "    " << m->getName()  << endl;
-		}while(y.next());
+		}while (y.next());
 	}
 #endif
 	return 0;

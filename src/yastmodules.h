@@ -13,7 +13,6 @@
 #include <config.h>
 #endif
 
-//#define MODULEFILE "/tmp/y2controlcenter.moduleslist"
 
 #include <qfile.h>
 #include <qstring.h>
@@ -25,178 +24,212 @@
 #include <qobject.h>
 #include "y2cc_globals.h"
 
-class YastModule;
+class YMod;
 class ModGroup;
-class Process;
 
-class YastModules : public QObject
+typedef QSortedList<YMod>		ModuleList;
+typedef QPtrListIterator<YMod>		ModuleListIterator;
+    
+typedef QSortedList<ModGroup>		GroupList;
+typedef QPtrListIterator<ModGroup>	GroupListIterator;
+
+
+class YModules: public QObject
 {
-	Q_OBJECT
-	public:
-	YastModules();
-	~YastModules();
+    Q_OBJECT
+    
+public:
+    YModules();
+    virtual ~YModules();
 
-	//reads modules
-	bool init();
+    //reads modules
+    bool init();
 
-	// return number of groups
-        int numGroups();
-	// jump to first group, return it
-	ModGroup* firstGroup();
-	// goto next group, return it
-	ModGroup* nextGroup();
-	// return current group
-	ModGroup* getGroup() const;
-	// jump to group #idx  and return it
-	ModGroup* setGroup(uint idx);
-	// position on first module
-	/*
-	void begin();
-	// step to next module
-	bool next();
-	// return current module
-	const YastModule* get() const;
-	*/
-	// run a module with yast2
-	void runModule(const YastModule* module);
+    // return number of groups
+    int numGroups();
+    
+    // jump to first group, return it
+    ModGroup* firstGroup();
+    
+    // goto next group, return it
+    ModGroup* nextGroup();
+    
+    // return current group
+    ModGroup* getGroup() const;
+    
+    // jump to group #idx  and return it
+    ModGroup* setGroup(uint idx);
+    
+    // Run a module with YaST2
+    void runModule(const YMod * module);
 
-	void dumpmods();
-	void dumpgroups();
+    // Debugging
+    void dumpModules();
+    void dumpGroups();
 
-	const QString* getErrorString() const;
+    const QString* getErrorString() const;
 
-	signals:
+signals:
 
-	void sig_percentread(int percent);
-	void sig_finished(int);
-	void sig_error(QString msg);
+    void sig_percentread(int percent);
+    void sig_finished(int);
+    void sig_error(QString msg);
 
-	protected slots:
-	void parseonelinefromprocess(QString line);
-	// add last module, sort groups and modules
-        void finish(int);
+    
+protected:
 
-	private:
-	QSortedList<YastModule> modlist;
-	QSortedList<ModGroup> grouplist;
-//	QSortedList<QString> grouplist;
-//	QVector<QString> groupicons;
-	int pos;
-	int getModList();
-	QFile* inputfile;
-	QTextStream *configfile;
-	QString error;
-	int nummodules;
+    /**
+     * Initialize the module groups.
+     * Returns 'true' on success.
+     **/
+    bool initGroups();
 
-	//config parsing
-	void addgrpandmod();
-	void addGroup( ModGroup* group );
-	void addModule( YastModule* module );
-	Process* process;
-	bool firstline;
-	int linecount;
-	QString value;
-	QString key;
-	ModGroup* grp;
-	YastModule* mod;
-	bool KeyValue(QString line, QString& key, QString &value);
-	bool ReadFile(const QString filename);
+    /**
+     * Initialize the modules.
+     * Returns 'true' on success.
+     **/
+    bool initModules();
+    
+    /**
+     * Initialize the language code (lang).
+     * From de_DE@euro etc. only "de" is kept!
+     **/
+    void initLang();
+    
+    /**
+     * Read one .desktop file and add a module accordingly.
+     * Returns 'true' on success.
+     **/
+    bool readDesktopFile( const QString & filename );
 
-	enum Sections {Undef, Group, Module};
-	Sections currentsection;
+    /**
+     * Add a module group (a category)
+     **/
+    void addGroup( ModGroup * group );
 
+    /**
+     * Add a module
+     **/
+    void addModule( YMod * mod );
+
+
+
+    //
+    // Data members
+    //
+    
+    GroupList groupList;
+    ModuleList modList;
+
+    QString lang;
+    QString error;
+    
+
+    enum Sections
+    {
+	Undef,
+	Group,
+	Module
+    };
 };
 
-// ***
 
-class YastModule
+
+class YMod
 {
-	public:
-	YastModule();
-	YastModule(const QString& Name,const QString& YCPName,const QString& Group,const QString& Description,const QString& IconFileName);
-	~YastModule();
-	YastModule(const YastModule&);
-	void setname(const QString& Name);
-	void setycpname(const QString& YCPName);
-	void setdescription(const QString& Description);
-	void seticon(const QString& IconFileName);
-	void setgroup(const QString& Group);
-	void setArguments(const QString& args);
-	void setGeometry(const QString& geo);
-	void setSortKey(const QString& key);
-	void setTextdomain(const QString& key);
-	void setRootFlag(bool yes);
-	QString getName() const;
-	QString getYCPName() const;
-	QString getDesc() const;
-	QString getIcon() const;
-	QString getGroup() const;
-	QString getArguments() const;
-	QString getGeometry() const;
-	QString getSortKey() const;
-	QString getTextdomain() const;
-	bool getRootFlag() const;
-	bool operator<(const YastModule&);
-	bool operator==(const YastModule&);
-	private:
-	QString name;
-	QString ycpname;
-	QString group;
-	QString description;
-	QString iconfilename;
-	QString arguments;
-	QString geometry;
-	QString sortkey;
-	QString textdomain;
-	bool requiresroot;
+public:
+    YMod();
+    YMod(const QString& Name,const QString& YCPName,const QString& Group,const QString& Description,const QString& IconFileName);
+    ~YMod();
+    YMod(const YMod&);
+    
+    void setName(const QString& Name);
+    void setYCPName(const QString& YCPName);
+    void setDescription(const QString& Description);
+    void setIcon(const QString& IconFileName);
+    void setGroup(const QString& Group);
+    void setArguments(const QString& args);
+    void setGeometry(const QString& geo);
+    void setSortKey(const QString& key);
+    void setTextdomain(const QString& key);
+    void setRootFlag(bool yes);
+    
+    QString getName() const;
+    QString getYCPName() const;
+    QString getDescription() const;
+    QString getIcon() const;
+    QString getGroup() const;
+    QString getArguments() const;
+    QString getGeometry() const;
+    QString getSortKey() const;
+    QString getTextdomain() const;
+    bool getRootFlag() const;
+    bool operator<(const YMod&);
+    bool operator==(const YMod&);
+private:
+    QString name;
+    QString ycpname;
+    QString group;
+    QString description;
+    QString iconfilename;
+    QString arguments;
+    QString geometry;
+    QString sortkey;
+    QString textdomain;
+    bool requiresroot;
 };
+
 
 class ModGroup
 {
-	public:
-	ModGroup();
-	ModGroup(const QString& Name);
-	~ModGroup();
-	QString getName() const;
-	QString getRawName() const;
-	QString getIcon() const;
-	QString getSortKey() const;
-	void setName(const QString& Name);
-	void setRawName(const QString& Name);
-	void setSortKey(const QString& Key);
-	void setIcon(const QString& Icon);
-	bool operator<(const ModGroup&);
-	bool operator>(const ModGroup&);
-	bool operator==(const ModGroup&);
-	void addModule(YastModule* Module);
-	bool isEmpty() const;
-	YastModule* first();
-	YastModule* last();
-	YastModule* next();
-	YastModule* prev();
-	YastModule* current();
-	private:
-	//list of modules which belong to this group
-	QSortedList<YastModule> modules;
-	QString name;
-	QString icon;
-	QString sortkey;
-	QString rawname;
-	bool sorted;
+public:
+    ModGroup();
+    ModGroup(const QString& Name);
+    
+    ~ModGroup();
+    QString getName() const;
+    QString getRawName() const;
+    QString getIcon() const;
+    QString getSortKey() const;
+    void setName(const QString& Name);
+    void setRawName(const QString& Name);
+    void setSortKey(const QString& Key);
+    void setIcon(const QString& Icon);
+    bool operator<(const ModGroup&);
+    bool operator>(const ModGroup&);
+    bool operator==(const ModGroup&);
+    void addModule(YMod* Module);
+    bool isEmpty() const;
+    YMod* first();
+    YMod* last();
+    YMod* next();
+    YMod* prev();
+    YMod* current();
+    
+private:
+    
+    //List of modules that belong to this group
+    
+    ModuleList modules;
+    QString name;
+    QString icon;
+    QString sortkey;
+    QString rawname;
+    bool sorted;
 };
 
 /*
- *  Carries only a pointer to a YastModule, mainly used for DnD
+ *  Carries only a pointer to a YMod, mainly used for DnD
  */
-class YastModuleData
+class YModData
 {
 	public:
-	YastModuleData();
-	~YastModuleData();
-	void setModule( const YastModule* );
-	const YastModule* getModule() const;
+	YModData();
+	~YModData();
+	void setModule( const YMod* );
+	const YMod* getModule() const;
 	private:
-	const YastModule* module;
+	const YMod* module;
 };
 
 #endif

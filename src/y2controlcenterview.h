@@ -36,19 +36,22 @@ class SearchDialog;
 
 class Y2ControlCenterView : public QWidget
 {
-  Q_OBJECT
-  public:
+    Q_OBJECT
+    
+public:
     Y2ControlCenterView(QWidget *parent=0);
     ~Y2ControlCenterView();
     bool init();
     const QString* getErrorString() const;
-  signals:
+    signals:
     void quit();
     void sig_percentread(int percent);
     void statusmsg(const QString& msg);
-  protected:
-    void runModule(const YastModule *m);
-  protected slots:
+    
+protected:
+    void runModule(const YMod *m);
+    
+protected slots:
     void slotButtonClicked(int);
     void slotquit();
     void slotresetcursor();
@@ -61,20 +64,20 @@ class Y2ControlCenterView : public QWidget
     void slotInitListbox(int);
     void slotAdjustListbox();
     void errorpopup(QString msg);
-  private:
+private:
     QBoxLayout* layout;
     QBoxLayout* hlayout;
     QBoxLayout* buttonhlayout;
     QIconView *icons;
-    YastModules* mods;
+    YModules * modules;
     QListBox *listbox;
     void filliconview(int groupnr);
-    const QString* error;
-    const YastModule *lastmodule;
-    time_t lasttime;
+    const QString * error;
+    const YMod *lastCalledModule;
+    time_t lastCallTime;
     time_t minwait;
     SearchDialog *sd;
-    QVector<const YastModule> *items;
+    QVector<const YMod> *items;
 
 };
 

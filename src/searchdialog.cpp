@@ -83,13 +83,13 @@ QString SearchDialog::getText() const
 
 void SearchDialog::SearchResult ( QListBoxItem * item )
 {
-	if(item)
+	if (item)
 		lb->insertItem(item);
 }
 
 void SearchDialog::ClearResults()
 {
-	if(lb)
+	if (lb)
 	{
 		lb->clear();
 	}
@@ -97,7 +97,7 @@ void SearchDialog::ClearResults()
 
 void SearchDialog::message(const QString & msg,int time)
 {
-	if(!time)
+	if (!time)
 	{
 		sb->message(msg);
 	}
@@ -110,7 +110,7 @@ void SearchDialog::message(const QString & msg,int time)
 void SearchDialog::slotbye(QListBoxItem *item)
 {
 	int num=lb->index(item);
-	if(num<0)
+	if (num<0)
 	{
 		return;
 	}

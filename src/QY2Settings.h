@@ -131,10 +131,10 @@ public:
      * If there is no such key, the specified fallback value is returned.
      **/
     QString get( const QString & key,
-		 const QString & fallback = QString::null ) const;
+		 const QString & fallback = "") const;
 
     /**
-     * Same as get() with default always QString::null
+     * Same as get() with fallback always an empty string
      **/
     QString operator[] ( const QString & key );
 

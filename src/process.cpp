@@ -17,14 +17,14 @@ Process::Process()
 
 Process::~Process()
 {
-  if(fp) close();
+  if (fp) close();
   delete timer;
 }
 
 bool Process::start(const QString& cmdline)
 {
   fp=popen(cmdline,"r");
-  if(!fp)
+  if (!fp)
   {
     qDebug("process not started");
     return false;
@@ -64,7 +64,7 @@ void Process::setinterval(int usec)
 
 bool Process::running()
 {
-  if(fp) return true;
+  if (fp) return true;
   return false;
 }
 
@@ -83,11 +83,11 @@ void Process::readfromprocess()
 
   retval = select(descriptor+1, &rfds, NULL, NULL, &tv);
 
-  if(retval>0)
+  if (retval>0)
   {
 #ifdef QTEXTSTREAM
     buffer=stream->readLine();
-    if(buffer.isNull())
+    if (buffer.isNull())
     {
       int ecode=close();
       emit finished(ecode);
@@ -98,11 +98,11 @@ void Process::readfromprocess()
     }
 #else
     char c=fgetc(fp);
-    if(c==EOF)
+    if (c==EOF)
     {
       int ecode=close();
       //last line had no newline
-      if(!buffer.isEmpty())
+      if (!buffer.isEmpty())
       {
         buffer=QString::fromUtf8(buffer);
 	emit oneline(buffer);
@@ -111,7 +111,7 @@ void Process::readfromprocess()
       emit finished(ecode);
       qDebug("eof");
     }
-    else if(c=='\n')
+    else if (c=='\n')
     {
       buffer=QString::fromUtf8(buffer);
       emit oneline(buffer);
@@ -123,7 +123,7 @@ void Process::readfromprocess()
     }
 #endif
   }
-  else if(retval==-1)
+  else if (retval==-1)
   {
     qDebug("select error");
   }

@@ -1,16 +1,30 @@
-/***************************************************************************
-            yastmodules.cpp  -  Interface to ycp, handling of modules
-                             -------------------
-    begin                : Mit Okt 18 14:21:09 CEST 2000
-    Copyright           : (c) 2000 by SuSE GmbH
-    author              : lnussel@suse.de
-***************************************************************************/
+/*---------------------------------------------------------------------\
+|								       |
+|		       __   __	  ____ _____ ____		       |
+|		       \ \ / /_ _/ ___|_   _|___ \		       |
+|			\ V / _` \___ \ | |   __) |		       |
+|			 | | (_| |___) || |  / __/		       |
+|			 |_|\__,_|____/ |_| |_____|		       |
+|								       |
+|			   YaST2 Control Center			       |
+|						     (C) SuSE Linux AG |
+\----------------------------------------------------------------------/
 
-/*
+  File:		QY2Settings.cpp
+
+  Authors:	Ludwig Nussel     <lnussel@suse.de>
+		Stefan Hundhammer <sh@suse.de>
+
+  Maintainer:	Stefan Hundhammer <sh@suse.de>
+
+
   Textdomain "control-center"
-*/
+/-*/
 
-#include <yastmodules.h>
+
+#include "yastmodules.h"
+#include "QY2Settings.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -20,10 +34,12 @@
 #include <sys/wait.h>
 #include <regex.h>
 #include <iostream>
+
 #include <qapplication.h>
 #include <qdir.h>
 #include <qtextstream.h>
 #include <qtimer.h>
+#include <qregexp.h>
 
 using std::cout;
 using std::cerr;
@@ -33,399 +49,306 @@ using std::endl;
 #include "y2cc_globals.h"
 
 
-/* Hope it's no longer quick&dirty ;-) */
-
-YastModules::YastModules()
+YModules::YModules()
 {
-    configfile=0L;
-    inputfile=0L;
-    pos=0;
-    modlist.setAutoDelete( TRUE );     // delete items when they are removed
-    grouplist.setAutoDelete( TRUE );     // delete items when they are removed
-
-    process=0L;
-    firstline=true;
-    linecount=0;
-    nummodules=0;
-    grp=0L;
-    mod=0L;
-    currentsection=Undef;
+    modList.setAutoDelete( true );	// delete items when they are removed
+    groupList.setAutoDelete( true );	// delete items when they are removed
 }
 
-bool YastModules::init()
+
+YModules::~YModules()
 {
-    if (getModList() != 0)
+}
+
+
+bool YModules::init()
+{
+    initLang();
+
+    if ( initGroups() && initModules() )
     {
-	error=_("YaST2 was unable to create the list of available sections.\n\n"
-		"This means that either YaST2 or this Control Center are\n"
-		"not correctly installed, or that you don't have sufficient\n"
-		"permissions.\n\n");
-	error+=_("If the former describes your situation, re-install all YaST2 components;\n"
-		 "if the latter is the case,  try to run the Control Center as root. \n"
-		 "Also make sure that you do not run out of disk space. ");
+	groupList.sort();
+	modList.sort();
+	emit sig_finished(0);
+#if 0
+	dumpModules();
+	dumpGroups();
+#endif
+	
+	return true;
+    }
+    else // Error
+    {
 
+	error  = _("No list of available sections could be created.\n\n"
+		   "This means that either YaST2 or this Control Center are\n"
+		   "not correctly installed, or that you don't have sufficient\n"
+		   "permissions.\n\n");
+	error += _("If the former describes your situation, re-install all YaST2 components;\n"
+		   "if the latter is the case,  try to run the Control Center as root. \n"
+		   "Also make sure that you do not run out of disk space. ");
 
-	cerr << "*** " << error << " ***" << endl;
+	cerr << error << endl;
+
 	return false;
     }
-//	cerr <<  time(0) << " YastModules::init() -- end" << endl;
+}
+
+
+void YModules::initLang()
+{
+    const char *lang_cstr = getenv( "LANG" );
+
+    if ( lang_cstr )
+    {
+	lang = lang_cstr;
+	lang.replace( QRegExp( "@.*$" ), "" );	// remove @euro etc.
+	lang.replace( QRegExp( "_.*$" ), "" );	// remove _DE etc.
+    }
+}
+
+
+bool YModules::initGroups()
+{
+    QString groupFile( QString( MOD_GROUPS_DIR "/y2cc.groups") );
+    QY2Settings groups( groupFile );
+
+    if ( groups.readError() )
+	return false;
+
+    QStringList sections = groups.sections();
+
+    for ( QStringList::iterator sect = sections.begin();
+	  sect != sections.end();
+	  ++sect )
+    {
+	groups.selectSection( *sect );
+
+	QString groupRawName = *sect;
+	groupRawName.replace( QRegExp( "^Y2Group\\s+" ), "" );	// strip leading "Y2Group"
+
+	set_textdomain( groups.get( "Textdomain", "base" ) );
+
+	QString groupName = groups[ "Name" ];
+
+	if ( groupName.startsWith( "_(" ) )			// marked for translation?
+	{
+	    groupName.replace( QRegExp( "^_\\(\\s*\"" ), "" );	// strip leading _( "
+	    groupName.replace( QRegExp( "\"\\s*\\)"   ), "" );	// strip trailing " )
+	    groupName = _( groupName );				// translate
+	}
+
+	if ( groupName.isEmpty() )
+	    groupName = groupRawName;	// use the raw name as fallback
+
+	ModGroup * grp = new ModGroup( groupName );
+	CHECK_PTR( grp );
+	
+	grp->setRawName( groupRawName );
+	grp->setName   ( groupName );
+	grp->setIcon   ( groups[ "Icon"    ] );
+	grp->setSortKey( groups[ "SortKey" ] );
+
+	groupList.append( grp );
+    }
+
+    set_textdomain (config.textdomain);
+
     return true;
 }
 
-YastModules::~YastModules()
-{
-    delete configfile;
-    delete inputfile;
-}
 
-// searches for = in line, fills key and value with left and right side of the
-// = without whitspace, returns false if line didn't contain a =
-bool YastModules::KeyValue(QString line, QString& key, QString &value)
+bool YModules::initModules()
 {
-    int pos = line.find('=');
-    if( pos < 0 )
+    QDir dir( MODULES_DESKTOP_DIR "/", "*.desktop" );
+
+    if ( ! dir.exists() )
     {
-	key="";
-	value="";
+	emit sig_error( QString( _("Directory %1 does not exist") ).arg( MODULES_DESKTOP_DIR ));
 	return false;
     }
-    else
+
+    QStringList desktop_files=dir.entryList();
+
+    for ( QStringList::iterator it = desktop_files.begin();
+	  it != desktop_files.end();
+	  ++it )
     {
-	key=line.mid(0,pos).stripWhiteSpace();
-	value=line.mid(pos+1).stripWhiteSpace();
-	// strip _(" ")
-	if(value.startsWith("_(\"") && value.right(2)=="\")")
-	{
-	    value=value.mid(3,value.length()-5);
-	}
+	readDesktopFile( MODULES_DESKTOP_DIR "/" + *it );
     }
+
     return true;
 }
 
 
-//parses line, inserts groups and modules
-void YastModules::parseonelinefromprocess(QString line)
+bool YModules::readDesktopFile( const QString & filename )
 {
-    line=line.stripWhiteSpace();
+    QY2Settings desktopFile( filename );
 
-    // empty lines and comments are ignored
-    if(line.isEmpty()) return;
-    if(line.startsWith(";")) return;
-    if(line.startsWith("#")) return;
+    if ( desktopFile.readError() )
+	return false;
 
-    if(line.startsWith("[Y2Module"))
-    {
-	addgrpandmod();
-	if(line.right(1)=="]")
-	{
-	    currentsection=Module;
-	    if(!mod) mod=new YastModule();
-	    // strlen("[Y2Module")+strlen("]")
-	    //                  9           1 = 10
-	    line=line.mid(9,line.length()-10);
-	    line=line.stripWhiteSpace();
-	    mod->setycpname(line);
-	}
-	else
-	{
-	    currentsection=Undef;
-	}
-    }
-    else if(line.startsWith("[Y2Group"))
-    {
-	addgrpandmod();
-	if(line.right(1)=="]")
-	{
-	    currentsection=Group;
-	    if (!grp) grp=new ModGroup();
-	    // strlen("[Y2Group")+strlen("]")
-	    //                  8           1 = 9
-	    line=line.mid(8,line.length()-9);
-	    line=line.stripWhiteSpace();
-	    grp->setRawName(line);
-	}
-	else
-	{
-	    currentsection=Undef;
-	}
-    }
-    else if(currentsection==Module)
-    {
-	// split line in key value pair
-	if(!KeyValue(line,key,value))
-	{
-	    qDebug(QString("Invalid Line")+line);
-	    return;
-	}
+    YMod * mod = new YMod();
+    CHECK_PTR( mod );
 
-	if(!key || !value)
-	    return;
+    desktopFile.selectSection( "Desktop Entry" );
+    
+    QString name = desktopFile[ QString( "Name[%1]" ).arg( lang ) ];
+    if ( name.isEmpty() )
+	name = desktopFile[ "Name" ];
 
-	if ( key == "Name" )
-	{
-	    mod->setname(value);
-	}
-	else if ( key == "Group" )
-	{
-	    mod->setgroup(value);
-	}
-	else if ( key == "Icon" )
-	{
-	    mod->seticon(value);
-	}
-	else if ( key == "Helptext" )
-	{
-	    mod->setdescription(value);
-	}
-	else if ( key == "Arguments" )
-	{
-//			value.replace(QRegExp("^\\["), "" );
-//			value.replace(QRegExp("\\]$"), "" );
-	    value.stripWhiteSpace();
-	    if (!value.isEmpty())
-	    {
-		mod->setArguments(value);
-	    }
-	}
-	else if ( key == "Geometry" )
-	{
-	    mod->setGeometry(value);
-	}
-	else if ( key == "SortKey" )
-	{
-	    mod->setSortKey(value);
-	}
-	else if ( key == "Textdomain" )
-	{
-	    mod->setTextdomain(value);
-	}
-	else if ( key == "RequiresRoot" )
-	{
-	    mod->setRootFlag((value=="false"?false:true));
-	}
-	else
-	{
-//			qDebug(QString("Unknown Keyword: ")+line);
-	}
-    }
-    else if(currentsection==Group)
-    {
-	// split line in key value pair
-	if(!KeyValue(line,key,value))
-	{
-	    qDebug(QString("Invalid Line")+line);
-	    return;
-	}
+    mod->setName( name );
 
-	if(!key || !value)
-	    return;
+    QString description = desktopFile[ QString( "GenericName[%1]" ).arg( lang ) ];
+    if ( description.isEmpty() )
+	description = desktopFile[ "GenericName" ];
 
-	if ( key == "Name" )
-	{
-	    grp->setName(value);
-	}
-	else if ( key == "Icon" )
-	{
-	    grp->setIcon(value);
-	}
-	else if ( key == "SortKey" )
-	{
-	    grp->setSortKey(value);
-	}
-    }
-}
+    mod->setDescription( description );
 
-/*
-  in case mod or grp pointers are != NULL, they are added to the module and
-  grouplist resp.. Texts are translated before doing so.
-*/
+    QString icon = desktopFile[ "Icon" ];
+    QRegExp extension( "\\.(png|jpg)$", false );	// case insensitive
+    
+    if ( icon.find( extension ) < 0 )	// no .png or .jpg extension?
+	icon += ".png";			// assume .png
+    
+    mod->setIcon( icon );
+    
+    mod->setYCPName	( desktopFile[ "X-SuSE-YaST-Call"	] );
+    mod->setGroup	( desktopFile[ "X-SuSE-YaST-Group"	] );
+    mod->setArguments	( desktopFile[ "X-SuSE-YaST-Argument"	] );
+    mod->setSortKey	( desktopFile[ "X-SuSE-YaST-SortKey"	] );
+    mod->setGeometry	( desktopFile[ "X-SuSE-YaST-Geometry"	] );
 
-void YastModules::addgrpandmod()
-{
-    if(mod)
-    {
-	this->addModule(mod);
-	mod=0L;
-    }
-    if(grp)
-    {
-	this->addGroup(grp);
-	grp=0L;
-    }
+    QString rootOnly =    desktopFile[ "X-SuSE-YaST-RootOnly"	];
+    QRegExp yes( "^(true|yes|1)$", false );	// case insensitive
+
+    mod->setRootFlag( rootOnly.find( yes ) >= 0 );
+
+#if 0
+    printf( "new Module: %s\n",	 (const char *) mod->getName() );
+    printf( "\tgroup: %s\n",	 (const char *) mod->getGroup() );
+    printf( "\ticon: %s\n",	 (const char *) mod->getIcon() );
+    printf( "\tsortKey: %s\n\n", (const char *) mod->getSortKey() );
+#endif
+
+    addModule( mod );
+
+    return true;
 }
 
 
-void YastModules::addModule( YastModule* module )
+void YModules::addModule( YMod * module )
 {
-    QString domain(module->getTextdomain());
-    if(!domain.isEmpty())
+    if ( config.isroot || ! module->getRootFlag()
+#if 1
+	 || true )
+#else
+	)
+#endif
     {
-	// switch textdomain to that of the menuentry for translation
-	set_textdomain (domain);
+	modList.append( module );
+	
+	ModGroup * tmpGrp;
+	tmpGrp = new ModGroup( module->getGroup() );
 
-	module->setdescription(QString(_(module->getDesc())).simplifyWhiteSpace());
-
-	module->setname(_(module->getName()));
-	module->seticon(_(module->getIcon()));
-
-	set_textdomain (config.textdomain);
-    }
-    if((config.isroot == false && module->getRootFlag() == false) || config.isroot == true)
-    {
-	ModGroup* tmpgrp;
-	tmpgrp=new ModGroup(module->getGroup());
-	if(grouplist.find(tmpgrp)<0)
+	groupList.first(); // move groupList.current() to the first group
+	
+	if ( groupList.find( tmpGrp ) < 0 )
 	{
 	    // group did not exist
 	    qDebug("Warning: new Group detected for Module " +
-		   module->getName() + ", misspelled in y2cc file?");
-	    tmpgrp->setIcon("defaultgroup.png");
-	    tmpgrp=new ModGroup(module->getGroup());
-	    tmpgrp->addModule(module);
-	    addGroup(tmpgrp);
+		   module->getName() + ", misspelled in .desktop file?");
+	    
+	    tmpGrp->setIcon("defaultgroup.png");
+	    tmpGrp->setSortKey( "zzzzz" );
+	    
+	    tmpGrp = new ModGroup( module->getGroup() );
+	    tmpGrp->addModule(module);
+	    groupList.append( tmpGrp );
 	}
 	else
 	{
-	    grouplist.current()->addModule(module);
-	    delete tmpgrp;
-	    tmpgrp=0L;
+	    // groupList.current() points now to what groupList.find() found
+	    
+	    groupList.current()->addModule( module );
+	    
+	    delete tmpGrp;
+	    tmpGrp=0;
 	}
-	grouplist.first();
-
-	modlist.append(module);
     }
-}
-
-void
-YastModules::addGroup (ModGroup* group)
-{
-    // switch textdomain to that of the group for translation
-    set_textdomain ("base");
-
-    group->setName (_(group->getName ()));
-    grouplist.append (group);
-
-    set_textdomain (config.textdomain);
-}
-
-int YastModules::numGroups()
-{
-    return grouplist.count();
-}
-
-ModGroup* YastModules::firstGroup()
-{
-    return grouplist.first();
-}
-
-ModGroup* YastModules::nextGroup()
-{
-    return grouplist.next();
-}
-
-ModGroup* YastModules::setGroup(uint idx)
-{
-    return grouplist.at(idx);
-}
-
-ModGroup* YastModules::getGroup() const
-{
-    return grouplist.current();
-}
-
-void YastModules::dumpmods()
-{
-    YastModule* p;
-    cout << "Available Modules:" << endl;
-    for (p=modlist.first();p;p=modlist.next())
+    else // user doesn't have sufficient permissions for this module
     {
-	cout << "Name: " << p->getName() << ", Group: " << p->getGroup() << endl;
+	delete module;
     }
 }
 
-void YastModules::dumpgroups()
+int YModules::numGroups()
 {
-    ModGroup* p;
-    for (p=grouplist.first();p;p=grouplist.next())
+    return groupList.count();
+}
+
+ModGroup* YModules::firstGroup()
+{
+    return groupList.first();
+}
+
+ModGroup* YModules::nextGroup()
+{
+    return groupList.next();
+}
+
+ModGroup* YModules::setGroup(uint idx)
+{
+    return groupList.at(idx);
+}
+
+ModGroup* YModules::getGroup() const
+{
+    return groupList.current();
+}
+
+void YModules::dumpModules()
+{
+    ModuleListIterator it( modList );
+    printf( "*** Available Modules ***\n\n" );
+
+    while ( *it )
     {
-	cout << "Name: " << p->getName() << " icon: " << p->getIcon() << " key: " << p->getSortKey() << endl;
+	// Beware: cout << (const char *) 0 doesn't work (overwrites memory),
+	// and QString::null returns  such a (const char *) 0 !
+
+	printf( "Module: %s\n",	(const char *) (*it)->getName()    );
+	printf( "\tgroup: %s\n",	(const char *) (*it)->getGroup()   );
+	printf( "\ticon: %s\n",	 	(const char *) (*it)->getIcon()    );
+	printf( "\tsortKey: %s\n\n", 	(const char *) (*it)->getSortKey() );
+	
+	++it;
     }
 }
 
-bool YastModules::ReadFile( const QString filename)
+void YModules::dumpGroups()
 {
-    QFile file;
+    GroupListIterator it( groupList );
+    printf( "*** Available Groups ***\n\n" );
 
-    QTextStream stream(&file);
-    stream.setEncoding(QTextStream::UnicodeUTF8);
-
-    QString buffer;
-
-    file.setName(filename);
-    // qDebug(file.name());
-    if(file.open(IO_ReadOnly))
+    while ( *it )
     {
-	while ((buffer=stream.readLine()).isNull()==false)
-	{
-	    parseonelinefromprocess(buffer);
-	}
-	if (mod || grp)
-	{
-	    addgrpandmod();
-	}
-	file.close();
+	// Beware: cout << (const char *) 0 doesn't work (overwrites memory),
+	// and QString::null returns  such a (const char *) 0 !
+
+	printf( "Group:\t%s - ",	(const char *) (*it)->getRawName() );
+	printf( "%s\n",			(const char *) (*it)->getName()    );
+	printf( "\ticon: %s\n",	 	(const char *) (*it)->getIcon()    );
+	printf( "\tsortKey: %s\n\n", 	(const char *) (*it)->getSortKey() );
+	
+	++it;
     }
-    else
-    {
-	// %1 = filename
-	emit sig_error(QString(_("Could not open %1")).arg(file.name()));
-	return false;
-    }
-    return true;
 }
 
-int YastModules::getModList()
+
+void YModules::runModule( const YMod* module)
 {
-    QDir dir (CONFIGDIR "/", "*.y2cc");
-
-    if (!dir.exists())
-    {
-	emit sig_error(QString(_("The directory %1 does not exist")).arg(CONFIGDIR));
-	return 1;
-    }
-
-    QStringList files=dir.entryList();
-    nummodules=dir.count();
-    // qDebug("Number of Menuentries: " +QString("%1").arg(nummodules));
-
-    mod = 0L;
-    grp = 0L;
-
-    this->ReadFile (CONFIGDIR "/y2cc.groups");
-
-    for( QStringList::Iterator menuentry=files.begin(); menuentry != files.end(); menuentry++)
-    {
-	this->ReadFile(CONFIGDIR "/" + *menuentry);
-    }
-
-    // connect(process, SIGNAL(oneline(QString)), this, SLOT(parseonelinefromprocess(QString)));
-    // connect(process, SIGNAL(finished(int)), this, SLOT(finish(int)));
-    finish(0);
-
-    return 0;
-}
-
-void YastModules::finish(int code)
-{
-    addgrpandmod();
-    grouplist.sort();
-    modlist.sort();
-    emit sig_finished(code);
-}
-
-void YastModules::runModule( const YastModule* module)
-{
-    if(!module)
+    if (!module)
     {
 	cerr << "got NULL pointer in " << __FILE__ << " line " << __LINE__ << endl;
 	return;
@@ -464,14 +387,14 @@ void YastModules::runModule( const YastModule* module)
 }
 
 
-const QString* YastModules::getErrorString() const
+const QString* YModules::getErrorString() const
 {
     return &error;
 }
 
 /**********************/
 
-YastModule::YastModule ()
+YMod::YMod ()
 {
     // selected yast2 module does not have a name
     name = _("Unnamed");
@@ -483,13 +406,13 @@ YastModule::YastModule ()
     description = _("no description available");
 }
 
-YastModule::YastModule(const YastModule&)
+YMod::YMod(const YMod&)
 {
     cerr << "Copy constructor" << endl;
     exit(1);
 }
 
-YastModule::YastModule(const QString& Name,const QString& YCPName,const QString& Group,const QString& Description,const QString& IconFileName)
+YMod::YMod(const QString& Name,const QString& YCPName,const QString& Group,const QString& Description,const QString& IconFileName)
 {
     name=Name;
     ycpname=YCPName;
@@ -499,130 +422,130 @@ YastModule::YastModule(const QString& Name,const QString& YCPName,const QString&
     requiresroot=true;
 }
 
-YastModule::~YastModule()
+YMod::~YMod()
 {
 }
 
-void YastModule::setname(const QString& Name)
+void YMod::setName(const QString& Name)
 {
     name=Name;
 }
 
-void YastModule::setycpname(const QString& YCPName)
+void YMod::setYCPName(const QString& YCPName)
 {
     ycpname=YCPName;
 }
 
-void YastModule::setArguments(const QString& args)
+void YMod::setArguments(const QString& args)
 {
     arguments=args;
 }
 
-void YastModule::setGeometry(const QString& geo)
+void YMod::setGeometry(const QString& geo)
 {
     geometry=geo;
 }
 
-void YastModule::setSortKey(const QString& key)
+void YMod::setSortKey(const QString& key)
 {
     sortkey=key;
 }
 
-void YastModule::setTextdomain(const QString& key)
+void YMod::setTextdomain(const QString& key)
 {
     textdomain=key;
 }
 
-void YastModule::setgroup(const QString& Group)
+void YMod::setGroup(const QString& Group)
 {
     group=Group;
 }
 
-void YastModule::setdescription(const QString& Description)
+void YMod::setDescription(const QString& Description)
 {
     description=Description;
 }
 
-void YastModule::seticon(const QString& IconFileName)
+void YMod::setIcon(const QString& IconFileName)
 {
     iconfilename=IconFileName;
 }
 
-void YastModule::setRootFlag(bool yes)
+void YMod::setRootFlag(bool yes)
 {
     requiresroot=yes;
 }
 
-QString YastModule::getName() const
+QString YMod::getName() const
 {
     return name;
 }
 
-QString YastModule::getYCPName() const
+QString YMod::getYCPName() const
 {
     return ycpname;
 }
 
-QString YastModule::getArguments() const
+QString YMod::getArguments() const
 {
     return arguments;
 }
 
-QString YastModule::getGeometry() const
+QString YMod::getGeometry() const
 {
     return geometry;
 }
 
-QString YastModule::getSortKey() const
+QString YMod::getSortKey() const
 {
     return sortkey;
 }
 
-QString YastModule::getTextdomain() const
+QString YMod::getTextdomain() const
 {
     return textdomain;
 }
 
-QString YastModule::getGroup() const
+QString YMod::getGroup() const
 {
     return group;
 }
 
-QString YastModule::getDesc() const
+QString YMod::getDescription() const
 {
     return description;
 }
 
-QString YastModule::getIcon() const
+QString YMod::getIcon() const
 {
     return iconfilename;
 }
 
-bool YastModule::getRootFlag() const
+bool YMod::getRootFlag() const
 {
     return requiresroot;
 }
 
 
-bool YastModule::operator<(const YastModule& b)
+bool YMod::operator<(const YMod& b)
 {
     bool value; //=(group<b.group);
 
-    if(sortkey.isEmpty() && b.sortkey.isEmpty())
+    if (sortkey.isEmpty() && b.sortkey.isEmpty())
     {
 	value=(name<b.name);
     }
-    else if(sortkey.isEmpty() && !b.sortkey.isEmpty())
+    else if (sortkey.isEmpty() && !b.sortkey.isEmpty())
     {
 	value=(name<b.sortkey);
     }
-    else if(!sortkey.isEmpty() && b.sortkey.isEmpty())
+    else if (!sortkey.isEmpty() && b.sortkey.isEmpty())
     {
 	value=(sortkey<b.name);
     }
     else
     {
-	if(sortkey!=b.sortkey)
+	if (sortkey!=b.sortkey)
 	{
 	    value=(sortkey<b.sortkey);
 	}
@@ -636,16 +559,16 @@ bool YastModule::operator<(const YastModule& b)
 }
 
 
-bool YastModule::operator==(const YastModule& b)
+bool YMod::operator==(const YMod& b)
 {
     bool value;//=(group==b.group);
 
-    if(sortkey.isEmpty() && b.sortkey.isEmpty()) value=(name==b.name);
-    else if(sortkey.isEmpty() && !b.sortkey.isEmpty()) value=(name==b.sortkey);
-    else if(!sortkey.isEmpty() && b.sortkey.isEmpty()) value=(sortkey==b.name);
+    if (sortkey.isEmpty() && b.sortkey.isEmpty()) value=(name==b.name);
+    else if (sortkey.isEmpty() && !b.sortkey.isEmpty()) value=(name==b.sortkey);
+    else if (!sortkey.isEmpty() && b.sortkey.isEmpty()) value=(sortkey==b.name);
     else
     {
-	if(sortkey!=b.sortkey)
+	if (sortkey!=b.sortkey)
 	    value=(sortkey==b.sortkey);
 	else
 	    value=(name==b.name);
@@ -661,10 +584,13 @@ bool YastModule::operator==(const YastModule& b)
 
 ModGroup::ModGroup()
 {
-    //class YastModules holds the primary pointer to the Data
+    //class YModules holds the primary pointer to the Data
     modules.setAutoDelete(false);
     sorted=true;
     icon="defaultgroup.png";
+    sortkey="";
+    name="";
+    rawname="";
 }
 
 ModGroup::ModGroup(const QString& Name)
@@ -677,7 +603,7 @@ ModGroup::ModGroup(const QString& Name)
 
 QString ModGroup::getName() const
 {
-    if(this->name.isEmpty()) return this->rawname;
+    if (this->name.isEmpty()) return this->rawname;
     return this->name;
 }
 
@@ -716,39 +642,39 @@ void ModGroup::setIcon(const QString& Icon)
     icon=Icon;
 }
 
-void ModGroup::addModule(YastModule* Module)
+void ModGroup::addModule(YMod* Module)
 {
     modules.append(Module);
     sorted=false;
 }
 
-YastModule* ModGroup::first()
+YMod* ModGroup::first()
 {
-    if(sorted==false) {modules.sort(); sorted=true;}
+    if (sorted==false) {modules.sort(); sorted=true;}
     return modules.first();
 }
 
-YastModule* ModGroup::last()
+YMod* ModGroup::last()
 {
-    if(sorted==false) {modules.sort(); sorted=true;}
+    if (sorted==false) {modules.sort(); sorted=true;}
     return modules.last();
 }
 
-YastModule* ModGroup::prev()
+YMod* ModGroup::prev()
 {
-    if(sorted==false) {modules.sort(); sorted=true;}
+    if (sorted==false) {modules.sort(); sorted=true;}
     return modules.prev();
 }
 
-YastModule* ModGroup::next()
+YMod* ModGroup::next()
 {
-    if(sorted==false) {modules.sort(); sorted=true;}
+    if (sorted==false) {modules.sort(); sorted=true;}
     return modules.next();
 }
 
-YastModule* ModGroup::current()
+YMod* ModGroup::current()
 {
-    if(sorted==false) {modules.sort(); sorted=true;}
+    if (sorted==false) {modules.sort(); sorted=true;}
     return modules.current();
 }
 
@@ -769,7 +695,7 @@ bool ModGroup::operator<(const ModGroup& b)
 
     if (sortkey.isEmpty())
     {
-	if(name.isEmpty())
+	if (name.isEmpty())
 	    A=rawname;
 	else
 	    A=name;
@@ -779,7 +705,7 @@ bool ModGroup::operator<(const ModGroup& b)
 
     if (b.sortkey.isEmpty())
     {
-	if(b.name.isEmpty())
+	if (b.name.isEmpty())
 	    B=b.rawname;
 	else
 	    B=b.name;
@@ -787,9 +713,9 @@ bool ModGroup::operator<(const ModGroup& b)
     else
 	B=b.sortkey;
 
-    if( A==B && A==sortkey && B==b.sortkey )
+    if ( A==B && A==sortkey && B==b.sortkey )
     {
-	if(name.isEmpty() || b.name.isEmpty())
+	if (name.isEmpty() || b.name.isEmpty())
 	{
 	    A=rawname;
 	    B=rawname;
@@ -805,13 +731,13 @@ bool ModGroup::operator<(const ModGroup& b)
 }
 
 
-bool ModGroup::operator>(const ModGroup& b)
+bool ModGroup::operator>( const ModGroup& b )
 {
     QString A,B;
 
     if (sortkey.isEmpty())
     {
-	if(name.isEmpty())
+	if (name.isEmpty())
 	    A=rawname;
 	else
 	    A=name;
@@ -821,7 +747,7 @@ bool ModGroup::operator>(const ModGroup& b)
 
     if (b.sortkey.isEmpty())
     {
-	if(b.name.isEmpty())
+	if (b.name.isEmpty())
 	    B=b.rawname;
 	else
 	    B=b.name;
@@ -829,9 +755,9 @@ bool ModGroup::operator>(const ModGroup& b)
     else
 	B=b.sortkey;
 
-    if( A==B && A==sortkey && B==b.sortkey )
+    if ( A==B && A==sortkey && B==b.sortkey )
     {
-	if(name.isEmpty() || b.name.isEmpty())
+	if (name.isEmpty() || b.name.isEmpty())
 	{
 	    A=rawname;
 	    B=rawname;
@@ -850,7 +776,7 @@ bool ModGroup::operator>(const ModGroup& b)
 bool ModGroup::operator==(const ModGroup& b)
 {
     bool value;
-    if(name.isEmpty() || b.name.isEmpty())
+    if (name.isEmpty() || b.name.isEmpty())
     {
 	value=(rawname==b.rawname);
     }
@@ -865,24 +791,24 @@ bool ModGroup::operator==(const ModGroup& b)
 
 
 /*
- *  class YastModuleData
+ *  class YModData
  */
 
-YastModuleData::YastModuleData()
+YModData::YModData()
 {
     module=0L;
 }
 
-YastModuleData::~YastModuleData()
+YModData::~YModData()
 {
 }
 
-void YastModuleData::setModule(const YastModule* m)
+void YModData::setModule(const YMod* m)
 {
     module=m;
 }
 
-const YastModule* YastModuleData::getModule() const
+const YMod* YModData::getModule() const
 {
     return module;
 }

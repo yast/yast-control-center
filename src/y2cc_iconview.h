@@ -49,7 +49,7 @@ class MyQIconView : public QIconView
 /*
  *  needed for DnD
  */
-class MyQIconViewItem: public QIconViewItem, public YastModuleData
+class MyQIconViewItem: public QIconViewItem, public YModData
 {
 	public:
 	MyQIconViewItem ( QIconView * parent, const QString & text, const QPixmap & icon );
