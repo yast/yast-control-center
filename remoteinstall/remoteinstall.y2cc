@@ -5,7 +5,7 @@
 ; $Id$
 ;
 
-[Y2Module #remoteinstall]
+[Y2Module remoteinstall]
 
 ; name of the entry, shown in y2cc
 Name = _("YaST2/Remote Install")
