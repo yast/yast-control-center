@@ -381,9 +381,9 @@ void YastModules::addModule( YastModule* module )
 			tmpgrp=new ModGroup(module->getGroup());
 			if(grouplist.find(tmpgrp)<0)
 			{
-				//group did not exist
-				qDebug("Warning: new Group detected for Module "+module->getName()
-					+ ", misspelled it in menuentry?");
+				// group did not exist
+				qDebug("Warning: new Group detected for Module " +
+				       module->getName() + ", misspelled in y2cc file?");
 				tmpgrp->setIcon("defaultgroup.png");
 				tmpgrp=new ModGroup(module->getGroup());
 				tmpgrp->addModule(module);
@@ -509,7 +509,7 @@ int YastModules::getModList()
 	mod = 0L;
 	grp = 0L;
 
-	this->ReadFile (CONFIGDIR "/y2controlcentericons.y2cc-groups");
+	this->ReadFile (CONFIGDIR "/y2cc.groups");
 
 	for( QStringList::Iterator menuentry=files.begin(); menuentry != files.end(); menuentry++)
 	{
