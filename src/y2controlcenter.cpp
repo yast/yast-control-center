@@ -13,12 +13,9 @@
 #include "y2controlcenter.h"
 #include <unistd.h>
 
-Y2ControlCenter::Y2ControlCenter()
+Y2ControlCenter::Y2ControlCenter( WFlags wflags )
+    : QMainWindow( 0, 0, wflags )	// parent, name, wflags
 {
-    // setCaption("Y2ControlCenter " VERSION);
-
-    // progressbar=0L;
-
     initStatusBar ();
 
     initView();
@@ -36,50 +33,32 @@ void Y2ControlCenter::initStatusBar()
 
 void Y2ControlCenter::initView()
 {
-  // set the main widget here
-  view=new Y2ControlCenterView(this);
+  view = new Y2ControlCenterView( this );
   connect(view, SIGNAL(quit()), this, SLOT(slotFileQuit()));
   connect(view, SIGNAL(statusmsg(const QString&)), this, SLOT(slotStatusHelpMsg(const QString&)));
-  // connect(view, SIGNAL(sig_percentread(int)), this, SLOT(slotProgress(int)));
   setCentralWidget(view);
 }
 
 void Y2ControlCenter::configure()
 {
   statusBar()->message(_("Reading module list..."));
-//  progressbar=new QProgressBar(100,this);
-//  statusBar()->addWidget(progressbar);
 
   if (!view->init())
   {
-	  QString msg=*view->getErrorString();
+	  QString msg = *view->getErrorString();
 	  statusBar()->message(_("*** Reading module list failed ***"));
   	  QMessageBox::information(this,_("YaST2 Control Center"),msg,_("Quit"));
 	  msg=(char*)0L;
-//	  delete view;
-//	  qApp->quit();
 	  slotFileQuit();
   }
 
- // statusBar()->removeWidget(progressbar);
-//  delete progressbar;
-//  progressbar=0L;
 }
 
 bool Y2ControlCenter::queryExit()
 {
   int exit=QMessageBox::information(this, "Quit...",
-                                    "Do your really want to quit?",
+                                    _( "Do your really want to quit?" ),
                                     QMessageBox::Ok, QMessageBox::Cancel);
-
-  if (exit==1)
-  {
-
-  }
-  else
-  {
-
-  };
 
   return (exit==1);
 }
@@ -100,12 +79,5 @@ void Y2ControlCenter::slotStatusHelpMsg(const QString &text)
   statusBar()->message(text, 4000);
 }
 
-// void Y2ControlCenter::slotProgress(int progress)
-// {
-//  //Displays how many percent of modules are loaded
-//  QString msg=_("Loading: %1%");
-//  msg=msg.arg(progress);
-//  statusBar()->message(msg,1000);
-//}
 
 #include <y2controlcenter.moc.cpp>

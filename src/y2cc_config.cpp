@@ -8,19 +8,15 @@
 
 #include "y2cc_config.h"
 
-/*
-void ConfigOption<bool>::set(bool value)
-{
-	option=value;
-}
+// for getuid
+#include <unistd.h>
+#include <sys/types.h>
 
-bool ConfigOption<bool>::value()
-{
-	return option;
-}
 
-bool ConfigOption<bool>::operator==(bool value)
+Config::Config()
 {
-	return (option==value);
+    isroot	= ( getuid() == 0 );
+    QuickStart	= true;
+    fullscreen	= false;
+    noBorder 	= false;
 }
-*/

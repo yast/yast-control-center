@@ -16,7 +16,12 @@ class Config
 public:
     bool isroot;
     bool QuickStart;
+    bool fullscreen;
+    bool noBorder;
     QString textdomain;
+
+    // Constructor
+    Config();
 };
 
 #endif

@@ -15,9 +15,7 @@
 #include <qfont.h>
 #include <qstring.h>
 
-// for getuid
 #include <unistd.h>
-#include <sys/types.h>
 
 // for MAXHOSTNAMELEN
 #include <rpc/types.h>
@@ -44,72 +42,79 @@ Config config;
 
 void printhelpandexit()
 {
-    cout << "Usage:" << endl
-	 << "	y2controlcenter [OPTIONS]" << endl << endl
-	 << "OPTIONS:" << endl
-	 << "	-r	Show root only modules too" << endl
-	 << "	-Q	Disable quick start" << endl
-	 << "	--help	This screen" << endl << endl;
+    cout << "Usage:"
+	 << "\n   y2controlcenter [OPTIONS]"
+	 << "\n"
+	 << "\nOPTIONS:"
+	 << "\n"
+	 << "\n    --help         -h    this message"
+	 << "\n    --root         -r    also show \"root only\" modules"
+	 << "\n    --quickstart   -Q	disable quick start"
+	 << "\n    --fullscreen         use full screen"
+	 << "\n    --noborder           no window manager borders for main window"
+	 << endl;
     exit (0);
 }
 
-int main(int argc, char *argv[])
+int main( int argc, char *argv[] )
 {
-//  cerr << time(0) << " main()" << endl;
-  config.isroot = getuid() == 0;
-  config.QuickStart = true;
-  config.textdomain = "control-center";
+    //  cerr << time(0) << " main()" << endl;
+    config.textdomain = "control-center";
 
-  set_textdomain (config.textdomain);
+    set_textdomain (config.textdomain);
 
-  QApplication a(argc, argv);
+    QApplication app( argc, argv );
 
-  for (int i=0;i<argc;i++)
-  {
-    if(!strcmp(argv[i],"-r"))
+    for ( int i=0 ;i < argc ;i++ )
     {
-      config.isroot = true;
+	QString opt = argv[i];
+
+	// Normalize command line option - accept "--xy" as well as "-xy"
+
+	if ( opt.startsWith( "--" ) )
+	    opt.remove(0, 1);
+
+	if 	( opt == "-h" || opt == "-help"		)	printhelpandexit();
+	else if ( opt == "-r" || opt == "-root"		)	config.isroot     = true;
+	else if ( opt == "-Q" || opt == "-quickstart"	)	config.QuickStart = false;
+	else if ( opt == "-fullscreen"			)	config.fullscreen = true;
+	else if ( opt == "-noborder"			)	config.noBorder   = true;
     }
-    else if(!strcmp(argv[i],"--help"))
+
+    //  cout << (config.isroot.value()==true?"true":"false") << endl;
+
+    Qt::WFlags wflags = Qt::WType_TopLevel;
+
+    if ( config.noBorder )
+	wflags |= Qt::WStyle_Customize | Qt::WStyle_NoBorder;
+
+    Y2ControlCenter y2cc( wflags );
+
+    if ( config.fullscreen )
+	y2cc.resize( app.desktop()->size() );
+    else
+	y2cc.resize( 800, 580 );
+
+    app.setMainWidget( &y2cc );
+
+
+    QString title = _("YaST2 Control Center");
+    char hostname[ MAXHOSTNAMELEN+1 ];
+    if ( gethostname( hostname, sizeof( hostname )-1 ) == 0 )
     {
-      printhelpandexit();
+	hostname[ sizeof( hostname ) -1 ] = '\0'; // make sure it's terminated
+	title += " @ ";
+	title += hostname;
     }
-    else if(!strcmp(argv[i],"-Q"))
-    {
-      config.QuickStart = false;
-    }
-  }
-
-//  cout << (config.isroot.value()==true?"true":"false") << endl;
-
-  Y2ControlCenter *y2controlcenter=new Y2ControlCenter();
-  y2controlcenter->resize(800,580);
-  a.setMainWidget(y2controlcenter);
+    y2cc.setCaption( title );
 
 
+    y2cc.setIcon(QPixmap((const char **)suseicon_xpm));
+    y2cc.show();
 
-  QString title = _("YaST2 Control Center");
-  char hostname[ MAXHOSTNAMELEN+1 ];
-  if ( gethostname( hostname, sizeof( hostname )-1 ) == 0 )
-  {
-      hostname[ sizeof( hostname ) -1 ] = '\0'; // make sure it's terminated
-      title += " @ ";
-      title += hostname;
-  }
-  y2controlcenter->setCaption( title );
+    QTimer::singleShot( 0, &y2cc, SLOT(configure()) );
 
-
-  y2controlcenter->setIcon(QPixmap((const char **)suseicon_xpm));
-
-  y2controlcenter->show();
-
-  QTimer::singleShot(0,y2controlcenter, SLOT(configure()));
-
-  int ret=a.exec();
-
-  delete y2controlcenter;
-
-  return ret;
+    return app.exec();
 }
 
 // vim: sw=2

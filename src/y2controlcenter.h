@@ -45,7 +45,7 @@ class Y2ControlCenter : public QMainWindow
 
   public:
     /** construtor */
-    Y2ControlCenter();
+    Y2ControlCenter( WFlags wflags = WType_TopLevel );
     /** destructor */
     ~Y2ControlCenter();
     /** setup the statusbar */
