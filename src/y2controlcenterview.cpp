@@ -337,30 +337,35 @@ void Y2ControlCenterView::slotOnItem(QIconViewItem *item)
 }
 
 
-void Y2ControlCenterView::filliconview(int groupnr)
+void
+Y2ControlCenterView::filliconview (int groupnr)
 {
-  MyQIconViewItem *icon;
-  QString iconfile;
-  icons->clear();
-  const YastModule* m;
-  ModGroup* group=mods->setGroup(groupnr);
+    icons->clear ();
 
-  if(!group) return;
+    ModGroup* group = mods->setGroup (groupnr);
+    if (!group)
+	return;
 
-  m=group->first();
+    const YastModule* m = group->first ();
+    while (m)
+    {
+	QString iconfile = ICONDIR "/";
+	iconfile += m->getIcon ();
 
-  while (m)
-  {
-	  iconfile = ICONDIR "/";
-	  iconfile+=m->getIcon();
+	QPixmap pixmap (iconfile);
+#if 0
+	if (pixmap.isNull ())
+	    qDebug ("failed to load icon %s", (const char*) iconfile);
+#endif
 
-	  icon=new MyQIconViewItem(icons,m->getName(),QPixmap(iconfile));
-	  icon->setModule(m);
-	  icon->setDragEnabled(TRUE);
+	MyQIconViewItem* icon = new MyQIconViewItem (icons, m->getName (), pixmap);
+	icon->setModule (m);
+	icon->setDragEnabled (TRUE);
 
-	  m=group->next();
-  }
+	m = group->next ();
+    }
 }
+
 
 void Y2ControlCenterView::slotButtonClicked(int id)
 {
