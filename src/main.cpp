@@ -92,8 +92,9 @@ int main( int argc, char *argv[] )
 
     if ( config.fullscreen )
     {
-	y2cc.resize( app.desktop()->size() );
-	y2cc.move( 0, 0 );
+	QRect available = app.desktop()->availableGeometry();
+	y2cc.resize( available.width(), available.height() );
+	y2cc.move( available.topLeft() );
     }
     else
 	y2cc.resize( 800, 580 );
