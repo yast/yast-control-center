@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu Jul 25 17:34:23 CEST 2002 - arvin@suse.de
+
+- also extract texts from C++ source files (bug #17216)
+
+-------------------------------------------------------------------
 Fri Jul 12 16:11:01 CEST 2002 - arvin@suse.de
 
 - use proper namespace for Args and CallFunction (#16776)

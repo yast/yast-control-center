@@ -7,6 +7,10 @@
  ***************************************************************************/
 
 
+/*
+  Textdomain "control-center"
+*/
+
 #include "y2controlcenterview.h"
 #include "y2cc_iconview.h"
 #include "y2cc_globals.h"

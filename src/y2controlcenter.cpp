@@ -6,6 +6,10 @@
     author               : lnussel@suse.de
  ***************************************************************************/
 
+/*
+  Textdomain "control-center"
+*/
+
 #include "y2controlcenter.h"
 #include <unistd.h>
 
@@ -14,10 +18,10 @@ Y2ControlCenter::Y2ControlCenter()
   //setCaption("Y2ControlCenter " VERSION);
 
   progressbar=0L;
-  
+
   initStatusBar();
 
-  initView();  
+  initView();
 }
 
 Y2ControlCenter::~Y2ControlCenter()
@@ -31,7 +35,7 @@ void Y2ControlCenter::initStatusBar()
 }
 
 void Y2ControlCenter::initView()
-{ 
+{
   // set the main widget here
   view=new Y2ControlCenterView(this);
   connect(view, SIGNAL(quit()), this, SLOT(slotFileQuit()));
@@ -81,7 +85,7 @@ bool Y2ControlCenter::queryExit()
 }
 
 void Y2ControlCenter::slotFileQuit()
-{ 
+{
 //  statusBar()->message("Exiting application...");
   // exits the Application
 

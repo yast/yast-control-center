@@ -6,6 +6,10 @@
     author               : lnussel@suse.de
  ***************************************************************************/
 
+/*
+  Textdomain "control-center"
+*/
+
 #include <qapplication.h>
 #include <qtimer.h>
 #include <qfont.h>

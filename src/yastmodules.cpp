@@ -6,6 +6,9 @@
     author              : lnussel@suse.de
  ***************************************************************************/
 
+/*
+  Textdomain "control-center"
+*/
 
 #include <yastmodules.h>
 #include <stdio.h>

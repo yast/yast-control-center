@@ -1,0 +1,5 @@
+./src/main.cpp
+./src/searchdialog.cpp
+./src/y2controlcenter.cpp
+./src/y2controlcenterview.cpp
+./src/yastmodules.cpp
