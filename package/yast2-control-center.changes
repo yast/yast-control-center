@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri Feb 18 13:21:43 CET 2005 - visnov@suse.cz
+
+- Follow "Hidden" attribute in the desktop files
+- V 2.11.3
+
+-------------------------------------------------------------------
 Mon Nov 29 12:23:54 CET 2004 - sh@suse.de
 
 - Fixed autobuild error: No icon installed

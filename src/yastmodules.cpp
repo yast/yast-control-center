@@ -165,11 +165,14 @@ bool YModules::readModuleDesktopFile( const QString & filename )
     if ( desktopFile.readError() )
 	return false;
 
+    desktopFile.selectSection( "Desktop Entry" );
+
+    if ( desktopFile[ "Hidden" ] == "true" )
+	return true;
+    
     YMod * mod = new YMod();
     CHECK_PTR( mod );
 
-    desktopFile.selectSection( "Desktop Entry" );
-    
     QString name = desktopFile[ QString( "Name[%1]" ).arg( langWithCountry ) ];
     
     if ( name.isEmpty() )
@@ -231,7 +234,10 @@ bool YModules::readGroupDesktopFile( const QString & filename )
 	return false;
 
     desktopFile.selectSection( "Desktop Entry" );
-
+    
+    if ( desktopFile[ "Hidden" ] == "true" )
+	return true;
+    
     QString rawName = desktopFile[ "X-SuSE-YaST-Group"   ];
     QString sortKey = desktopFile[ "X-SuSE-YaST-SortKey" ];
     
