@@ -1,5 +1,5 @@
 {
-    integer arg = tointeger (Args (0));
+    integer arg = tointeger (WFM::Args (0));
 
     y2milestone ("Arg: %1", arg);
 
@@ -20,7 +20,7 @@
 
 	y2milestone (sformat ("Callfunction(%1,%2);",function,arguments));
 
-	CallFunction (function,arguments);
+	WFM::CallFunction (function,arguments);
     }
     else
     {

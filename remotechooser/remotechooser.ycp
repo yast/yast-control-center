@@ -3,7 +3,7 @@
 // a module
 {
     // Menuentry
-    if ( Args() == [ "get_menuentry" ] )
+    if ( WFM::Args() == [ "get_menuentry" ] )
 	return [ "remotechooser",
         $[
          `menuentry    : UI(_("YaST2/Remote Administration")),
@@ -92,7 +92,7 @@ user. Several protocols are supported."))),
 
             m = m + "/" + select (answer, 3);
 
-	    CallModule (m, []);
+	    WFM::CallModule (m, []);
 	    UI::SetModulename ("remotechooser");
 	}
 	else break;

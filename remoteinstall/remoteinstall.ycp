@@ -1,6 +1,6 @@
 {
   // Menuentry for the YaST2 menu
-  if (Args() == [ "get_menuentry" ]) 
+  if (WFM::Args() == [ "get_menuentry" ]) 
      return [ "#remoteinstall",
      $[
        `menuentry    : UI(_("YaST2/Remote Install")),
@@ -28,8 +28,8 @@ via serial null modem cable."))),
 	 if (is(widgetid, string)) device = widgetid;
 	 else if (widgetid == `otherb) device = UI(`QueryWidget(`id(`otherd), `Value));
 	 string modulename = "serial(115200):" + device;
-	 CallModule(modulename, []);
-	 CallModule(modulename, []);
+	 WFM::CallModule(modulename, []);
+	 WFM::CallModule(modulename, []);
        }
      ]
      ];

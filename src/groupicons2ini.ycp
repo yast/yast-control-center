@@ -38,9 +38,9 @@
     string output      = "/dev/stdout";
     string inicontent  = "";
 
-    if (size(Args()) > 0 && is(Args(0),string))
+    if (size(WFM::Args()) > 0 && is(WFM::Args(0),string))
     {
-	configfile=Args(0);
+	configfile=WFM::Args(0);
     }
 
     any content = SCR(`Read(.target.ycp, configfile));

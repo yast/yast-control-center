@@ -1,7 +1,7 @@
 // Edit your logcontrol file
 
 {
-  if ( Args() == [ "get_menuentry" ] )
+  if ( WFM::Args() == [ "get_menuentry" ] )
 
 
     return [ "logcontrol",

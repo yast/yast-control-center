@@ -42,13 +42,13 @@
 
    string tmpfile = "/dev/stdout";
 
-//   if (is(Args(0),string))
+//   if (is(WFM::Args(0),string))
 //   {
-//   	tmpfile=Args(0);
+//   	tmpfile=WFM::Args(0);
 //   }
-   if (size(Args()) > 0 && is(Args(0),boolean))
+   if (size(WFM::Args()) > 0 && is(WFM::Args(0),boolean))
    {
-	   onlynoroot=Args(0);
+	   onlynoroot=WFM::Args(0);
    }
 
    ////////////////////////////////////////////////////////////

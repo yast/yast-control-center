@@ -45,9 +45,9 @@
 
     boolean do_not_translate = true;
 
-    if (size(Args()) > 0 && is(Args(0),string))
+    if (size(WFM::Args()) > 0 && is(WFM::Args(0),string))
     {
-	menuentry_ycp=Args(0);
+	menuentry_ycp=WFM::Args(0);
     }
     else
     {
