@@ -14,9 +14,9 @@ Obsoletes:	y2c_menu y2m_menu yast2-menu
 
 @PREP@
 
-@BUILD-QT-PROGRAM@
+@BUILD-QT@
 
-@INSTALL-PROGRAM@
+@INSTALL@
 
 @CLEAN@
 
