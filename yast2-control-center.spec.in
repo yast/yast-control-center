@@ -17,8 +17,6 @@ Obsoletes:	y2c_menu y2m_menu yast2-menu
 @BUILD-QT@
 
 @INSTALL@
-mkdir -p $RPM_BUILD_ROOT/usr/share/pixmaps
-ln -sf ../YaST2/images $RPM_BUILD_ROOT/usr/share/pixmaps/YaST
 %suse_update_desktop_file YaST SystemSetup Core-System
 
 @CLEAN@
@@ -26,7 +24,5 @@ ln -sf ../YaST2/images $RPM_BUILD_ROOT/usr/share/pixmaps/YaST
 %files
 %defattr(-,root,root)
 @ybindir@/y2controlcenter
-/usr/share/pixmaps/YaST
 /usr/share/applications/YaST.desktop
-@imagedir@
 %doc @docdir@
