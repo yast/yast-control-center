@@ -23,6 +23,7 @@
 #include <qfile.h>
 #include <qregexp.h>
 #include <qtimer.h>
+#include <qhbox.h>
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -41,7 +42,6 @@ Y2ControlCenterView::Y2ControlCenterView(QWidget *parent) : QWidget(parent)
 {
     QPushButton *p;
 //  QVBoxLayout *buttons;
-    QLabel *suselogo;
     modules=0L;
     error=0L;
     lastCalledModule=0L;
@@ -57,10 +57,10 @@ Y2ControlCenterView::Y2ControlCenterView(QWidget *parent) : QWidget(parent)
     layout = new QVBoxLayout(this);
 
 
-    suselogo= new QLabel(this);
-    suselogo->setPixmap(QPixmap(PIXMAP_DIR "/title-bar.png"));
-    suselogo->setMinimumWidth(640);
-    layout->addWidget(suselogo);
+    QWidget * title_bar = layoutTitleBar( this );
+    CHECK_PTR( title_bar );
+    title_bar->setMinimumWidth(640);
+    layout->addWidget( title_bar );
 
     hlayout = new QHBoxLayout(layout);
     hlayout->setMargin(15);
@@ -138,6 +138,78 @@ bool Y2ControlCenterView::init()
     }
     return true;
 }
+
+
+
+// Stolen from YQWizard
+
+QWidget * Y2ControlCenterView::layoutTitleBar( QWidget * parent )
+{
+    QPixmap titleBarGradientPixmap = QPixmap( PIXMAP_DIR "/title-bar-gradient.png" );
+    
+    QHBox * titleBar = new QHBox( parent );
+    CHECK_PTR( titleBar );
+    setGradient( titleBar, titleBarGradientPixmap );
+    titleBar->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed ) ); // hor/vert
+
+    //
+    // Left logo
+    //
+
+    QLabel * left = new QLabel( titleBar );
+    left->setSizePolicy( QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ) ); // hor/vert
+
+    QPixmap leftLogo( PIXMAP_DIR "/title-bar-left.png" );
+
+    if ( ! leftLogo.isNull() )
+    {
+	left->setPixmap( leftLogo );
+	left->setFixedSize( leftLogo.size() );
+	left->setBackgroundOrigin( QWidget::ParentOrigin );
+    }
+
+
+    //
+    // Center stretch space
+    //
+
+    QWidget * spacer = new QWidget( titleBar );
+    CHECK_PTR( titleBar );
+    spacer->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum ) ); // hor/vert
+
+
+    //
+    // Right logo
+    //
+
+    QLabel * right = new QLabel( titleBar );
+    CHECK_PTR( right );
+
+    QPixmap rightLogo( PIXMAP_DIR "/title-bar-right.png" );
+
+    if ( ! rightLogo.isNull() )
+    {
+	right->setPixmap( rightLogo );
+	right->setFixedSize( rightLogo.size() );
+	right->setBackgroundOrigin( QWidget::ParentOrigin );
+    }
+
+    return titleBar;
+}
+
+
+// Stolen from YQWizard
+
+void Y2ControlCenterView::setGradient( QWidget * widget, const QPixmap & pixmap )
+{
+    if ( widget && ! pixmap.isNull() )
+    {
+	widget->setFixedHeight( pixmap.height() );
+	widget->setPaletteBackgroundPixmap( pixmap );
+    }
+}
+
+
 
 void Y2ControlCenterView::errorpopup(QString msg)
 {

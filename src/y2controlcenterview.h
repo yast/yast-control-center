@@ -50,6 +50,8 @@ public:
     
 protected:
     void runModule(const YMod *m);
+    QWidget * layoutTitleBar( QWidget * parent );
+    void setGradient( QWidget * widget, const QPixmap & pixmap );
     
 protected slots:
     void slotButtonClicked(int);
