@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Mar 16 18:13:37 CET 2005 - sh@suse.de
+
+- V 2.11.4
+- Fixed bug #71816: date-time module doesn't start after setting localtime 
+
+-------------------------------------------------------------------
 Fri Feb 18 13:21:43 CET 2005 - visnov@suse.cz
 
 - Follow "Hidden" attribute in the desktop files

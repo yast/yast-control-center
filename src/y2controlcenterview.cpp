@@ -382,12 +382,18 @@ void Y2ControlCenterView::runModule( const YMod *mod )
     {
 	if ( mod == lastCalledModule )
 	{
-	    time_t elapsed = time( NULL ) - lastCallTime;
+	    time_t now = time( NULL );
 
 	    // ignore accidential double clicks
+
 	    
-	    if ( elapsed < minwait )
-		return;
+	    if ( now >= lastCallTime &&			// make sure we not going backward in time
+	    						// (system time or time zone changed by
+							// some YaST2 module - see bug #71816)
+		 now - lastCallTime < minwait )		// elapsed time too short?
+	    {
+		return;	// ignore this click
+	    }
 	}
 	
 	lastCallTime	 = time( NULL );
