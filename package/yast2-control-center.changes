@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Mon Nov 29 12:23:54 CET 2004 - sh@suse.de
+
+- Fixed autobuild error: No icon installed
+- V 2.11.2 
+
+-------------------------------------------------------------------
 Tue Nov  2 15:14:27 CET 2004 - mvidner@suse.cz
 
 - Added pkgconfig to neededforbuild.
