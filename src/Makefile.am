@@ -21,7 +21,6 @@ y2controlcenter_SOURCES =	\
 	y2cc_iconview.cpp	\
 	y2cc_config.cpp		\
 	myintl.h		\
-	resource.h		\
 	searchdialog.h		\
 	y2controlcenter.h	\
 	y2controlcenterview.h	\
