@@ -17,7 +17,7 @@ y2debug ("Got command <%1>", command);
 
 if (command != "terminateY2Base")
 {
-    list tokens = splitstring (command, " ");
+    list<string> tokens = splitstring (command, " ");
     tokens = filter (`t, tokens, ``(t != ""));
     string function = select (tokens, 0, nil);
     if (function == nil)
