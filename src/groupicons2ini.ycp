@@ -1,0 +1,77 @@
+/*
+   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|////////////////////////////////////
+   \\							                 //
+   \\                                                                    //
+   \\                    __   __    ____ _____ ____                      //
+   \\                    \ \ / /_ _/ ___|_   _|___ \                     //
+   \\                     \ V / _` \___ \ | |   __) |                    //
+   \\                      | | (_| |___) || |  / __/                     //
+   \\                      |_|\__,_|____/ |_| |_____|                    //
+   \\                                                         -o)        //
+   --------------------------------------------------------   /\\  --------
+   \\							     _\_v
+   \\
+   \\   Author:        Ludwig Nussel <lnussel@suse.de>
+   \\                  Michael Hager <mike@suse.de>
+   \\
+   \\   Description:   ycp to ini converter for group info
+   \\
+   \\   Parameter:     group file
+   \\
+   \\	Example call:  /usr/lib/YaST2/bin/y2bignfat ./ycp2ini_menuentry.ycp \
+   \\                 '("/usr/lib/YaST2/menuentries/menuentry_lan.ycp")' ncurses
+   ------------------------------------------------------------------------
+   \\ $Id$
+
+*/
+{
+    // prevent translation
+    textdomain "INVALID";
+
+    define addkeyvalue(string key, string value)
+    ``{
+	inicontent = inicontent + key + " = " + value + "\n";
+    }
+
+    string icondir     = "/usr/lib/YaST2/images/";
+    string configfile  = "/usr/lib/YaST2/etc/y2controlcentericons.ycp";
+    string output      = "/dev/stdout";
+    string inicontent  = "";
+
+    if (size(Args()) > 0 && is(Args(0),string))
+    {
+	configfile=Args(0);
+    }
+
+    any content = SCR(`Read(.target.ycp, configfile));
+
+    if (is (content,map))
+    {
+	foreach(`k,`v,content,
+	``{
+	    string name    = eval(lookup(v, "name", "unknown"));
+	    string icon    = eval(lookup(v, "icon", "default.png"));
+	    string sortkey = eval(lookup(v, "sortkey", ""));
+
+	    if(SCR::Read(.target.size, icondir+icon) == -1)
+	    {
+		icon="default.png";
+	    }
+
+	    inicontent = inicontent + "[Y2Group]\n";
+
+	    addkeyvalue("Name",name);
+	    addkeyvalue("Rawname",k);
+	    addkeyvalue("Icon",icon);
+	    addkeyvalue("Sortkey",sortkey);
+
+	});
+	SCR(`Write(.target.string, output, inicontent));
+    }
+    else
+    {
+	y2debug("Warning: Invalid group file %1",  configfile );
+    }
+}
+
+// vim: sw=4

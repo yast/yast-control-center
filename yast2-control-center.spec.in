@@ -1,0 +1,30 @@
+@HEADER-COMMENT@
+
+# neededforbuild  autoconf automake ydoc gpp libgpp qt3-devel-packages xf86 yast2-devtools
+
+@HEADER@
+Summary:	YaST2 control center
+Requires:	yast2
+Provides:	y2c_menu y2m_menu
+Obsoletes:	y2c_menu y2m_menu
+
+%description
+-
+
+@PREP@
+
+@BUILD-QT-PROGRAM@
+
+@INSTALL-PROGRAM@
+
+@CLEAN@
+
+%files
+%defattr(-,root,root)
+@clientdir@/remotechooser.ycp
+@clientdir@/remoteinstall.ycp
+@clientdir@/pre-start.ycp
+@ybindir@/y2controlcenter
+@imagedir@/*.png
+@ydatadir@/menu-translate.conf
+%doc @docdir@

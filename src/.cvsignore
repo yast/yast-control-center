@@ -1,0 +1,10 @@
+y2controlcenter
+Makefile
+Makefile.in
+.deps
+.libs
+*.o
+*.lo
+*.la
+*.moc.cpp
+menu-translate.conf

@@ -1,0 +1,15 @@
+To accquire the list of available modules, get_modulesdata.ycp is called. It
+writes a list to stdout which is then parsed. All available modules are
+stored in a single QList (YastModules::modlist), which is sorted by first
+group and then by name of the modules. A second list holds all Groups
+(YastModules::grouplist). Every group has a list of modules
+(ModGroup::modules) belongin to it. The memory management of the list is
+done by YastModules::modlist, ModGroup::modules does not delete its
+pointers.
+
+If you want all modules of a certain group, call YastModules::setGroup with
+the number of the group. Then call YastModules::begin, an YastModules::next
+until it returns false. YastModules::get returns a pointer to the currently
+selected module.
+
+vim: tw=76

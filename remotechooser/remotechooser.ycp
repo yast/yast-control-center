@@ -1,0 +1,100 @@
+// Demo module that displays a list of all hostnames,
+// Lets you choose one host and starts on that host
+// a module
+{
+    // Menuentry
+    if ( Args() == [ "get_menuentry" ] )
+	return [ "remotechooser",
+        $[
+         `menuentry    : UI(_("YaST2/Remote Administration")),
+         `arguments    : [ ],
+         `widget       : `RichText(UI(_("This module lets you start YaST2 components on a remote machine
+via a network connection or on the local machine as a different
+user. Several protocols are supported."))),
+         `codefragment : nil
+	    ]
+	    ];
+
+    UI(``{
+
+	global define ProtocolSelection () ``{
+	    return `Left(`HSquash(`RadioButtonGroup(`id(`protocol),
+					      `VBox(
+						  `Left(`RadioButton(`id("telnet"), "telnet", true)),
+						  `Left(`RadioButton(`id("rlogin"), "rlogin")),
+						  `Left(`RadioButton(`id("rsh"),    "rsh")),
+						  `Left(`RadioButton(`id("ssh"),    "ssh")),
+						  `Left(`RadioButton(`id("su"),     "su")),
+						  `Left(`RadioButton(`id("sudo"),   "sudo"))))));
+	};
+
+	global define HostDialog (string username, list hostnames) ``{
+
+	    list answer = [];
+	    term selbox = `SelectionBox (`id (`hosts), `opt (`notify), _("remote host"), hostnames);
+
+	    OpenDialog(`HBox(selbox,
+			     `VBox(
+				   `TextEntry(`id(`hostname), _("Host"),            ""),
+				   `TextEntry(`id(`login),    _("Login name"),      username),
+				   `TextEntry(`id(`module),   _("Module to start"), "menu"),
+				   `VCenter(ProtocolSelection()),
+				   `HBox(
+					 `PushButton(`id(`ok),    `opt(`default), _("&Do it now")),
+					 `HStretch(),
+					 `PushButton(`id(`cancel),                _("&Cancel"))))));
+
+	    while (true)
+	    {
+		any ret = UserInput ();
+		if (ret == `hosts)
+		{
+		    ChangeWidget (`id (`hostname), `Value, QueryWidget (`id(`hosts), `CurrentItem));
+		    continue;
+		}
+		else if (ret == `ok)
+		{
+		    string protocol = QueryWidget (`id (`protocol), `CurrentButton);
+		    string loginname = QueryWidget (`id (`login), `Value);
+		    string hostname = QueryWidget (`id (`hostname), `Value);
+		    if (hostname == "") hostname = "localhost";
+		    string modulename = QueryWidget (`id (`module), `Value);
+		    answer = [ protocol, loginname, hostname, modulename ];
+		}
+		else answer = [];
+		break;
+	    }
+
+	    CloseDialog ();
+	    return answer;
+	};
+
+    });
+
+    UI::OpenDialog (`Label( _("Scanning for hosts on this LAN...")));
+    list hostnames = sort (SCR::Read (.net.hostnames));
+    UI::CloseDialog ();
+
+    string username = SCR::Read (.runtime.username);
+
+    while (true)
+    {
+	list answer = UI::HostDialog (username, hostnames);
+	if (size (answer) == 4)
+	{
+	    username = select (answer, 1);
+	    string m = select (answer, 0) + "://" + select (answer, 1);
+
+            if (select (answer, 0) != "su" && select (answer, 0) != "sudo")
+            {
+		m = m + "@" + select (answer, 2);
+            }
+
+            m = m + "/" + select (answer, 3);
+
+	    CallModule (m, []);
+	    UI::SetModulename ("remotechooser");
+	}
+	else break;
+    }
+}

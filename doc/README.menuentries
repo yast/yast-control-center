@@ -1,0 +1,64 @@
+MENUENTRIES
+~~~~~~~~~~~
+
+menuentry files reside in /usr/lib/YaST2/menuentries.
+Example:
+
+[Y2Module rc_config]
+Name = _("RC-Config Editor")
+Group = System
+Icon = rc_config.png
+Helptext = _("Change settings in /etc/rc.config, the main SuSE Linux configuration file")
+Arguments = hello world
+RequiresRoot = true
+Textdomain = rc_config
+Geometry = 800x600
+SortKey = AAA
+
+
+Explanation:
+[Y2Module rc_config]	Indicates start of a new module definition and states which
+			Module to call, this is passed as first parameter to /sbin/yast2
+Name			The name under the icon in Y2CC
+Group			"raw" group name to which this module belongs (see group definition)
+Icon			Icon name
+Helptext		A one line helptext that is displayed in the statusbar of Y2CC
+Arguments		additional module arguments for /sbin/yast2. The example module would
+			be started with /sbin/yast2 rc_config "hello" "world"
+Textdomain		which textdomain to use for translations (important!)
+RequiresRoot		whether root privileges are required to run this module (optional, default yes)
+Geometry		default size for window, Y2CC will set $Y2_GEOMETRY to this value (optional)
+SortKey			string to use for sorting instead of Name (optional)
+
+
+The _("...") is necessary to mark translatable strings and is ignored by Y2CC
+
+GROUP DEFINITIONS
+~~~~~~~~~~~~~~~~~
+
+groups are defined in /usr/lib/YaST2/etc/y2controlcentericons.y2cc, this
+file has basically the same format as menuentry files. All mentioned keys
+are mandatory.
+
+Example:
+
+[Y2Group Network]
+Name = _("Network/Basic")
+Icon = network.png
+SortKey = 30
+
+Explanation:
+[Y2Group Network]		Indicates start of a new group definition
+				and defines a unique "raw" group name.
+				Menuentries will refer to this name, it
+				should only contain 7bit ASCII Letters,
+				no special Characters, not even Whitespace
+Name = _("Network/Basic")	real name of the group visible to the user
+Icon = network.png		Icon to display
+SortKey = 30			string to sort instead of Name
+
+
+
+
+
+vim: tw=76

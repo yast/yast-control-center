@@ -1,0 +1,37 @@
+#!/usr/bin/perl
+
+$printit=0;
+$linehascomment=0;
+
+open(TRANS,">menu-translate.conf");
+
+while(<>)
+{
+	if(/^\s*\/\//)
+	{
+		$linehascomment=1;
+		$saved_comment=$_;
+	}
+	else
+	{
+		if(/_\(/)
+		{
+			$printit=1;
+		}
+		if ($printit==1)
+		{
+			if($linehascomment==1)
+			{
+				print TRANS $saved_comment;
+			}
+			print TRANS;
+		}
+		if(/\).*;/)
+		{
+			$printit=0;
+		}
+		$linehascomment=0;
+	}
+}
+
+close TRANS;

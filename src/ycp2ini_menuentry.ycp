@@ -1,0 +1,111 @@
+/*
+   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|////////////////////////////////////
+   \\							                 //
+   \\                                                                    //
+   \\                    __   __    ____ _____ ____                      //
+   \\                    \ \ / /_ _/ ___|_   _|___ \                     //
+   \\                     \ V / _` \___ \ | |   __) |                    //
+   \\                      | | (_| |___) || |  / __/                     //
+   \\                      |_|\__,_|____/ |_| |_____|                    //
+   \\                                                         -o)        //
+   --------------------------------------------------------   /\\  --------
+   \\							     _\_v
+   \\
+   \\   Author:        Ludwig Nussel <lnussel@suse.de>
+   \\                  Michael Hager <mike@suse.de>
+   \\
+   \\   Description:   ycp to ini converter for menuentries
+   \\
+   \\   Parameter:     menuentry file
+   \\
+   \\	Example call:  /usr/lib/YaST2/bin/y2base ./ycp2ini_menuentry.ycp \
+   \\                 '("/usr/lib/YaST2/menuentries/menuentry_lan.ycp")' ncurses
+   ------------------------------------------------------------------------
+   \\ $Id$
+
+*/
+{
+    // we do not want any translated text
+    textdomain "INVALID";
+
+    define addkeyvalue(string key, string value, string description)
+    ``{
+	inicontent = inicontent + "\n; " + description + "\n" + key + " = " + value + "\n";
+    }
+    define add_keyvalue(string key, string value, string description)
+    ``{
+	if(value!="") value = sformat("_(\"%1\")",value);
+	addkeyvalue(key,value,description);
+    }
+
+    string icondir     ="/usr/lib/YaST2/images/";
+    string menuentry_ycp = "";
+    string output = "/dev/stdout";
+    string inicontent ="";
+
+    boolean do_not_translate = true;
+
+    if (size(Args()) > 0 && is(Args(0),string))
+    {
+	menuentry_ycp=Args(0);
+    }
+    else
+    {
+	return false;
+    }
+
+    any content = SCR(`Read(.target.ycp, menuentry_ycp));
+
+    any entryvalue = eval(content);
+
+    if (is(entryvalue, [ string the_name, map the_info ]))
+    {
+	string name = select(entryvalue, 0,"");
+	map    info = select(entryvalue, 1,$[]);
+	string arguments = "";
+
+	// lookup value as symbol, then string otherwise use default
+	string group      = lookup(info,`group,     lookup(info, "group",     "Misc"));
+	list   argumentlist  = lookup(info,`arguments, lookup(info, "arguments", [] ));
+	string menuentry  = lookup(info,`menuentry, lookup(info, "menuentry", "UNKOWN"    ));
+	string icon       = lookup(info,`icon,      lookup(info, "icon",      "default.png"   ));
+	string helptext   = lookup(info,`helptext,  lookup(info, "helptext",  ""  ));
+	string geometry   = lookup(info,`geometry,  lookup(info, "geometry",  ""  ));
+	string sortkey    = lookup(info,`sortkey,   lookup(info, "sortkey",   ""  ));
+	boolean requiresroot  = lookup(info,`requiresroot, lookup(info, "requiresroot",  true ));
+
+	if(SCR::Read(.target.size, icondir+icon) == -1)
+	{
+	    icon="default.png";
+	}
+
+	foreach(`argument,argumentlist,``{
+	    arguments=sformat("%1 %2",arguments,argument);
+	});
+
+	inicontent = ";\n; Menuentry file used by\n;  YaST2 Control Center\n";
+	inicontent = inicontent + ";\n; $Id"+"$\n;\n\n";
+
+	inicontent = inicontent + "[Y2Module " + name + "]\n";
+
+	//FIXME: workaround for missing replace functions for strings
+	helptext=mergestring(splitstring(helptext,"\n")," ");
+
+	add_keyvalue("Name",menuentry,"name of the entry, shown in y2cc");
+	addkeyvalue("Group",group,"\"raw\" group name to which this module belongs\n; see /usr/lib/YaST2/etc/y2controlcentericons.y2cc for valid values");
+	addkeyvalue("Icon",icon,"icon displayed in y2cc");
+	add_keyvalue("Helptext",helptext,"*one* *short* descriptive line for y2cc");
+	addkeyvalue("Arguments",arguments,"arguments, seperated by space");
+	addkeyvalue("RequiresRoot",sformat("%1",requiresroot),"whether root privileges are required to run this module"); 
+	addkeyvalue("Geometry",geometry,"default size for window, Y2CC will set $Y2_GEOMETRY to this value");
+	addkeyvalue("SortKey",sortkey,"string to use for sorting instead of Name");
+
+	SCR(`Write(.target.string, output, inicontent));
+    }
+    else
+    {
+	y2debug("Warning: Invalid menuentry file %1",  menuentry_ycp );
+    }
+}
+
+// vim: sw=4

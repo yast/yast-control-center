@@ -1,0 +1,307 @@
+-------------------------------------------------------------------
+Wed Jun 12 11:34:37 CEST 2002 - arvin@suse.de
+
+- adapted to new command line of yast2
+
+-------------------------------------------------------------------
+Fri Apr 26 16:40:36 CEST 2002 - arvin@suse.de
+
+- fixed linking with qt for x86-64
+
+-------------------------------------------------------------------
+Sun Apr 14 00:21:48 CEST 2002 - arvin@suse.de
+
+- fixes for gcc 3.1
+
+-------------------------------------------------------------------
+Thu Mar 21 15:09:49 CET 2002 - lnussel@suse.de
+
+- remove quickstart popup (#15231,#14382)
+
+-------------------------------------------------------------------
+Thu Mar 14 09:16:18 CET 2002 - lnussel@suse.de
+
+- added the lost new title graphics again, this time with a
+  different name (#14920)
+
+-------------------------------------------------------------------
+Fri Mar  8 18:05:07 CET 2002 - mike@suse.de
+
+- new icons made by tackat
+
+-------------------------------------------------------------------
+Mon Mar  4 17:32:13 CET 2002 - lnussel@suse.de
+
+- added simplifyWhiteSpace to remove LF from helptexts (#14337)
+- removed some debug output (#14318)
+
+-------------------------------------------------------------------
+Wed Feb 27 15:28:23 CET 2002 - sh@suse.de
+
+- V 2.5.11
+- Exchanged title graphics to match new YaST2 design
+
+-------------------------------------------------------------------
+Mon Feb 25 16:39:42 CET 2002 - sh@suse.de
+
+- Fixed wish #13876: Host name in window title bar
+
+-------------------------------------------------------------------
+Fri Feb 22 17:24:49 CET 2002 - lnussel@suse.de
+
+- removed MountAllAgents from pre-start.ycp
+- added -Q commandline switch to disable quickstart
+
+-------------------------------------------------------------------
+Mon Feb 18 10:02:43 CET 2002 - lnussel@suse.de
+
+- filter out empty strings as arguments, fixes bug #13360
+
+-------------------------------------------------------------------
+Fri Feb  8 17:45:41 CET 2002 - lnussel@suse.de
+
+- module arguments possible with quick start
+- only strings are allowed as arguments
+
+-------------------------------------------------------------------
+Tue Feb  5 20:42:49 CET 2002 - mike@suse.de
+
+- fast YaST2 start
+
+-------------------------------------------------------------------
+Fri Jan 25 14:21:55 CET 2002 - arvin@suse.de
+
+- use buildroot
+
+-------------------------------------------------------------------
+Tue Jan 15 18:21:07 CET 2002 - lnussel@suse.de
+
+- use multi threaded qt library if detected by configure
+
+-------------------------------------------------------------------
+Thu Jan 10 11:41:41 CET 2002 - lnussel@suse.de
+
+- use qt3 if available
+- auto arrange icons on window resize
+
+-------------------------------------------------------------------
+Wed Oct 10 14:31:02 CEST 2001 - lnussel@suse.de
+
+- added an icon to be displayed by windowmanagers (#8308)
+
+-------------------------------------------------------------------
+Fri Sep 21 17:32:35 CEST 2001 - gs@suse.de
+
+- new icon for Routing, icons for NFS server/client changed
+
+-------------------------------------------------------------------
+Thu Sep 20 14:14:37 CEST 2001 - gs@suse.de
+
+- new icons for tv card configuration, system- and startprotocol,
+  keyboard, runlevel editor
+
+-------------------------------------------------------------------
+Wed Sep 19 17:25:56 CEST 2001 - mike@suse.de
+
+- new firewall icon
+
+-------------------------------------------------------------------
+Fri Sep 14 16:17:07 CEST 2001 - mike@suse.de
+
+- new icons for scanner and firewall
+
+-------------------------------------------------------------------
+Mon Sep 10 14:56:49 CEST 2001 - lnussel@suse.de
+
+- make get_modulesdata switch textdomain to have group names
+  translated
+
+-------------------------------------------------------------------
+Wed Sep  5 15:10:50 CEST 2001 - lnussel@suse.de
+
+- typo .targe.size -> .target.size
+
+-------------------------------------------------------------------
+Mon Aug 27 14:12:07 CEST 2001 - lnussel@suse.de
+
+- fix for bug #5728: use of ngettext for plural form
+
+-------------------------------------------------------------------
+Tue Aug 21 13:51:42 CEST 2001 - kkaempf@suse.de
+
+- replace fileexist with SCR::Read(.targe.size, ...)
+
+-------------------------------------------------------------------
+Wed Aug  8 14:01:02 CEST 2001 - lnussel@suse.de
+
+- New feature sortkey for groups and modules
+- Major code cleanup
+
+-------------------------------------------------------------------
+Mon Jun 18 15:03:03 CEST 2001 - lnussel@suse.de
+
+- Added drag and drop support
+
+-------------------------------------------------------------------
+Mon May 14 18:17:36 CEST 2001 - lnussel@suse.de
+
+- removed fixlocale call
+- moved bindtextdomain and textdomain calls right after main
+- added bind_textdomain_codeset("menu","UTF-8") to fix captions
+  in windowmanagers
+
+-------------------------------------------------------------------
+Fri May 11 17:30:38 MEST 2001 - gs@suse.de
+
+- new icons for Update and Online-Update ( bug # 7518 )
+- icons Create user and Create groups added
+
+-------------------------------------------------------------------
+Fri May 11 14:14:44 CEST 2001 - kkaempf@suse.de
+
+- added "babelfish.png" icon
+
+-------------------------------------------------------------------
+Tue May  8 16:03:32 CEST 2001 - mike@suse.de
+
+- new icons, configurable startup size for modules
+
+-------------------------------------------------------------------
+Mon Apr 30 17:08:13 CEST 2001 - sh@suse.de
+
+- Fix for bug #7358: No Umlauts in Y2CC
+  always use UTF-8 locale
+  V 2.3.9
+
+-------------------------------------------------------------------
+Mon Apr 30 10:37:23 CEST 2001 - kkaempf@suse.de
+
+- new icon for timezone
+
+-------------------------------------------------------------------
+Thu Apr 26 17:21:31 MEST 2001 - gs@suse.de
+
+- new icon for network and Patch CD Update
+
+-------------------------------------------------------------------
+Thu Apr 26 13:36:47 CEST 2001 - lnussel@suse.de
+
+- `geometry from menuentry now passed as env. Variable
+  Y2_GEOMETRY to /sbin/yast2
+
+-------------------------------------------------------------------
+Wed Apr 25 09:33:00 CEST 2001 - kkaempf@suse.de
+
+- move menu.ycp to package yast2 (#7168)
+
+-------------------------------------------------------------------
+Thu Apr 19 14:57:30 MEST 2001 - gs@suse.de
+
+- new icons for group misc and network advanced
+
+-------------------------------------------------------------------
+Tue Apr 17 11:26:46 MEST 2001 - gs@suse.de
+
+- group System added and group Network splitted
+
+-------------------------------------------------------------------
+Thu Apr 12 15:51:29 CEST 2001 - kkaempf@suse.de
+
+- rename y2m_menu -> yast2-menu
+
+-------------------------------------------------------------------
+Thu Jan 25 11:19:25 CET 2001 - mike@suse.de
+
+- menulogo.png deleted, not needed anymore
+
+-------------------------------------------------------------------
+Mon Jan 22 12:43:41 CET 2001 - kkaempf@suse.de
+
+- compile with -O0 on AXP, gcc bug workaround
+
+-------------------------------------------------------------------
+Fri Jan 19 09:47:15 CET 2001 - mike@suse.de
+
+- new icons
+
+-------------------------------------------------------------------
+Mon Jan 15 19:41:14 CET 2001 - mike@suse.de
+
+- bug 5490 Multiple clicks onto help causes problems
+
+-------------------------------------------------------------------
+Fri Jan 12 23:42:37 CET 2001 - mike@suse.de
+
+- new icons
+
+-------------------------------------------------------------------
+Wed Jan  3 22:31:40 CET 2001 - mike@suse.de
+
+- new icons, little fixes
+  The modules REMOTE-INSTALL and REMOTE-ADMIN are not available any more
+
+-------------------------------------------------------------------
+Thu Dec 14 14:05:34 CET 2000 - kkaempf@suse.de
+
+- fix specfile
+
+-------------------------------------------------------------------
+Thu Dec 14 12:24:33 CET 2000 - kkaempf@suse.de
+
+- fix EXTRA_DIST in src/Makefile.am
+
+-------------------------------------------------------------------
+Thu Dec 14 12:14:54 CET 2000 - kkaempf@suse.de
+
+- put gpp and qt into neededforbuild
+
+-------------------------------------------------------------------
+Wed Dec 13 18:33:32 CET 2000 - mike@suse.de
+
+- NEW NICE YaST2 Module Starter: "Yast2 Control Center"
+
+-------------------------------------------------------------------
+Mon Dec  4 19:43:36 CET 2000 - kkaempf@suse.de
+
+- switch to bz2 packaging
+
+-------------------------------------------------------------------
+Tue Nov 21 17:10:58 CET 2000 - kkaempf@suse.de
+
+- use target agent
+
+-------------------------------------------------------------------
+Fri Jul 14 10:25:56 CEST 2000 - kkaempf@suse.de
+
+- removed non-working logcontrol
+  version 2.0.4
+
+-------------------------------------------------------------------
+Thu Jul 13 16:51:31 CEST 2000 - kkaempf@suse.de
+
+- Requires: y2t_menu
+  version 2.0.3
+
+-------------------------------------------------------------------
+Thu Jul  6 15:38:37 CEST 2000 - sh@suse.de
+
+- Removed option `immediate from SelectionBox (unnecessary and
+  nonexistent)
+- version 2.0.2
+
+-------------------------------------------------------------------
+Thu Jun 29 15:28:48 CEST 2000 - kkaempf@suse.de
+
+- make module list wider, select "Welcome" as default
+  version 2.0.1
+
+-------------------------------------------------------------------
+Mon May 22 11:44:35 CEST 2000 - kkaempf@suse.de
+
+- fix filelist in .spec file
+
+-------------------------------------------------------------------
+Thu May 18 16:54:24 CEST 2000 - kkaempf@suse.de
+
+- initial version based on YaST2 (6.4 - i386)
+

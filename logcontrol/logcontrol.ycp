@@ -1,0 +1,167 @@
+// Edit your logcontrol file
+
+{
+  if ( Args() == [ "get_menuentry" ] )
+
+
+    return [ "logcontrol",
+	   $[
+	     `menuentry    : "YaST2/Logcontrol",
+	     `arguments    : [ ],
+	     `widget       : `RichText(UI(_("This module configures the log entries YaST2 should create
+"))),
+	     `codefragment : nil
+	   ]
+    ];
+
+
+    UI(``{
+
+      // Generic buttons
+      define OKButton()     `PushButton(`id(`ok), `opt(`default, `hstretch), _("&Ok"));
+      define CancelButton() `PushButton(`id(`cancel), `opt(`hstretch),  _("&Cancel"));
+
+      // Construct a selectionbox containing all notified components.
+      define BuildSelectionBox(list logcon) ``{
+	return `SelectionBox(`id(`comp), _("Component"), maplist(`entry, logcon, ``{ return select(entry, 0); } ));
+      }
+
+      // Build the main dialog
+      define OpenMainDialog(list logcon) ``{
+	list logcon_sorted = sort(`x, `y, logcon, ``(select(x, 0) <= select(y,0)));
+	OpenDialog( `HBox(
+		     BuildSelectionBox(logcon_sorted),
+		     `Bottom(`VBox(`PushButton(`id(`add),    `opt(`hstretch), _("&Add")),
+			   `PushButton(`id(`remove), `opt(`hstretch), _("&Remove")),
+			   `PushButton(`id(`edit),   `opt(`hstretch), _("&Edit")),
+			   OKButton(), 
+			   CancelButton()
+			   ))));
+      };
+
+      // Ask user for componentname
+      define AskComponentName() ``{
+	OpenDialog(`HBox( `TextEntry(`id(`name), "Enter name of component", ""),
+			  `Bottom(OKButton())));
+	string ret = nil;
+	while (true) {
+	  any input = UserInput();
+	  if (input == `ok) {
+	    string name = QueryWidget(`id(`name), `Value);
+	    if (name != "") {
+	      ret = name;
+	      break;
+	    }
+	  }
+	  else if (input == `cancel) break;
+	}
+	CloseDialog();
+	return ret;
+      };
+
+      // Edit one entry
+      define EditEntry(list entry) ``{
+	list levelnames = [ 
+			   _("Debug messages"), 
+			   _("Normal messages"),
+			   _("Warnings"), 
+			   _("Errors"), 
+			   _("Security messages"), 
+			   _("Internal errors") ];
+	
+	string name   = select(entry, 0);
+	list enabling = select(entry, 1);
+	term checkfield = `VBox();
+
+	integer level = 0;
+	while (level < size(levelnames)) 
+	  {
+	    boolean checked = size(enabling) <= level || select(enabling, level);
+	    checkfield = add(checkfield, 
+			     `Left(`CheckBox(`id(level), "" + level + ": " + _("Show ") 
+				       + select(levelnames, level), checked)));
+	    level = level + 1;
+	  }
+	
+	OpenDialog(`VBox(
+			 `Label (sformat (_("Properties for %1"), name)),
+			 checkfield,
+			 `HBox(
+			       OKButton(),
+			       CancelButton())));
+
+	if (UserInput() == `ok) {
+	  enabling = [];
+	  integer level = 0;
+	  while (level < size(levelnames)) {
+	    enabling = add(enabling, QueryWidget(`id(level), `Value));
+	    level = level + 1;
+	  }
+	}
+	CloseDialog();
+	return [ name, enabling ];
+      };
+
+      // Macro that shows and handles the dialog
+      define EditLogcontrol(list logcon) ``{
+
+	list old_logcon = logcon;
+	OpenMainDialog(logcon);
+	
+	do {
+	  any ret = UserInput();
+	  if (ret == `cancel) {
+	    logcon = old_logcon;
+	    break;
+	  }
+	  else if (ret == `add)
+	    {
+	      string name = AskComponentName();
+	      if (is(name, string)) {
+		logcon = add(logcon, [ name, [ false ]]);
+		CloseDialog();
+		OpenMainDialog(logcon);
+	      }
+	    }
+	  
+	  else if (ret == `remove) 
+	    {
+	      string id = QueryWidget(`id(`comp), `CurrentItem);
+	      if (is(id, string)) {
+		logcon = filter(`entry, logcon, ``(select(entry, 0) != id));
+		CloseDialog();
+		OpenMainDialog(logcon);
+	      }
+	    }
+	  
+	  else if (ret == `edit)
+	    {
+	      string id = QueryWidget(`id(`comp), `CurrentItem);
+	      if (is(id, string)) {
+		list entry = find(`entry, logcon, ``(select(entry, 0) == id));
+		entry = EditEntry(entry);
+		logcon = add(filter(`entry, logcon, ``(select(entry, 0) != id)),
+			     entry);
+	      }
+	    }
+	  
+	  else if (ret == `ok)
+	    {
+	      break;
+	    }
+	  
+	} while (true);
+	
+	CloseDialog();
+	return logcon;
+      };
+    });
+    
+    // Main entry
+    
+    any logcon = ReadY2("logconf.ycp");
+    if (logcon == nil) logcon = [];
+
+    logcon = UI(`EditLogcontrol(logcon));
+    return WriteY2("logconf.ycp", logcon);
+}
