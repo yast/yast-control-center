@@ -83,8 +83,8 @@ bool YModules::init()
     {
 
 	error  = _("No list of available sections could be created.\n\n"
-		   "This means that either YaST2 or this Control Center are\n"
-		   "not correctly installed, or that you don't have sufficient\n"
+		   "This means that YaST2 or this Control Center is\n"
+		   "not correctly installed or that you do not have sufficient\n"
 		   "permissions.\n\n");
 	error += _("If the former describes your situation, re-install all YaST2 components;\n"
 		   "if the latter is the case,  try to run the Control Center as root. \n"
@@ -116,7 +116,7 @@ bool YModules::initGroups()
 
     if ( ! dir.exists() )
     {
-	emit sig_error( QString( _("Directory %1 does not exist") ).arg( dir.absPath() ));
+	emit sig_error( QString( _("Directory %1 does not exist.") ).arg( dir.absPath() ));
 	return false;
     }
 

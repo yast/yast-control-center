@@ -317,7 +317,7 @@ void Y2ControlCenterView::runModule( const YMod *mod )
 
 	QApplication::setOverrideCursor( Qt::waitCursor );
 
-	QString msg= _("Calling module %1 ...").arg( mod->getName());
+	QString msg= _("Starting module %1 ...").arg( mod->getName());
 	emit statusmsg( msg);
 	
 	modules->runModule( mod );
