@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Jun 12 11:45:06 CEST 2003 - sh@suse.de
+
+- V 2.8.2
+- Removed obsolete logcontrol (unpackaged anyway) 
+
+-------------------------------------------------------------------
 Fri Mar 14 17:14:00 CET 2003 - sh@suse.de
 
 - New kerberos icon by Ken 
