@@ -23,12 +23,12 @@
 
       // Construct a selectionbox containing all notified components.
       define BuildSelectionBox(list logcon) ``{
-	return `SelectionBox(`id(`comp), _("Component"), maplist(`entry, logcon, ``{ return select(entry, 0); } ));
+	return `SelectionBox(`id(`comp), _("Component"), maplist(`entry, logcon, ``{ return entry[0]:""; } ));
       }
 
       // Build the main dialog
       define OpenMainDialog(list logcon) ``{
-	list logcon_sorted = sort(`x, `y, logcon, ``(select(x, 0) <= select(y,0)));
+	list logcon_sorted = sort(`x, `y, logcon, ``(x[0]:-1 <= y[0]:-1));
 	OpenDialog( `HBox(
 		     BuildSelectionBox(logcon_sorted),
 		     `Bottom(`VBox(`PushButton(`id(`add),    `opt(`hstretch), _("&Add")),
@@ -69,17 +69,17 @@
 			   _("Security messages"), 
 			   _("Internal errors") ];
 	
-	string name   = select(entry, 0);
-	list enabling = select(entry, 1);
+	string name   = entry[0]:"";
+	list enabling = entry[1]:[];
 	term checkfield = `VBox();
 
 	integer level = 0;
 	while (level < size(levelnames)) 
 	  {
-	    boolean checked = size(enabling) <= level || select(enabling, level);
+	    boolean checked = size(enabling) <= level || enabling[level]:false;
 	    checkfield = add(checkfield, 
-			     `Left(`CheckBox(`id(level), "" + level + ": " + _("Show ") 
-				       + select(levelnames, level), checked)));
+			     `Left(`CheckBox(`id(level), "" + level + ": " + _("Show ")
+				       + levelnames[level]:"", checked)));
 	    level = level + 1;
 	  }
 	
@@ -128,7 +128,7 @@
 	    {
 	      string id = QueryWidget(`id(`comp), `CurrentItem);
 	      if (is(id, string)) {
-		logcon = filter(`entry, logcon, ``(select(entry, 0) != id));
+		logcon = filter(`entry, logcon, ``(entry[0]:-1 != id));
 		CloseDialog();
 		OpenMainDialog(logcon);
 	      }
@@ -138,9 +138,9 @@
 	    {
 	      string id = QueryWidget(`id(`comp), `CurrentItem);
 	      if (is(id, string)) {
-		list entry = find(`entry, logcon, ``(select(entry, 0) == id));
+		list entry = find(`entry, logcon, ``(entry[0]:-1 == id));
 		entry = EditEntry(entry);
-		logcon = add(filter(`entry, logcon, ``(select(entry, 0) != id)),
+		logcon = add(filter(`entry, logcon, ``(entry[0]:-1 != id)),
 			     entry);
 	      }
 	    }
@@ -159,9 +159,9 @@
     
     // Main entry
     
-    any logcon = ReadY2("logconf.ycp");
+    any logcon = SCR::Read(.target.ycp, "logconf.ycp");
     if (logcon == nil) logcon = [];
 
     logcon = UI(`EditLogcontrol(logcon));
-    return WriteY2("logconf.ycp", logcon);
+    return SCR::Write(.target.ycp, "logconf.ycp", logcon);
 }
