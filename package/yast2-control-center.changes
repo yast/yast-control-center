@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Thu Feb  5 19:02:53 CET 2004 - sh@suse.de
+
+- V 2.9.3
+- Migration to multiple .desktop files for module groups, too
+  (reading /usr/share/applications/YaST2/groups/*.desktop) 
+
+-------------------------------------------------------------------
 Wed Jan 14 18:32:04 CET 2004 - sh@suse.de
 
 - V 2.9.2

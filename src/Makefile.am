@@ -4,7 +4,7 @@
 
 AM_CXXFLAGS = -DICONDIR=\"${imagedir}\" 		\
 	-DMODULES_DESKTOP_DIR=\"${desktopdir}\"		\
-	-DMOD_GROUPS_DIR=\"${configdir}\"		\
+	-DGROUPS_DESKTOP_DIR=\"${desktopdir}/groups\"	\
 	-DLOCALEDIR=\"${localedir}\"
 
 MOC = $(QTDIR)/bin/moc

@@ -97,10 +97,16 @@ protected:
     void initLang();
     
     /**
-     * Read one .desktop file and add a module accordingly.
+     * Read one module .desktop file and add a module accordingly.
      * Returns 'true' on success.
      **/
-    bool readDesktopFile( const QString & filename );
+    bool readModuleDesktopFile( const QString & filename );
+
+    /**
+     * Read one group .desktop file and add a module group accordingly.
+     * Returns 'true' on success.
+     **/
+    bool readGroupDesktopFile( const QString & filename );
 
     /**
      * Add a module group (a category)

@@ -48,6 +48,8 @@ using std::endl;
 #include "myintl.h"
 #include "y2cc_globals.h"
 
+#define DEBUG_MODE 0
+
 
 YModules::YModules()
 {
@@ -110,49 +112,22 @@ void YModules::initLang()
 
 bool YModules::initGroups()
 {
-    QString groupFile( QString( MOD_GROUPS_DIR "/y2cc.groups") );
-    QY2Settings groups( groupFile );
+    QDir dir( GROUPS_DESKTOP_DIR "/", "*.desktop" );
 
-    if ( groups.readError() )
-	return false;
-
-    QStringList sections = groups.sections();
-
-    for ( QStringList::iterator sect = sections.begin();
-	  sect != sections.end();
-	  ++sect )
+    if ( ! dir.exists() )
     {
-	groups.selectSection( *sect );
-
-	QString groupRawName = *sect;
-	groupRawName.replace( QRegExp( "^Y2Group\\s+" ), "" );	// strip leading "Y2Group"
-
-	set_textdomain( groups.get( "Textdomain", "base" ) );
-
-	QString groupName = groups[ "Name" ];
-
-	if ( groupName.startsWith( "_(" ) )			// marked for translation?
-	{
-	    groupName.replace( QRegExp( "^_\\(\\s*\"" ), "" );	// strip leading _( "
-	    groupName.replace( QRegExp( "\"\\s*\\)"   ), "" );	// strip trailing " )
-	    groupName = _( groupName );				// translate
-	}
-
-	if ( groupName.isEmpty() )
-	    groupName = groupRawName;	// use the raw name as fallback
-
-	ModGroup * grp = new ModGroup( groupName );
-	CHECK_PTR( grp );
-	
-	grp->setRawName( groupRawName );
-	grp->setName   ( groupName );
-	grp->setIcon   ( groups[ "Icon"    ] );
-	grp->setSortKey( groups[ "SortKey" ] );
-
-	groupList.append( grp );
+	emit sig_error( QString( _("Directory %1 does not exist") ).arg( dir.absPath() ));
+	return false;
     }
 
-    set_textdomain (config.textdomain);
+    QStringList desktop_files = dir.entryList();
+
+    for ( QStringList::iterator it = desktop_files.begin();
+	  it != desktop_files.end();
+	  ++it )
+    {
+	readGroupDesktopFile( dir.path() + "/" + *it );
+    }
 
     return true;
 }
@@ -164,24 +139,24 @@ bool YModules::initModules()
 
     if ( ! dir.exists() )
     {
-	emit sig_error( QString( _("Directory %1 does not exist") ).arg( MODULES_DESKTOP_DIR ));
+	emit sig_error( QString( _("Directory %1 does not exist") ).arg( dir.absPath()));
 	return false;
     }
 
-    QStringList desktop_files=dir.entryList();
+    QStringList desktop_files = dir.entryList();
 
     for ( QStringList::iterator it = desktop_files.begin();
 	  it != desktop_files.end();
 	  ++it )
     {
-	readDesktopFile( MODULES_DESKTOP_DIR "/" + *it );
+	readModuleDesktopFile( dir.path() + "/" + *it );
     }
 
     return true;
 }
 
 
-bool YModules::readDesktopFile( const QString & filename )
+bool YModules::readModuleDesktopFile( const QString & filename )
 {
     QY2Settings desktopFile( filename );
 
@@ -237,10 +212,62 @@ bool YModules::readDesktopFile( const QString & filename )
 }
 
 
+bool YModules::readGroupDesktopFile( const QString & filename )
+{
+    QY2Settings desktopFile( filename );
+
+    if ( desktopFile.readError() )
+	return false;
+
+    desktopFile.selectSection( "Desktop Entry" );
+
+    QString rawName = desktopFile[ "X-SuSE-YaST-Group"   ];
+    QString sortKey = desktopFile[ "X-SuSE-YaST-SortKey" ];
+    
+    QString name = desktopFile[ QString( "Name[%1]" ).arg( lang ) ];
+    if ( name.isEmpty() )
+	name = desktopFile[ "Name" ];
+
+    QString icon = desktopFile.get( "Icon", "defaultgroup.png" );
+    QRegExp extension( "\\.(png|jpg)$", false );	// case insensitive
+    
+    if ( icon.find( extension ) < 0 )	// no .png or .jpg extension?
+	icon += ".png";			// assume .png
+    
+    ModGroup * grp = new ModGroup( rawName );
+
+    groupList.first(); // move groupList.current() to the first group
+	
+    if ( groupList.find( grp ) >= 0 )
+    {
+	// group already existing
+	qWarning( "Warning: Duplicate group " + rawName + " in " + filename );
+    }
+    else
+    {
+	grp->setName( name );
+	grp->setIcon( icon );
+	grp->setSortKey( sortKey );
+	
+	groupList.append( grp );
+    }
+
+#if 0
+    printf( "new Group: %s\n",	 (const char *) grp->getRawName() );
+    printf( "\tname: %s\n",	 (const char *) grp->getName() );
+    printf( "\ticon: %s\n",	 (const char *) grp->getIcon() );
+    printf( "\tsortKey: %s\n\n", (const char *) grp->getSortKey() );
+#endif
+
+    return true;
+}
+
+
 void YModules::addModule( YMod * module )
 {
     if ( config.isroot || ! module->getRootFlag()
-#if 1
+#if DEBUG_MODE
+#warning FIXME - DEBUG MODE - displaying all modules for non-root users!
 	 || true )
 #else
 	)
@@ -248,16 +275,15 @@ void YModules::addModule( YMod * module )
     {
 	modList.append( module );
 	
-	ModGroup * tmpGrp;
-	tmpGrp = new ModGroup( module->getGroup() );
+	ModGroup * tmpGrp = new ModGroup( module->getGroup() );
 
 	groupList.first(); // move groupList.current() to the first group
 	
 	if ( groupList.find( tmpGrp ) < 0 )
 	{
 	    // group did not exist
-	    qDebug("Warning: new Group detected for Module " +
-		   module->getName() + ", misspelled in .desktop file?");
+	    qWarning( "Warning: new Group detected for Module " +
+		      module->getName() + ", misspelled in .desktop file?");
 	    
 	    tmpGrp->setIcon("defaultgroup.png");
 	    tmpGrp->setSortKey( "zzzzz" );
