@@ -57,7 +57,7 @@ void Y2ControlCenter::configure()
 bool Y2ControlCenter::queryExit()
 {
   int exit=QMessageBox::information(this, "Quit...",
-                                    _( "Do your really want to quit?" ),
+                                    _( "Really quit?" ),
                                     QMessageBox::Ok, QMessageBox::Cancel);
 
   return (exit==1);
