@@ -1,2 +1,7 @@
-s remove hardcoded path to yast2
-? add icon for windowmanager
+1 allow only one module to be started at a time
+2 reread module list after a new yast module was installed
+3 switch language when the language module requests it
+4 split control center logo into three parts with the middle one stretchable
+
+solution for 2,3: export an environment variable with pid, yast modules can
+send us a signal then.
