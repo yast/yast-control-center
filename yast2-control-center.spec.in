@@ -23,7 +23,6 @@ Obsoletes:	y2c_menu y2m_menu yast2-menu
 
 %files
 %defattr(-,root,root)
-@clientdir@
 @ybindir@/y2controlcenter
 /usr/share/applications/YaST.desktop
 @imagedir@
