@@ -58,7 +58,7 @@ Y2ControlCenterView::Y2ControlCenterView(QWidget *parent) : QWidget(parent)
 
 
     suselogo= new QLabel(this);
-    suselogo->setPixmap(QPixmap(ICONDIR "/heading03.png"));
+    suselogo->setPixmap(QPixmap(PIXMAP_DIR "/title-bar.png"));
     suselogo->setMinimumWidth(640);
     layout->addWidget(suselogo);
 
@@ -149,7 +149,7 @@ void Y2ControlCenterView::errorpopup(QString msg)
 void Y2ControlCenterView::slotInitListbox(int code)
 {
     QString icon,groupname;
-    QString icondir = ICONDIR "/";
+    QString icondir = ICON_DIR "/";
     int i=0,firstenabled=-1;
     QListBoxPixmap* pixmap;
 
@@ -355,7 +355,7 @@ Y2ControlCenterView::filliconview (int groupnr)
     const YMod* m = group->first ();
     while (m)
     {
-	QString iconfile = ICONDIR "/";
+	QString iconfile = ICON_DIR "/";
 	iconfile += m->getIcon ();
 
 	QPixmap pixmap (iconfile);
@@ -430,7 +430,7 @@ void Y2ControlCenterView::slotsearch()
 void Y2ControlCenterView::slotsearchmodule(QString text)
 {
     items->clear();
-    QString icondir = ICONDIR "/";
+    QString icondir = ICON_DIR "/";
     if (!text.isEmpty())
     {
 //			cerr << "Searching for " << text << endl;

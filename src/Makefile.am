@@ -2,9 +2,11 @@
 # Makefile.am for control-center/src
 #
 
-AM_CXXFLAGS = -DICONDIR=\"${imagedir}\" 		\
-	-DMODULES_DESKTOP_DIR=\"${desktopdir}\"		\
-	-DGROUPS_DESKTOP_DIR=\"${desktopdir}/groups\"	\
+AM_CXXFLAGS = \
+	-DICON_DIR=\"${themedir}/current/icons/48x48/apps\" 	\
+	-DPIXMAP_DIR=\"${themedir}/current/control-center\"	\
+	-DMODULES_DESKTOP_DIR=\"${desktopdir}\"			\
+	-DGROUPS_DESKTOP_DIR=\"${desktopdir}/groups\"		\
 	-DLOCALEDIR=\"${localedir}\"
 
 MOC = $(QTDIR)/bin/moc

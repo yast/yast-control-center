@@ -104,7 +104,7 @@ QDragObject * MyQIconView::dragObject()
 	    {
 		    QString desktopentry="[Desktop Entry]\n"
 					"Exec=" SBINYAST2 " %1\n"
-					"Icon=" ICONDIR "/" "%2\n"
+					"Icon=" ICON_DIR "/" "%2\n"
 					"Type=Application\n"
 					"Name=%3\n"
 					"X-KDE-SubstituteUID=true\n"
@@ -140,7 +140,7 @@ QDragObject * MyQIconView::dragObject()
 			currentItem()->pixmapRect().height() / 2 ) );
 		QString desktopentry="[Desktop Entry]\n"
 					"Exec=" SBINYAST2 " %1\n"
-					"Icon=" ICONDIR "/" "%2\n"
+					"Icon=" ICON_DIR "/" "%2\n"
 					"Type=Application\n"
 					"Name=%3\n"
 					"X-KDE-SubstituteUID=true\n"
