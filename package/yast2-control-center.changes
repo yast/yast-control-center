@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Mon Jun 24 15:54:55 CEST 2002 - arvin@suse.de
+
+- renamed to yast2-control-center
+
+-------------------------------------------------------------------
 Wed Jun 12 11:34:37 CEST 2002 - arvin@suse.de
 
 - adapted to new command line of yast2

@@ -1,5 +1,5 @@
 #
-# Makefile.am for modules/y2m_menu/logcontrol
+# Makefile.am for control-center/logcontrol
 #
 
 config_DATA = logcontrol.y2cc

@@ -1,5 +1,5 @@
 #
-# Makefile.am for modules/y2m_menu/remoteinstall
+# Makefile.am for control-center/remoteinstall
 #
 
 config_DATA = remoteinstall.y2cc

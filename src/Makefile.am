@@ -1,5 +1,5 @@
 #
-# Makefile.am for modules/y2m_menu
+# Makefile.am for control-center/src
 #
 
 AM_CXXFLAGS = -DICONDIR=\"$(imagedir)\" -DCONFIGDIR=\"$(configdir)\"	\

@@ -1,5 +1,5 @@
 #
-# Makefile.am for modules/y2m_menu/remotechooser
+# Makefile.am for control-center/remotechooser
 #
 
 config_DATA = remotechooser.y2cc
