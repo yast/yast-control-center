@@ -103,11 +103,11 @@ void YModules::initLang()
 
     if ( lang_cstr )
     {
-	lang = lang_cstr;
-	lang.replace( QRegExp( "@.*$" ), "" );	// remove @euro etc.
-
-	if ( ! lang.startsWith( "zh_" ) )		// Chinese has different variants (zh_CN, zh_TW)
-	     lang.replace( QRegExp( "_.*$" ), "" );	// otherwise remove _DE etc.
+	langWithCountry = lang_cstr;
+	langWithCountry.replace( QRegExp( "@.*$" ), "" );	// remove @euro etc.
+	
+	lang = langWithCountry;
+	lang.replace( QRegExp( "_.*$" ), "" );			// remove _DE etc.
     }
 }
 
@@ -170,13 +170,22 @@ bool YModules::readModuleDesktopFile( const QString & filename )
 
     desktopFile.selectSection( "Desktop Entry" );
     
-    QString name = desktopFile[ QString( "Name[%1]" ).arg( lang ) ];
+    QString name = desktopFile[ QString( "Name[%1]" ).arg( langWithCountry ) ];
+    
+    if ( name.isEmpty() )
+	name = desktopFile[ QString( "Name[%1]" ).arg( lang ) ];
+    
     if ( name.isEmpty() )
 	name = desktopFile[ "Name" ];
 
     mod->setName( name );
 
-    QString description = desktopFile[ QString( "GenericName[%1]" ).arg( lang ) ];
+    
+    QString description = desktopFile[ QString( "GenericName[%1]" ).arg( langWithCountry ) ];
+    
+    if ( description.isEmpty() )
+	description = desktopFile[ QString( "GenericName[%1]" ).arg( lang ) ];
+	
     if ( description.isEmpty() )
 	description = desktopFile[ "GenericName" ];
 
@@ -226,7 +235,11 @@ bool YModules::readGroupDesktopFile( const QString & filename )
     QString rawName = desktopFile[ "X-SuSE-YaST-Group"   ];
     QString sortKey = desktopFile[ "X-SuSE-YaST-SortKey" ];
     
-    QString name = desktopFile[ QString( "Name[%1]" ).arg( lang ) ];
+    QString name = desktopFile[ QString( "Name[%1]" ).arg( langWithCountry ) ];
+    
+    if ( name.isEmpty() )
+	name = desktopFile[ QString( "Name[%1]" ).arg( lang ) ];
+	
     if ( name.isEmpty() )
 	name = desktopFile[ "Name" ];
 

@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Wed Oct 27 13:59:31 CEST 2004 - sh@suse.de
+
+- Added support for LANG with country code (de_DE, zh_CN, ...),
+  fall back to LANG without country (de, zh), then defaults 
+  (bug #47668)
+
+-------------------------------------------------------------------
 Thu Aug 26 16:08:58 CEST 2004 - sh@suse.de
 
 - Bumped version to 2.10.1 

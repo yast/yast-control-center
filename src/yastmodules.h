@@ -128,6 +128,7 @@ protected:
     ModuleList modList;
 
     QString lang;
+    QString langWithCountry;
     QString error;
     
 
