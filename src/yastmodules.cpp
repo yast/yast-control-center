@@ -104,7 +104,7 @@ void YModules::initLang()
     if ( lang_cstr )
     {
 	langWithCountry = lang_cstr;
-	langWithCountry.replace( QRegExp( "@.*$" ), "" );	// remove @euro etc.
+	langWithCountry.replace( QRegExp( "\\..*$" ), "" );	// remove .UTF8 etc.
 	
 	lang = langWithCountry;
 	lang.replace( QRegExp( "_.*$" ), "" );			// remove _DE etc.
