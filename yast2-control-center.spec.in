@@ -1,6 +1,6 @@
 @HEADER-COMMENT@
 
-# neededforbuild  autoconf automake gpp libgpp qt3-devel-packages xf86 yast2-devtools
+# neededforbuild  gpp libgpp qt3-devel-packages yast2-devtools
 
 @HEADER@
 
