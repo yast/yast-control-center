@@ -139,7 +139,7 @@ bool YModules::initModules()
 
     if ( ! dir.exists() )
     {
-	emit sig_error( QString( _("Directory %1 does not exist") ).arg( dir.absPath()));
+	emit sig_error( QString( _("Directory %1 does not exist.") ).arg( dir.absPath()));
 	return false;
     }
 
