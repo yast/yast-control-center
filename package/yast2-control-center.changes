@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu Jan 08 16:56:08 CET 2004 - arvin@suse.de
+
+- dropped broken pre-start feature (bug #33860)
+
+-------------------------------------------------------------------
 Fri Sep 19 14:24:36 CEST 2003 - adrian@suse.de
 
 - V 2.8.10
@@ -8,7 +13,8 @@ Fri Sep 19 14:24:36 CEST 2003 - adrian@suse.de
 Wed Sep 17 15:29:50 CEST 2003 - sh@suse.de
 
 - V 2.8.9
-- Fixed bug #30236: Bad fullscreen geometry for some window managers 
+- Fixed bug #30236: Bad fullscreen geometry for some window
+  managers
 
 -------------------------------------------------------------------
 Thu Sep 11 21:18:33 CEST 2003 - adrian@suse.de

@@ -7,8 +7,6 @@ AM_CXXFLAGS = -DICONDIR=\"$(imagedir)\" -DCONFIGDIR=\"$(configdir)\"	\
 
 MOC = $(QTDIR)/bin/moc
 
-client_DATA = pre-start.ycp
-
 desktopdir=/usr/share/applications
 desktop_DATA = YaST.desktop
 
@@ -71,4 +69,4 @@ y2controlcenter_LDFLAGS = $(all_libraries)
 DISTCLEANFILES = $(y2controlcenter_METASOURCES)
 CLEANFILES = *.moc.cpp
 
-EXTRA_DIST = $(client_DATA) $(desktop_DATA)
+EXTRA_DIST = $(desktop_DATA)

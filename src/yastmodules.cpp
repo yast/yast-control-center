@@ -50,12 +50,6 @@ YastModules::YastModules()
     grp=0L;
     mod=0L;
     currentsection=Undef;
-    preparedY2Exists=false;
-
-    if(config.QuickStart == true)
-    {
-	QTimer::singleShot( 500, this, SLOT(prepareY2Start()));
-    }
 }
 
 bool YastModules::init()
@@ -80,7 +74,6 @@ bool YastModules::init()
 
 YastModules::~YastModules()
 {
-    startPreparedY2(NULL);
     delete configfile;
     delete inputfile;
 }
@@ -108,106 +101,6 @@ bool YastModules::KeyValue(QString line, QString& key, QString &value)
     }
     return true;
 }
-
-
-//prepares the "fast-y2module-start" feature
-// it starts a y2base, which waits for a module name.
-// Later on, when the user has choosen amodule, the
-// prestarted y2base gets this name via pipe and starts the module
-// then very fast
-
-int my_system ( const char *command, int fd)
-{
-    int pid, status;
-
-    if (!command)
-	return 1;
-    pid = fork();
-    if (pid == -1)
-	return -1;
-    if (pid == 0) //child
-    {
-	close (fd);
-	// Thats the needed close, so that the other
-	// process can close the pipe
-
-	char *argv[4];
-	argv[0] = "sh";
-	argv[1] = "-c";
-	argv[2] = strdup(command);
-	argv[3] = 0;
-	execv("/bin/sh", argv);
-	exit(127);
-    }
-    do
-    {
-	if (waitpid(pid, &status, 0) == -1)
-	{
-	    if (errno != EINTR)
-		return -1;
-	}
-	else
-	{
-	    return status;
-	}
-    } while(1);
-}
-
-
-void YastModules::prepareY2Start()
-{
-//	qDebug(QString("preparing YaST2 quick start"));
-
-    if (pipe (preparefd) == -1)
-    {
-	cerr << strerror(errno) << endl;
-	return;
-    }
-
-    QString cmd = "/sbin/yast2 pre-start %1 ";
-    cmd = cmd.arg (preparefd[0]);
-    if ( config.fullscreen )	cmd += " --fullscreen ";
-    if ( config.noBorder   )	cmd += " --noborder ";
-    cmd += "&";
-	    
-    my_system (cmd, preparefd[1]);
-    preparedY2Exists = true;
-
-    return;
-}
-
-
-
-bool YastModules::startPreparedY2( const YastModule* module )
-{
-    if ( preparedY2Exists )
-    {
-	int ret;
-	QString command;
-	if(module)
-	{
-	    QString ycpname = module->getYCPName();
-	    QString args = module->getArguments();
-	    command=ycpname + " " + args;
-	}
-	else
-	{
-	    command="terminateY2Base";
-	}
-
-	preparedY2Exists = false;
-
-//		qDebug(QString("quickstarting ")+command);
-	ret = write (preparefd[1], (const char *)command, strlen((const char *)command)+1);
-
-	close (preparefd[1]);
-
-	if( ret < 0 ) return false;
-    }
-
-    return true;
-}
-
 
 
 //parses line, inserts groups and modules
@@ -539,18 +432,6 @@ void YastModules::runModule( const YastModule* module)
     }
 
     QString geo = module->getGeometry();
-
-    if (!geo.isEmpty())
-    {
-	qDebug("setting geometry is not supported by quickstart, fallback to normal call");
-	startPreparedY2( NULL );
-    }
-
-    if ( preparedY2Exists )
-    {
-	if(startPreparedY2( module ) == true ) return;
-    }
-
     QString ycpname = module->getYCPName();
     QString args = module->getArguments();
 
@@ -563,10 +444,10 @@ void YastModules::runModule( const YastModule* module)
     }
     cmd += "/sbin/yast2 ";
     cmd += ycpname;
-    
+
     if ( config.fullscreen )	cmd += " --fullscreen ";
     if ( config.noBorder   )	cmd += " --noborder ";
-	    
+
     if (!args.isEmpty())
     {
 	QString arguments = args;

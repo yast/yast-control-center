@@ -15,8 +15,7 @@
 
 Config::Config()
 {
-    isroot	= ( getuid() == 0 );
-    QuickStart	= true;
+    isroot	= getuid () == 0;
     fullscreen	= false;
     noBorder 	= false;
 }

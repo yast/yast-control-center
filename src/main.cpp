@@ -49,7 +49,6 @@ void printhelpandexit()
 	 << "\n"
 	 << "\n    --help         -h    this message"
 	 << "\n    --root         -r    also show \"root only\" modules"
-	 << "\n    --quickstart   -Q	disable quick start"
 	 << "\n    --fullscreen         use full screen"
 	 << "\n    --noborder           no window manager border for main window"
 	 << endl;
@@ -76,7 +75,7 @@ int main( int argc, char *argv[] )
 
 	if 	( opt == "-h" || opt == "-help"		)	printhelpandexit();
 	else if ( opt == "-r" || opt == "-root"		)	config.isroot     = true;
-	else if ( opt == "-Q" || opt == "-quickstart"	)	config.QuickStart = false;
+
 	else if ( opt == "-fullscreen"			)	config.fullscreen = true;
 	else if ( opt == "-noborder"			)	config.noBorder   = true;
     }
@@ -107,7 +106,7 @@ int main( int argc, char *argv[] )
     if ( gethostname( hostname, sizeof( hostname )-1 ) == 0 )
     {
 	hostname[ sizeof( hostname ) -1 ] = '\0'; // make sure it's terminated
-	
+
 	if ( strlen( hostname ) > 0 && strcmp( hostname, "(none)" ) != 0 )
 	{
 	    title += " @ ";

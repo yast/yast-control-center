@@ -75,7 +75,6 @@ class YastModules : public QObject
 	void parseonelinefromprocess(QString line);
 	// add last module, sort groups and modules
         void finish(int);
-        void prepareY2Start();
 
 	private:
 	QSortedList<YastModule> modlist;
@@ -88,9 +87,6 @@ class YastModules : public QObject
 	QTextStream *configfile;
 	QString error;
 	int nummodules;
-        bool preparedY2Exists;
-        int  preparefd[2];
-        bool startPreparedY2( const YastModule* module );
 
 	//config parsing
 	void addgrpandmod();
