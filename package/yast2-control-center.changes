@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Thu Feb  6 16:42:45 CET 2003 - sh@suse.de
+
+- V 2.7.1
+- Added new command line options --fullscreen --noborder
+- Propagate those options to child processes
+
+-------------------------------------------------------------------
 Mon Jan 13 14:48:49 CET 2003 - arvin@suse.de
 
 - remotechooser.ycp and remoteinstall.ycp move to yast2 package

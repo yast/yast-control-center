@@ -51,7 +51,7 @@ void printhelpandexit()
 	 << "\n    --root         -r    also show \"root only\" modules"
 	 << "\n    --quickstart   -Q	disable quick start"
 	 << "\n    --fullscreen         use full screen"
-	 << "\n    --noborder           no window manager borders for main window"
+	 << "\n    --noborder           no window manager border for main window"
 	 << endl;
     exit (0);
 }
@@ -103,18 +103,20 @@ int main( int argc, char *argv[] )
     if ( gethostname( hostname, sizeof( hostname )-1 ) == 0 )
     {
 	hostname[ sizeof( hostname ) -1 ] = '\0'; // make sure it's terminated
-	title += " @ ";
-	title += hostname;
+	
+	if ( strlen( hostname ) > 0 && strcmp( hostname, "(none)" ) != 0 )
+	{
+	    title += " @ ";
+	    title += hostname;
+	}
     }
     y2cc.setCaption( title );
-
-
     y2cc.setIcon(QPixmap((const char **)suseicon_xpm));
     y2cc.show();
 
-    QTimer::singleShot( 0, &y2cc, SLOT(configure()) );
+    QTimer::singleShot( 0, &y2cc, SLOT( configure() ) );
 
     return app.exec();
 }
 
-// vim: sw=2
+// vim: sw=4
