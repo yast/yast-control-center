@@ -18,8 +18,6 @@
 #include <qlistbox.h>
 #include <qstatusbar.h>
 
-// application specific includes
-#include "myintl.h"
 
 class SearchDialog : public QDialog
 {

@@ -58,11 +58,9 @@ int main(int argc, char *argv[])
 //  cerr << time(0) << " main()" << endl;
   config.isroot = getuid() == 0;
   config.QuickStart = true;
-  config.textdomain = "menu";
+  config.textdomain = "control-center";
 
-  bindtextdomain (config.textdomain, LOCALEDIR);
-  textdomain (config.textdomain);
-  bind_textdomain_codeset (config.textdomain, "UTF-8");
+  set_textdomain (config.textdomain);
 
   QApplication a(argc, argv);
 

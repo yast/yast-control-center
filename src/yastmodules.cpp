@@ -31,7 +31,7 @@ using std::endl;
 
 #include "myintl.h"
 #include "y2cc_globals.h"
-//#include "process.h"
+
 
 /* Hope it's no longer quick&dirty ;-) */
 
@@ -365,18 +365,14 @@ void YastModules::addModule( YastModule* module )
 		if(!domain.isEmpty())
 		{
 			// switch textdomain to that of the menuentry for translation
-			bindtextdomain (domain, LOCALEDIR);
-			textdomain (domain);
-			bind_textdomain_codeset (domain, "UTF-8");
+			set_textdomain (domain);
 
 			module->setdescription(QString(_(module->getDesc())).simplifyWhiteSpace());
 
 			module->setname(_(module->getName()));
 			module->seticon(_(module->getIcon()));
 
-			textdomain (config.textdomain);
-			bindtextdomain (config.textdomain, LOCALEDIR);
-			bind_textdomain_codeset (config.textdomain, "UTF-8");
+			set_textdomain (config.textdomain);
 		}
 		if((config.isroot == false && module->getRootFlag() == false) || config.isroot == true)
 		{
@@ -404,19 +400,16 @@ void YastModules::addModule( YastModule* module )
 		}
 }
 
-void YastModules::addGroup( ModGroup* group )
+void
+YastModules::addGroup (ModGroup* group)
 {
-	// switch textdomain to that of the group for translation
-	bindtextdomain ("general", LOCALEDIR);
-	textdomain ("general");
-	bind_textdomain_codeset ("general", "UTF-8");
+    // switch textdomain to that of the group for translation
+    set_textdomain ("base");
 
-	group->setName(_(group->getName()));
-	grouplist.append(group);
+    group->setName (_(group->getName ()));
+    grouplist.append (group);
 
-	textdomain (config.textdomain);
-	bindtextdomain (config.textdomain, LOCALEDIR);
-	bind_textdomain_codeset (config.textdomain, "UTF-8");
+    set_textdomain (config.textdomain);
 }
 
 int YastModules::numGroups()
@@ -609,15 +602,16 @@ const QString* YastModules::getErrorString() const
 
 /**********************/
 
-YastModule::YastModule()
+YastModule::YastModule ()
 {
-	name=_("Unnamed");
-	requiresroot=true;
-	iconfilename="default.png";
-	group="Misc";
-	textdomain="menu";
-	// selected yast2 module does not provide a short description for statusbar
-	description=_("no description available");
+    // selected yast2 module does not have a name
+    name = _("Unnamed");
+    requiresroot = true;
+    iconfilename = "default.png";
+    group = "Misc";
+    textdomain = "control-center";
+    // selected yast2 module does not have a short description for statusbar
+    description = _("no description available");
 }
 
 YastModule::YastModule(const YastModule&)

@@ -12,6 +12,7 @@
 */
 
 #include "searchdialog.h"
+#include "myintl.h"
 
 
 SearchDialog::SearchDialog(QWidget *parent) :

@@ -20,7 +20,7 @@ y2controlcenter_SOURCES =	\
 	process.cpp		\
 	y2cc_iconview.cpp	\
 	y2cc_config.cpp		\
-	myintl.h		\
+	myintl.h myintl.cpp	\
 	searchdialog.h		\
 	y2controlcenter.h	\
 	y2controlcenterview.h	\
