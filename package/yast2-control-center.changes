@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Mon Jan 13 14:48:49 CET 2003 - arvin@suse.de
+
+- remotechooser.ycp and remoteinstall.ycp move to yast2 package
+- use icon dsl.png for adsl and dsl
+
+-------------------------------------------------------------------
 Wed Sep  4 16:55:56 CEST 2002 - lslezak@suse.cz
 
 - added new backup.png and restore.png icon
