@@ -23,7 +23,6 @@
 #include "QY2Settings.h"
 
 #include <qfile.h>
-#include <qtextstream.h>
 #include <qregexp.h>
 
 #include <iostream>
@@ -208,6 +207,7 @@ bool QY2Settings::load()
 	    value.replace( QRegExp( "\"$" ), "" );	// strip trailing "
 	    value.replace( "\\\"", "\"" );		// un-escape "
 
+	    // qDebug( "Read %s=%s", (const char *) key, (const char *) value );
 	    set( key, value );
 	}
 	else
@@ -242,36 +242,45 @@ bool QY2Settings::save()
     QTextStream str( &file );
     str.setEncoding( QTextStream::UnicodeUTF8 );
 
+    // The default section must be saved first since it doesn't have a section
+    // name that could be used for a headline
+    saveSection( str, _defaultSection );
+    
     SectionIterator sectIt( _sections );
-
+    
     while ( *sectIt )
     {
-	Section * sect = *sectIt;
-
-	// Section header
-
-	if ( ! sect->name().isEmpty() )
-	    str << "[" << sect->name() << "]" << endl;
-
-	// value=key pairs for this section
-
-	for ( Section::iterator it = sect->begin();
-	      it != sect->end();
-	      ++it )
-	{
-	    QString value = it.data();
-	    value.replace( "\"", "\\\"" );	// Escape embedded " with \"
-
-	    str << it.key() << "= \"" << value << "\"" << endl;
-	}
-
-	str << endl;
+	if ( *sectIt != _defaultSection )
+	    saveSection( str, *sectIt );
 	++sectIt;
     }
 
     _dirty = false;
 
     return true;
+}
+
+
+void QY2Settings::saveSection( QTextStream & str, Section * sect )
+{
+    // Section header
+
+    if ( ! sect->name().isEmpty() )
+	str << "[" << sect->name() << "]" << endl;
+
+    // value=key pairs for this section
+
+    for ( Section::iterator it = sect->begin();
+	  it != sect->end();
+	  ++it )
+    {
+	QString value = it.data();
+	value.replace( "\"", "\\\"" );	// Escape embedded " with \"
+
+	str << it.key() << "= \"" << value << "\"" << endl;
+    }
+
+    str << endl;
 }
 
 

@@ -28,6 +28,7 @@
 #include <qmap.h>
 #include <qdict.h>
 #include <qstringlist.h>
+#include <qtextstream.h>
 
 /**
  * Utility class that handles program settings in .ini file format:
@@ -214,7 +215,6 @@ protected:
     
 
 
-
     /**
      * Initialize the section data
      **/
@@ -225,6 +225,11 @@ protected:
      * Returns 'true' upon success.
      **/
     bool load();
+
+    /**
+     * Save one section to a stream
+     **/
+    void saveSection( QTextStream & stream, Section * section );
 
 
     // Data members
