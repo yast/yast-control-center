@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Thu Sep 11 21:18:33 CEST 2003 - adrian@suse.de
+
+- V 2.8.8
+- update icons
+- call YaST with root password in menu
+
+-------------------------------------------------------------------
 Mon Sep 08 16:50:37 CEST 2003 - arvin@suse.de
 
 - updated icons
