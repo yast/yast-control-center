@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu Aug 15 11:37:27 CEST 2002 - jsuchome@suse.cz
+
+- Merged proofread texts for the second translation round. 
+
+-------------------------------------------------------------------
 Thu Jul 25 17:34:23 CEST 2002 - arvin@suse.de
 
 - also extract texts from C++ source files (bug #17216)
