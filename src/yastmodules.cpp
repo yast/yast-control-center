@@ -105,7 +105,9 @@ void YModules::initLang()
     {
 	lang = lang_cstr;
 	lang.replace( QRegExp( "@.*$" ), "" );	// remove @euro etc.
-	lang.replace( QRegExp( "_.*$" ), "" );	// remove _DE etc.
+
+	if ( ! lang.startsWith( "zh_" ) )		// Chinese has different variants (zh_CN, zh_TW)
+	     lang.replace( QRegExp( "_.*$" ), "" );	// otherwise remove _DE etc.
     }
 }
 
