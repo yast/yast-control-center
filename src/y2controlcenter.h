@@ -27,12 +27,11 @@
 #include <qpainter.h>
 #include <qtimer.h>
 #include <qmessagebox.h>
-#include <qprogressbar.h>
+// #include <qprogressbar.h>
 
 // application specific includes
 #include "myintl.h"
 #include "y2controlcenterview.h"
-#include "resource.h"
 
 /**
   * This Class is the base class for your application. It sets up the main
@@ -43,7 +42,7 @@
 class Y2ControlCenter : public QMainWindow
 {
   Q_OBJECT
-  
+
   public:
     /** construtor */
     Y2ControlCenter();
@@ -53,25 +52,25 @@ class Y2ControlCenter : public QMainWindow
     void initStatusBar();
     /** setup the mainview*/
     void initView();
-   
+
     /** overloaded for Message box on last window exit */
     bool queryExit();
-  
+
   public slots:
-   
-   /** fill view with contents*/ 
+
+   /** fill view with contents*/
     void configure();
-  
+
     /** exits the application */
     void slotFileQuit();
-  
+
     /** change the status message of the whole statusbar temporary */
     void slotStatusHelpMsg(const QString &text);
 
   protected slots:
     //update progress bar
-    void slotProgress(int percent);
-  
+  // void slotProgress(int percent);
+
   private:
 
     /** view is the main widget which represents your working area. The View
@@ -81,8 +80,8 @@ class Y2ControlCenter : public QMainWindow
      */
     Y2ControlCenterView *view;
 
-    QProgressBar* progressbar;
+    // QProgressBar* progressbar;
 
 };
-#endif 
+#endif
 

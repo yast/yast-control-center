@@ -15,23 +15,23 @@
 
 Y2ControlCenter::Y2ControlCenter()
 {
-  //setCaption("Y2ControlCenter " VERSION);
+    // setCaption("Y2ControlCenter " VERSION);
 
-  progressbar=0L;
+    // progressbar=0L;
 
-  initStatusBar();
+    initStatusBar ();
 
-  initView();
+    initView();
 }
 
 Y2ControlCenter::~Y2ControlCenter()
 {
-	delete view;
+    delete view;
 }
 
 void Y2ControlCenter::initStatusBar()
 {
-  statusBar()->message(IDS_STATUS_DEFAULT, 2000);
+    statusBar ()->message ("", 2000);
 }
 
 void Y2ControlCenter::initView()
@@ -40,7 +40,7 @@ void Y2ControlCenter::initView()
   view=new Y2ControlCenterView(this);
   connect(view, SIGNAL(quit()), this, SLOT(slotFileQuit()));
   connect(view, SIGNAL(statusmsg(const QString&)), this, SLOT(slotStatusHelpMsg(const QString&)));
-  connect(view, SIGNAL(sig_percentread(int)), this, SLOT(slotProgress(int)));
+  // connect(view, SIGNAL(sig_percentread(int)), this, SLOT(slotProgress(int)));
   setCentralWidget(view);
 }
 
@@ -100,12 +100,12 @@ void Y2ControlCenter::slotStatusHelpMsg(const QString &text)
   statusBar()->message(text, 4000);
 }
 
-void Y2ControlCenter::slotProgress(int progress)
-{
-  //Displays how many percent of modules are loaded
-  QString msg=_("Loading: %1%");
-  msg=msg.arg(progress);
-  statusBar()->message(msg,1000);
-}
+// void Y2ControlCenter::slotProgress(int progress)
+// {
+//  //Displays how many percent of modules are loaded
+//  QString msg=_("Loading: %1%");
+//  msg=msg.arg(progress);
+//  statusBar()->message(msg,1000);
+//}
 
 #include <y2controlcenter.moc.cpp>

@@ -17,7 +17,7 @@
 #include "searchdialog.h"
 
 #include <iostream>
-#include <qprogressbar.h>
+// #include <qprogressbar.h>
 #include <qmainwindow.h>
 #include <qdir.h>
 #include <qfile.h>
