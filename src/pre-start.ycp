@@ -1,29 +1,27 @@
 {
     integer arg = tointeger (WFM::Args (0));
+    y2milestone ("arg <%1>", arg);
 
-    y2milestone ("Arg: %1", arg);
-
-    string command = WFM::GetClientName ( arg );
-
+    string command = WFM::GetClientName (arg);
     y2milestone ("got command <%1>", command);
 
-    if ( command != "terminateY2Base" )
+    if (command != "terminateY2Base")
     {
-	list tokens = splitstring (command," ");
-	tokens = filter (`t,tokens,``(t!=""));
-	string function = select (tokens,0,nil);
-	if ( function == nil )
+	list tokens = splitstring (command, " ");
+	tokens = filter (`t, tokens, ``(t != ""));
+	string function = select (tokens, 0, nil);
+	if (function == nil)
 	{
 	    return;
 	}
-	list arguments = remove (tokens,0);
+	list arguments = remove (tokens, 0);
 
-	y2milestone (sformat ("Callfunction(%1,%2);",function,arguments));
+	y2milestone (sformat ("Callfunction (%1, %2);", function, arguments));
 
-	WFM::CallFunction (function,arguments);
+	WFM::CallFunction (function, arguments);
     }
     else
     {
-	y2milestone ("nothing to do, leaving");
+	y2milestone ("nothing to do - leaving");
     }
 }

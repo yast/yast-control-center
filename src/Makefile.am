@@ -9,37 +9,35 @@ MOC = $(QTDIR)/bin/moc
 
 client_DATA = pre-start.ycp
 
-ydata_DATA = menu-translate.conf
-
 ybin_PROGRAMS = y2controlcenter
 
-y2controlcenter_SOURCES = \
+y2controlcenter_SOURCES =	\
 	yastmodules.cpp		\
 	y2controlcenterview.cpp	\
 	y2controlcenter.cpp	\
 	main.cpp		\
 	searchdialog.cpp	\
-	process.cpp	\
+	process.cpp		\
 	y2cc_iconview.cpp	\
-	y2cc_config.cpp	\
+	y2cc_config.cpp		\
 	myintl.h		\
 	resource.h		\
 	searchdialog.h		\
 	y2controlcenter.h	\
 	y2controlcenterview.h	\
-	process.h	\
-	yastmodules.h	\
-	y2cc_config.h	\
-	y2cc_globals.h	\
-	y2cc_iconview.h \
+	process.h		\
+	yastmodules.h		\
+	y2cc_config.h		\
+	y2cc_globals.h		\
+	y2cc_iconview.h		\
 	suseicon.xpm
 
-y2controlcenter_METASOURCES = \
-	searchdialog.moc.cpp \
-	y2controlcenter.moc.cpp \
-	y2controlcenterview.moc.cpp \
-	process.moc.cpp \
-	y2cc_iconview.moc.cpp \
+y2controlcenter_METASOURCES = 		\
+	searchdialog.moc.cpp 		\
+	y2controlcenter.moc.cpp 	\
+	y2controlcenterview.moc.cpp 	\
+	process.moc.cpp 		\
+	y2cc_iconview.moc.cpp 		\
 	yastmodules.moc.cpp
 
 y2controlcenter_LDADD = -L$(QTLIBDIR) -lqt-mt
@@ -61,19 +59,14 @@ y2cc_iconview.moc.cpp:		y2cc_iconview.h
 %.moc.cpp: %.h
 	$(MOC) $< -o $@
 
-menu-translate.conf: $(y2controlcenter_SOURCES)
-	./make_translate_conf *.cpp
-
 # set the include path for X, qt and KDE
 INCLUDES= -I$(QTDIR)/include
-
-#y2controlcenter_METASOURCES = AUTO
 
 # the library search path.
 y2controlcenter_LDFLAGS = $(all_libraries)
 
 # them while "make clean", use CLEANFILES
 DISTCLEANFILES = $(y2controlcenter_METASOURCES)
-CLEANFILES = *.moc.cc
+CLEANFILES = *.moc.cpp
 
-EXTRA_DIST = make_translate_conf $(client_DATA)
+EXTRA_DIST = $(client_DATA)

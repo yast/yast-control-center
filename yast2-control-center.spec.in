@@ -27,5 +27,4 @@ Obsoletes:	y2c_menu y2m_menu yast2-menu
 @clientdir@/pre-start.ycp
 @ybindir@/y2controlcenter
 @imagedir@/*.png
-@ydatadir@/menu-translate.conf
 %doc @docdir@
