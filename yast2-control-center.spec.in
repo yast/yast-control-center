@@ -25,6 +25,5 @@ Obsoletes:	y2c_menu y2m_menu yast2-menu
 %defattr(-,root,root)
 @ybindir@/y2controlcenter
 /usr/share/applications/YaST.desktop
-%dir /usr/share/pixmaps
 /usr/share/pixmaps/yast.png
 %doc @docdir@
