@@ -1,6 +1,6 @@
 @HEADER-COMMENT@
 
-# neededforbuild  qt3-devel-packages yast2-devtools
+# neededforbuild  qt3-devel-packages yast2-devtools pkgconfig
 
 @HEADER@
 
