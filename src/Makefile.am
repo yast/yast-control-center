@@ -14,6 +14,9 @@ MOC = $(QTDIR)/bin/moc
 self_desktopdir=/usr/share/applications
 self_desktop_DATA = YaST.desktop
 
+self_icondir=/usr/share/pixmaps
+self_icon_DATA=yast.png
+
 ybin_PROGRAMS = y2controlcenter
 
 y2controlcenter_SOURCES =	\
