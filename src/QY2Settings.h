@@ -85,7 +85,7 @@ public:
     bool readError() const { return _readError; }
 
     /**
-     * Returns 'true' if the settings were read without problems fro the file
+     * Returns 'true' if the settings were read without problems from the file
      * specified in the constructor. This is simply the opposite of
      * readError().
      **/
