@@ -9,6 +9,9 @@ MOC = $(QTDIR)/bin/moc
 
 client_DATA = pre-start.ycp
 
+desktopdir=/usr/share/applications
+desktop_DATA = YaST.desktop
+
 ybin_PROGRAMS = y2controlcenter
 
 y2controlcenter_SOURCES =	\
@@ -68,4 +71,4 @@ y2controlcenter_LDFLAGS = $(all_libraries)
 DISTCLEANFILES = $(y2controlcenter_METASOURCES)
 CLEANFILES = *.moc.cpp
 
-EXTRA_DIST = $(client_DATA)
+EXTRA_DIST = $(client_DATA) $(desktop_DATA)

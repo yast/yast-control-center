@@ -4,7 +4,6 @@
 
 @HEADER@
 
-Source1:        YaST.desktop
 Summary:	-
 Requires:	yast2
 Provides:	y2c_menu y2m_menu yast2-menu
@@ -18,7 +17,7 @@ Obsoletes:	y2c_menu y2m_menu yast2-menu
 @BUILD-QT@
 
 @INSTALL@
-%suse_update_desktop_file -i YaST SystemSetup Core-System
+%suse_update_desktop_file YaST SystemSetup Core-System
 
 @CLEAN@
 
