@@ -1,4 +1,12 @@
 -------------------------------------------------------------------
+Wed Jan 14 18:32:04 CET 2004 - sh@suse.de
+
+- V 2.9.2
+- Migrated to .desktop files
+  .y2cc files are now obsolete for YaST2 modules,
+  the y2cc only needs y2cc.groups and the .desktop files 
+
+-------------------------------------------------------------------
 Thu Jan 08 16:56:08 CET 2004 - arvin@suse.de
 
 - dropped broken pre-start feature (bug #33860)
