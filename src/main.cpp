@@ -91,7 +91,10 @@ int main( int argc, char *argv[] )
     Y2ControlCenter y2cc( wflags );
 
     if ( config.fullscreen )
+    {
 	y2cc.resize( app.desktop()->size() );
+	y2cc.move( 0, 0 );
+    }
     else
 	y2cc.resize( 800, 580 );
 
