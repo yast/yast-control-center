@@ -1,4 +1,16 @@
 -------------------------------------------------------------------
+Tue Apr  5 14:43:26 CEST 2005 - sh@suse.de
+
+- Merged 9.3-branch 21937:22910 to trunk
+- V 2.12.1
+
+-------------------------------------------------------------------
+Wed Mar 16 18:13:37 CET 2005 - sh@suse.de
+
+- Fixed bug #71816: date-time module doesn't start after setting localtime 
+- V 2.11.4
+
+-------------------------------------------------------------------
 Fri Feb 18 13:21:43 CET 2005 - visnov@suse.cz
 
 - Follow "Hidden" attribute in the desktop files
