@@ -81,4 +81,4 @@ y2controlcenter_LDFLAGS = $(all_libraries)
 DISTCLEANFILES = $(y2controlcenter_METASOURCES)
 CLEANFILES = *.moc.cpp
 
-EXTRA_DIST = $(self_desktop_DATA)
+EXTRA_DIST = $(self_desktop_DATA) $(self_icon_DATA)
