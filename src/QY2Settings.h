@@ -180,7 +180,7 @@ public:
      *
      * Returns 'true' on success.
      **/
-    void write();
+    void save();
 
     /**
      * Returns 'true' if there are any changes that need to be written.
@@ -219,7 +219,7 @@ protected:
     /**
      * Read the settings file. Sets _readError depending on success or failure.
      **/
-    void read();
+    void load();
 
 
     // Data members

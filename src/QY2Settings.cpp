@@ -33,9 +33,9 @@ QY2Settings::QY2Settings( const QString & fileName, AccessMode accessMode )
 {
     _sections.setAutoDelete( true );
     initSections();
-    
+
     if ( _accessMode == ReadOnly || _accessMode == ReadWrite )
-	read();
+	load();
 }
 
 void QY2Settings::initSections()
@@ -52,7 +52,7 @@ void QY2Settings::initSections()
 QY2Settings::~QY2Settings()
 {
     if ( _dirty && _accessMode != ReadOnly )
-	write();
+	save();
 }
 
 
@@ -89,7 +89,7 @@ QStringList QY2Settings::sections( bool includeUnnamed ) const
 
 	if ( includeUnnamed || ! sectionName.isEmpty() )
 	    sectionList.append( sectionName );
-	
+
 	++it;
     }
 
@@ -100,7 +100,7 @@ QStringList QY2Settings::sections( bool includeUnnamed ) const
 QString QY2Settings::get( const QString & key, const QString & fallback ) const
 {
     // Can't use operator[] here since we have a pointer
-    
+
     Section::const_iterator it = _currentSection->find( key );
 
     if ( it == _currentSection->constEnd() )
@@ -125,7 +125,7 @@ bool QY2Settings::hasKey( const QString & key )
 QStringList QY2Settings::keys() const
 {
     QStringList keyList;
-    
+
     for ( Section::const_iterator it = _currentSection->constBegin();
 	  it != _currentSection->constEnd();
 	  ++it )
@@ -137,12 +137,12 @@ QStringList QY2Settings::keys() const
 }
 
 
-void QY2Settings::read()
+void QY2Settings::load()
 {
     if ( _accessMode == WriteOnly )
 	return;
 
-    initSections();
+    initSections();	// Clear any old settings
     QTextIStream str( &_fileName );
 
     while ( ! str.atEnd() )
@@ -150,27 +150,31 @@ void QY2Settings::read()
 	str.skipWhiteSpace();
 	QString line = str.readLine();
 
-	
+
 	// Skip comment lines
-	
-	if ( line.startsWith( "#" ) )
-	    continue;
+
+	if ( line.startsWith( "#"  ) ) continue;
+	if ( line.startsWith( ";;" ) ) continue;
+	if ( line.startsWith( "//" ) ) continue;
+
 
 	if ( line.startsWith( "[" ) )
 	{
 	    // New section
 
-	    line.replace( QRegExp( "^\\[\\s*" ), "" );		
+	    line.replace( QRegExp( "^\\[\\s*" ), "" );
 	    line.replace( QRegExp( "\\s*\\].*$" ), "" );
 	    addSection( line );
 	}
 	else if ( line.contains( "=" ) )
 	{
+	    // key=value pair
+
 	    QString key   = line.section( "=", 0 );
 	    QString value = line.section( "=", 1 );
 
 	    key.stripWhiteSpace();
-	    
+
 	    value.stripWhiteSpace();
 	    value.replace( QRegExp( "^\"" ), "" );	// strip leading "
 	    value.replace( QRegExp( "\"$" ), "" );	// strip trailing "
@@ -180,7 +184,8 @@ void QY2Settings::read()
 	}
 	else
 	{
-#warning TODO: Handle syntax error
+	    qWarning( "Syntax error in %s: %s",
+		      (const char *) _fileName, (const char *) line );
 	}
     }
 
@@ -188,7 +193,7 @@ void QY2Settings::read()
 }
 
 
-void QY2Settings::write()
+void QY2Settings::save()
 {
     if ( _accessMode == ReadOnly )
 	return;
@@ -203,26 +208,26 @@ void QY2Settings::write()
 	Section * sect = *sectIt;
 
 	// Section header
-	
+
 	if ( ! sect->name().isEmpty() )
 	    str << "[" << sect->name() << "]" << endl;
 
 	// value=key pairs for this section
-	
+
 	for ( Section::iterator it = sect->begin();
 	      it != sect->end();
 	      ++it )
 	{
 	    QString value = it.data();
 	    value.replace( "\"", "\\\"" );	// Escape embedded " with \"
-	    
+
 	    str << it.key() << "= \"" << value << "\"" << endl;
 	}
 
 	str << endl;
 	++sectIt;
     }
-	
+
     _dirty = false;
 }
 
