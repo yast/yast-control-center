@@ -62,6 +62,12 @@ Y2ControlCenterView::Y2ControlCenterView(QWidget *parent) : QWidget(parent)
     title_bar->setMinimumWidth(640);
     layout->addWidget( title_bar );
 
+    QFrame * separator = new QFrame( this );
+    CHECK_PTR( separator );
+    separator->setFrameStyle( QFrame::HLine | QFrame::Plain );
+    layout->addWidget( separator );
+    
+
     hlayout = new QHBoxLayout(layout);
     hlayout->setMargin(15);
 
