@@ -8,3 +8,4 @@ Exec=/sbin/yast2
 X-KDE-SubstituteUID=true
 X-KDE-RootOnly=true
 
+X-KDE-SubstituteUID=true
