@@ -22,8 +22,6 @@ Obsoletes:	y2c_menu y2m_menu yast2-menu
 
 %files
 %defattr(-,root,root)
-@clientdir@/remotechooser.ycp
-@clientdir@/remoteinstall.ycp
 @clientdir@/pre-start.ycp
 @ybindir@/y2controlcenter
 @imagedir@/*.png
