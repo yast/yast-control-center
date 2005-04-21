@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=YaST
-Icon=yast
+Icon=yast-YaST
 GenericName=Control Center
 GenericName[de]=Kontrollzentrum
 Exec=/sbin/yast2
