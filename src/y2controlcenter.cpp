@@ -79,5 +79,15 @@ void Y2ControlCenter::slotStatusHelpMsg(const QString &text)
   statusBar()->message(text, 4000);
 }
 
+// override session management
+void QApplication::saveState(QSessionManager & sm)
+{
+  sm.setRestartHint( QSessionManager::RestartNever );
+}
+
+// override session management
+void QApplication::commitData(QSessionManager & sm)
+{
+}
 
 #include <y2controlcenter.moc.cpp>

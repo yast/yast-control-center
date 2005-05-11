@@ -27,6 +27,7 @@
 #include <qpainter.h>
 #include <qtimer.h>
 #include <qmessagebox.h>
+#include <qsessionmanager.h>
 // #include <qprogressbar.h>
 
 // application specific includes
