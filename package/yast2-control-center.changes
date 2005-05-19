@@ -1,4 +1,14 @@
 -------------------------------------------------------------------
+Thu May 19 17:22:43 CEST 2005 - sh@suse.de
+
+- Made y2cc look more like a normal Qt application
+  (upon eanderson's request):
+  - Removed graphical title bar
+  - Removed all buttons
+  - Added menus
+- V 2.12.2 
+
+-------------------------------------------------------------------
 Tue Apr  5 14:43:26 CEST 2005 - sh@suse.de
 
 - Merged 9.3-branch 21937:22910 to trunk

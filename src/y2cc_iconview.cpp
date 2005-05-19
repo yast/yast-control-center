@@ -89,44 +89,6 @@ QDragObject * MyQIconView::dragObject()
     if ( !currentItem() )
 	return 0;
 
-#ifdef WITHICONMOVE
-/*
-    QPoint orig = viewportToContents( viewport()->mapFromGlobal( QCursor::pos() ) );
-    Y2CCIconDrag *drag = new Y2CCIconDrag( viewport() );
-    drag->setPixmap( *currentItem()->pixmap(),
- 		     QPoint( currentItem()->pixmapRect().width() / 2, currentItem()->pixmapRect().height() / 2 ) );
-    for ( MyQIconViewItem *item = (MyQIconViewItem*)firstItem(); item;
-	  item = (MyQIconViewItem*)item->nextItem() ) {
-	if ( item->isSelected() ) {
-	    QIconDragItem id;
-	    id.setData( QCString( "isthiseverused?" ) );
-	    if (item->getModule())
-	    {
-		    QString desktopentry="[Desktop Entry]\n"
-					"Exec=" SBINYAST2 " %1\n"
-					"Icon=" ICON_DIR "/" "%2\n"
-					"Type=Application\n"
-					"Name=%3\n"
-					"X-KDE-SubstituteUID=true\n"
-					"X-KDE-Username=root\n" ;
-		desktopentry=desktopentry.arg(item->getModule()->getYCPName());
-		desktopentry=desktopentry.arg(item->getModule()->getIcon());
-		desktopentry=desktopentry.arg(item->getModule()->getName());
-//	    	drag->addFile(item->getModule()->getName());
-	    	drag->addFile(desktopentry);
-	    }
-	    drag->append( id,
-			  QRect( item->pixmapRect( FALSE ).x() - orig.x(),
-				 item->pixmapRect( FALSE ).y() - orig.y(),
-				 item->pixmapRect().width(), item->pixmapRect().height() ),
-			  QRect( item->textRect( FALSE ).x() - orig.x(),
-				 item->textRect( FALSE ).y() - orig.y(),
-				 item->textRect().width(), item->textRect().height() )
-			   );
-	}
-    }
-*/
-#else
     MyQIconViewItem *item = (MyQIconViewItem*)currentItem();
     QTextDrag *drag=0L;
     if (item)
@@ -151,7 +113,6 @@ QDragObject * MyQIconView::dragObject()
 		drag->setText(desktopentry);
 	}
     }
-#endif
 
     return drag;
 }

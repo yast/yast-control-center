@@ -30,11 +30,15 @@ class SearchDialog : public QDialog
     void ClearResults();
     void message(const QString & msg,int time=0);
     int exec();
+
   signals:
-    void sigsearch(QString text);
+    void sigSearch(QString text);
+
   protected slots:
+
     void slotbye(QListBoxItem *);
     void slotsearch();
+
   private:
     QLineEdit *txt;
     QVBoxLayout *vbox;

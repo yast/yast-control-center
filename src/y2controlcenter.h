@@ -42,46 +42,33 @@
   */
 class Y2ControlCenter : public QMainWindow
 {
-  Q_OBJECT
+    Q_OBJECT
 
-  public:
-    /** construtor */
+public:
+
     Y2ControlCenter( WFlags wflags = WType_TopLevel );
-    /** destructor */
     ~Y2ControlCenter();
-    /** setup the statusbar */
-    void initStatusBar();
-    /** setup the mainview*/
-    void initView();
 
-    /** overloaded for Message box on last window exit */
-    bool queryExit();
 
-  public slots:
+public slots:
 
-   /** fill view with contents*/
+    /** fill view with contents*/
     void configure();
 
-    /** exits the application */
-    void slotFileQuit();
 
     /** change the status message of the whole statusbar temporary */
     void slotStatusHelpMsg(const QString &text);
 
-  protected slots:
-    //update progress bar
-  // void slotProgress(int percent);
 
-  private:
+protected:
 
-    /** view is the main widget which represents your working area. The View
-     * class should handle all events of the view widget.  It is kept empty so
-     * you can create your view according to your application's needs by
-     * changing the view class.
-     */
-    Y2ControlCenterView *view;
+    void initMenuBar();
+    void initStatusBar();
 
-    // QProgressBar* progressbar;
+
+private:
+
+    Y2ControlCenterView * _view;
 
 };
 #endif

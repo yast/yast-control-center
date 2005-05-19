@@ -11,20 +11,8 @@
 #define Y2CONTROLCENTERVIEW_H
 
 // include files for QT
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qlabel.h>
+#include <qvbox.h>
 #include <qpixmap.h>
-#include <qpushbutton.h>
-#include <qlayout.h>
-#include <qiconview.h>
-#include <qbuttongroup.h>
-#include <qlistbox.h>
-#include <qiconset.h>
-#include <qtooltip.h>
-#include <qmessagebox.h>
-#include <qinputdialog.h>
-#include <qregexp.h>
 #include "yastmodules.h"
 
 #include <time.h>
@@ -33,8 +21,11 @@
 #include "myintl.h"
 
 class SearchDialog;
+class MyQIconView;
+class QIconViewItem;
+class QListBox;
 
-class Y2ControlCenterView : public QWidget
+class Y2ControlCenterView : public QVBox
 {
     Q_OBJECT
     
@@ -43,43 +34,46 @@ public:
     ~Y2ControlCenterView();
     bool init();
     const QString* getErrorString() const;
-    signals:
-    void quit();
-    void sig_percentread(int percent);
-    void statusmsg(const QString& msg);
+
+public slots:
+
+    void search();
+    void help();
+
+signals:
+    void statusMsg( const QString& msg );
+
+    
+protected slots:
+
+    void slotInitListBox();
+    void slotButtonClicked(int);
+    void slotResetCursor();
+    void slotSearchModule(QString text);
+    void slotIconClicked(QIconViewItem *);
+    void slotOnItem(QIconViewItem *);
+    void slotAdjustListbox();
+    void errorPopup(QString msg);
     
 protected:
     void runModule(const YMod *m);
     QWidget * layoutTitleBar( QWidget * parent );
     void setGradient( QWidget * widget, const QPixmap & pixmap );
+    void fillIconView( int group_id );
     
-protected slots:
-    void slotButtonClicked(int);
-    void slotquit();
-    void slotresetcursor();
-    void slothelp();
-    void slotsearch();
-    void slotsearchmodule(QString text);
-    void slotIconClicked(QIconViewItem *);
-    void slotOnItem(QIconViewItem *);
-    void slot_percentread(int);
-    void slotInitListbox(int);
-    void slotAdjustListbox();
-    void errorpopup(QString msg);
 private:
-    QBoxLayout* layout;
-    QBoxLayout* hlayout;
-    QBoxLayout* buttonhlayout;
-    QIconView *icons;
-    YModules * modules;
-    QListBox *listbox;
-    void filliconview(int groupnr);
+    
+    YModules *		_modules;
+    QVector<const YMod> *_items;
+    
+    QListBox *		_listBox;
+    MyQIconView * 	_iconView;
+    SearchDialog *	_searchDialog;
+    
     const QString * error;
-    const YMod *lastCalledModule;
+    const YMod * lastCalledModule;
     time_t lastCallTime;
     time_t minwait;
-    SearchDialog *sd;
-    QVector<const YMod> *items;
 
 };
 

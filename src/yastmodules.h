@@ -71,9 +71,8 @@ public:
 
 signals:
 
-    void sig_percentread(int percent);
-    void sig_finished(int);
-    void sig_error(QString msg);
+    void modulesReady();
+    void modError( QString msg );
 
     
 protected:

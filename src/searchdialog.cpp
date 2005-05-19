@@ -122,7 +122,7 @@ void SearchDialog::slotbye(QListBoxItem *item)
 
 void SearchDialog::slotsearch()
 {
-	emit sigsearch(txt->text());
+	emit sigSearch(txt->text());
 }
 
 #include <searchdialog.moc.cpp>

@@ -3,7 +3,7 @@
 #
 
 AM_CXXFLAGS = \
-	-DICON_DIR=\"${themedir}/current/icons/48x48/apps\" 	\
+	-DICON_DIR=\"${themedir}/current/icons/32x32/apps\" 	\
 	-DPIXMAP_DIR=\"${themedir}/current/control-center\"	\
 	-DMODULES_DESKTOP_DIR=\"${desktopdir}\"			\
 	-DGROUPS_DESKTOP_DIR=\"${desktopdir}/groups\"		\

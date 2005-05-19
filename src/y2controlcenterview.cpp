@@ -19,8 +19,10 @@
 #include <iostream>
 // #include <qprogressbar.h>
 #include <qmainwindow.h>
+#include <qapplication.h>
 #include <qdir.h>
 #include <qfile.h>
+#include <qmessagebox.h>
 #include <qregexp.h>
 #include <qtimer.h>
 #include <qhbox.h>
@@ -31,115 +33,152 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
-//static char *cvs_id = "$Id$";
+
+
+#define SUPPRESS_LIST_BOX_HIGHLIGHT	1
+#define USE_BUTTONS			0
+
 
 #define LEFTLISTBOXWIDTH 200
 //just guessed
 #define MAXLEFTLISTBOXWIDTHDIFF 100
 #define MAXLEFTLISTBOXHEIGHTDIFF 30
 
-Y2ControlCenterView::Y2ControlCenterView(QWidget *parent) : QWidget(parent)
+Y2ControlCenterView::Y2ControlCenterView(QWidget *parent)
+    : QVBox(parent)
 {
-    QPushButton *p;
-//  QVBoxLayout *buttons;
-    modules=0L;
-    error=0L;
-    lastCalledModule=0L;
-    lastCallTime=0;
-    minwait=5;
-    sd=0L;
-    items=0L;
-    icons=0L;
+    _modules = 0;
+    lastCalledModule = 0;
+    lastCallTime = 0;
+    minwait = 5;
+    _searchDialog = 0;
+    _items = 0;
 
-    // connect(qApp, SIGNAL(aboutToQuit()), modules, SLOT(startPreparedY2("terminateY2Base")));
+    setMargin( 5 );
 
-    //layout: vbox with iconfilepixmap and hbox
-    layout = new QVBoxLayout(this);
-
-
+#if 0
     QWidget * title_bar = layoutTitleBar( this );
     CHECK_PTR( title_bar );
     title_bar->setMinimumWidth(640);
-    layout->addWidget( title_bar );
+#endif
 
+#if 0
     QFrame * separator = new QFrame( this );
     CHECK_PTR( separator );
     separator->setFrameStyle( QFrame::HLine | QFrame::Plain );
     layout->addWidget( separator );
-    
+#endif
 
-    hlayout = new QHBoxLayout(layout);
-    hlayout->setMargin(15);
+    QHBox * contentHBox = new QHBox( this );
 
-    buttonhlayout= new QHBoxLayout(layout);
-    buttonhlayout-> setMargin(15);
 
-    p=new QPushButton( _("&Help"), this );
-    connect(p, SIGNAL(clicked()), this, SLOT(slothelp()));
-    buttonhlayout->addWidget(p);
-    buttonhlayout-> addSpacing(10);
-// the Search Button
-    p=new QPushButton( _("&Search"), this );
-    connect(p, SIGNAL(clicked()), this, SLOT(slotsearch()));
-    buttonhlayout->addWidget(p);
-    buttonhlayout-> addStretch();
-// Button label
-    p=new QPushButton( _("&Close"), this );
-    connect(p, SIGNAL(clicked()), this, SLOT(slotquit()));
-    // QToolTip::add(p,"");
-    buttonhlayout->addWidget(p);
+    //
+    // Module Categories List
+    //
 
-    //listbox
-    listbox=new QListBox(this);
-    listbox->setBackgroundMode(PaletteDark);
-    listbox->setFixedWidth ( LEFTLISTBOXWIDTH );
-    listbox->setFrameStyle (QFrame::StyledPanel|QFrame::Raised);
-    connect(listbox, SIGNAL(highlighted(int)), this, SLOT(slotButtonClicked(int)));
-//  listbox->setBackgroundColor(QWidget::gray);
+    _listBox = new QListBox( contentHBox );
+    _listBox->setBackgroundMode( PaletteDark );
+    _listBox->setFixedWidth ( LEFTLISTBOXWIDTH );
+    _listBox->setFrameStyle (QFrame::StyledPanel|QFrame::Raised);
 
-// change some colors to make it look nice
-    QPalette pal(listbox->palette());
-    pal.setColor(QColorGroup::Highlight,listbox->palette().active().base());
-    pal.setColor(QColorGroup::Base,listbox->palette().active().button());
-    pal.setColor(QColorGroup::HighlightedText,listbox->palette().active().text());
-//  pal.setColor(QColorGroup::Base,"grey");
-//  pal.setColor(QColorGroup::HighlightedText,"black");
-    listbox->setPalette(pal);
-    listbox->setFocus();
+    connect( _listBox,	SIGNAL( highlighted      ( int ) ),
+	     this,	SLOT  ( slotButtonClicked( int ) ) );
 
-    hlayout->addWidget(listbox);
+    // change some colors to make it look nice
+    QPalette pal( _listBox->palette() );
 
-    //iconview
-    icons= new MyQIconView(this);
-    icons->setArrangement(QIconView::LeftToRight);
-//  icons->setAutoArrange(true);
-    icons->setResizeMode(QIconView::Adjust);
-    icons->setSpacing(20);
-    icons->setGridX(200);
-    icons->setGridY(60);
-    icons->setItemTextPos(QIconView::Right);
-    icons->setSorting(false);
-    connect(icons, SIGNAL(clicked (QIconViewItem *)), this, SLOT(slotIconClicked(QIconViewItem *)));
-    connect(icons, SIGNAL(returnPressed (QIconViewItem *)), this, SLOT(slotIconClicked(QIconViewItem *)));
-    connect(icons, SIGNAL(onItem (QIconViewItem *)), this, SLOT(slotOnItem(QIconViewItem *)));
-    connect(icons, SIGNAL(selectionChanged (QIconViewItem *)), this, SLOT(slotOnItem(QIconViewItem *)));
-    hlayout->addWidget(icons);
+#if SUPPRESS_LIST_BOX_HIGHLIGHT
+    pal.setColor( QColorGroup::Highlight,_listBox->palette().active().base() );
+#endif
+    pal.setColor( QColorGroup::Base,_listBox->palette().active().button() );
+    pal.setColor( QColorGroup::HighlightedText,_listBox->palette().active().text() );
+    _listBox->setPalette( pal );
+    _listBox->setFocus();
+
+
+    //
+    // IconView for the Module Icons
+    //
+
+    _iconView = new MyQIconView( contentHBox );
+    _iconView->setArrangement( QIconView::LeftToRight );
+    _iconView->setResizeMode( QIconView::Adjust );
+    _iconView->setGridX( 200 );
+    // _iconView->setGridY( 40 );
+    _iconView->setSpacing( 12 );
+    _iconView->setItemTextPos( QIconView::Right );
+    _iconView->setSorting( false );
+
+    connect( _iconView,	SIGNAL( clicked		( QIconViewItem * ) ),
+	     this,	SLOT  ( slotIconClicked	( QIconViewItem * ) ) );
+
+    connect( _iconView, SIGNAL( returnPressed   ( QIconViewItem * ) ),
+	     this,	SLOT  ( slotIconClicked ( QIconViewItem * ) ) );
+
+    connect( _iconView, SIGNAL( onItem		( QIconViewItem * ) ),
+	     this,	SLOT  ( slotOnItem	( QIconViewItem * ) ) );
+
+    connect( _iconView,	SIGNAL( selectionChanged ( QIconViewItem *) ),
+	     this, 	SLOT  ( slotOnItem	 ( QIconViewItem *) ) );
+
+
+#if USE_BUTTONS
+
+    //
+    // Buttons
+    //
+
+    QHBox * buttonBox = new QHBox( this );
+
+
+    QPushButton * button = 0;
+    //
+    // Help button
+    //
+
+    button = new QPushButton( _("&Help"), buttonBox );
+    connect( button, SIGNAL( clicked() ), this, SLOT( help() ) );
+
+    //
+    // Search button
+    //
+
+    button = new QPushButton( _("&Search"), buttonBox );
+    connect( button, SIGNAL( clicked() ), this, SLOT( search() ) );
+
+
+    // Stretcher
+    QWidget * stretcher = new QWidget( buttonBox );
+    stretcher->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum ) ); // hor/vert
+
+
+    //
+    // Close button
+    //
+
+    button = new QPushButton( _("&Close"), buttonBox );
+    connect(button , SIGNAL( clicked() ), qApp, SLOT( quit() ) );
+#endif
+
 }
+
 
 bool Y2ControlCenterView::init()
 {
-    modules=new YModules();
+    _modules=new YModules();
 
-    connect( modules, SIGNAL( sig_percentread( int     ) ), this, SLOT( slot_percentread(int    ) ) );
-    connect( modules, SIGNAL( sig_finished   ( int     ) ), this, SLOT( slotInitListbox (int    ) ) );
-    connect( modules, SIGNAL( sig_error      ( QString ) ), this, SLOT( errorpopup      (QString) ) );
+    connect( _modules,	SIGNAL( modulesReady    () ),
+	     this,	SLOT  ( slotInitListBox () ) );
+
+    connect( _modules, 	SIGNAL( modError   ( QString ) ),
+	     this, 	SLOT  ( errorPopup ( QString ) ) );
 
     QApplication::setOverrideCursor( Qt::waitCursor );
 
-    if (!modules->init())
+    if ( ! _modules->init() )
     {
 	QApplication::restoreOverrideCursor();
-	error=modules->getErrorString();
+	error=_modules->getErrorString();
 	return false;
     }
     return true;
@@ -152,7 +191,7 @@ bool Y2ControlCenterView::init()
 QWidget * Y2ControlCenterView::layoutTitleBar( QWidget * parent )
 {
     QPixmap titleBarGradientPixmap = QPixmap( PIXMAP_DIR "/title-bar-gradient.png" );
-    
+
     QHBox * titleBar = new QHBox( parent );
     CHECK_PTR( titleBar );
     setGradient( titleBar, titleBarGradientPixmap );
@@ -217,29 +256,30 @@ void Y2ControlCenterView::setGradient( QWidget * widget, const QPixmap & pixmap 
 
 
 
-void Y2ControlCenterView::errorpopup(QString msg)
+void Y2ControlCenterView::errorPopup( QString msg )
 {
     QApplication::setOverrideCursor( Qt::arrowCursor );
     QMessageBox::warning( this, _("YaST2 Control Center"),msg);
     QApplication::restoreOverrideCursor();
 }
 
-void Y2ControlCenterView::slotInitListbox(int code)
+
+void Y2ControlCenterView::slotInitListBox()
 {
     QString icon,groupname;
     QString icondir = ICON_DIR "/";
     int i=0,firstenabled=-1;
     QListBoxPixmap* pixmap;
 
-//  modules->dumpgroups();
+//  _modules->dumpgroups();
 
     //walk through groups and insert icons for them into listbox
-    for ( const ModGroup* ptr=modules->firstGroup();ptr;ptr=modules->nextGroup(),i++)
+    for ( const ModGroup* ptr=_modules->firstGroup();ptr;ptr=_modules->nextGroup(),i++)
     {
 	icon=ptr->getIcon();
 	groupname=ptr->getName();
 	pixmap=new QListBoxPixmap(QPixmap(icondir + icon),groupname);
-	listbox->insertItem(pixmap);
+	_listBox->insertItem(pixmap);
 	if (ptr->isEmpty())
 	{
 	    pixmap->setSelectable(false);
@@ -250,24 +290,14 @@ void Y2ControlCenterView::slotInitListbox(int code)
 	}
     }
 
-    listbox->setSelected(firstenabled<0?0:firstenabled,true);
+    _listBox->setSelected(firstenabled<0?0:firstenabled,true);
 
     //we don't want scrollbars if possible
-    QTimer::singleShot(0,this, SLOT(slotAdjustListbox()));
+    QTimer::singleShot( 0, this, SLOT( slotAdjustListbox() ) );
 
-//	emit sig_percentread(100);
-    emit statusmsg(_("Ready."));
+    emit statusMsg( _("Ready.") );
     QApplication::restoreOverrideCursor();
 
-    //get_modulelist.ycp failed for some reason
-    if (code)
-    {
-	this->errorpopup(_("There was an error while attempting to "
-			   "obtain a list of available modules.\n"
-			   "The list of displayed modules may be incomplete.\n\n"
-			   "Please make sure that YaST2 and YaST2 Control "
-			   "Center are installed properly"));
-    }
 
     //we currently only need a config file if we are not root
     if (config.isroot == false)
@@ -314,42 +344,39 @@ void Y2ControlCenterView::slotInitListbox(int code)
 
 void Y2ControlCenterView::slotAdjustListbox()
 {
-    // check if there's hidden content and resize
-    int listboxwidth =listbox->contentsWidth()-listbox->visibleWidth();
-    int morewidthtolooknice = 2;
-    if (listboxwidth>0)
+    int width = _listBox->contentsWidth() - _listBox->visibleWidth();
+
+    if ( width > 0 )
     {
-//		clog << "width: " << listboxwidth << endl;
-	if (listboxwidth>MAXLEFTLISTBOXWIDTHDIFF)
+	if ( width > MAXLEFTLISTBOXWIDTHDIFF )
 	{
-	    listboxwidth=MAXLEFTLISTBOXWIDTHDIFF;
+	    width = MAXLEFTLISTBOXWIDTHDIFF;
 	}
-	listboxwidth+=listbox->width()+morewidthtolooknice;
-//		clog << "width: " << listboxwidth << endl;
-	listbox->setFixedWidth(listboxwidth);
-	listbox->updateGeometry();
+	width +=_listBox->width();
+	width += 2;	// extra margin
+	_listBox->setFixedWidth( width );
+	_listBox->updateGeometry();
     }
-    int listboxheight =listbox->contentsHeight()-listbox->visibleHeight();
-    if (listboxheight>0)
+
+    int height =_listBox->contentsHeight() - _listBox->visibleHeight();
+
+    if ( height > 0 )
     {
-	if (listboxheight>MAXLEFTLISTBOXHEIGHTDIFF)
+	if ( height > MAXLEFTLISTBOXHEIGHTDIFF )
 	{
-	    listboxheight=MAXLEFTLISTBOXHEIGHTDIFF;
+	    height = MAXLEFTLISTBOXHEIGHTDIFF;
 	}
-	listboxheight+=listbox->height();
-//		clog << "height: " << listbox->height() << endl;
-	listbox->setMinimumHeight(listboxheight);
-	listbox->updateGeometry();
+	height += _listBox->height();
+	_listBox->setMinimumHeight( height );
+	_listBox->updateGeometry();
     }
 }
 
 Y2ControlCenterView::~Y2ControlCenterView()
 {
-    delete sd;
-    sd=0L;
-    delete items;
-    items=0L;
-    delete modules;
+    delete _searchDialog;
+    delete _items;
+    delete _modules;
 }
 
 const QString* Y2ControlCenterView::getErrorString() const
@@ -359,20 +386,8 @@ const QString* Y2ControlCenterView::getErrorString() const
 
 void Y2ControlCenterView::slotIconClicked(QIconViewItem *item)
 {
-    if (item)
-    {
-//		cout << "Icon Nr. " << item->index() << " clicked" << endl;
-	this->runModule(((MyQIconViewItem*)item)->getModule());
-    }
-    else
-    {
-//		cout << "In die Prärie geklickt" << endl;
-    }
-}
-
-void Y2ControlCenterView::slot_percentread(int percent)
-{
-    emit sig_percentread(percent);
+    if ( item )
+	runModule( ( (MyQIconViewItem *) item )->getModule() );
 }
 
 
@@ -386,7 +401,7 @@ void Y2ControlCenterView::runModule( const YMod *mod )
 
 	    // ignore accidential double clicks
 
-	    
+
 	    if ( now >= lastCallTime &&			// make sure we not going backward in time
 	    						// (system time or time zone changed by
 							// some YaST2 module - see bug #71816)
@@ -395,18 +410,18 @@ void Y2ControlCenterView::runModule( const YMod *mod )
 		return;	// ignore this click
 	    }
 	}
-	
+
 	lastCallTime	 = time( NULL );
 	lastCalledModule = mod;
 
 	QApplication::setOverrideCursor( Qt::waitCursor );
 
 	QString msg= _("Starting module %1...").arg( mod->getName());
-	emit statusmsg( msg);
-	
-	modules->runModule( mod );
-	
-	QTimer::singleShot( 3*1000, this, SLOT( slotresetcursor() ) );
+	emit statusMsg( msg);
+
+	_modules->runModule( mod );
+
+	QTimer::singleShot( 3*1000, this, SLOT( slotResetCursor() ) );
     }
     else
     {
@@ -423,17 +438,18 @@ void Y2ControlCenterView::slotOnItem(QIconViewItem *item)
     if (!m) return;
 
     const QString& s=m->getDescription();
-    emit statusmsg(s);
+    emit statusMsg(s);
 }
 
 
 void
-Y2ControlCenterView::filliconview (int groupnr)
+Y2ControlCenterView::fillIconView( int group_id )
 {
-    icons->clear ();
+    _iconView->clear ();
 
-    ModGroup* group = modules->setGroup (groupnr);
-    if (!group)
+    ModGroup* group = _modules->setGroup( group_id );
+
+    if ( !group )
 	return;
 
     const YMod* m = group->first ();
@@ -448,7 +464,7 @@ Y2ControlCenterView::filliconview (int groupnr)
 	    qDebug ("failed to load icon %s", (const char*) iconfile);
 #endif
 
-	MyQIconViewItem* icon = new MyQIconViewItem (icons, m->getName (), pixmap);
+	MyQIconViewItem * icon = new MyQIconViewItem (_iconView, m->getName (), pixmap);
 	icon->setModule (m);
 	icon->setDragEnabled (TRUE);
 
@@ -459,20 +475,17 @@ Y2ControlCenterView::filliconview (int groupnr)
 
 void Y2ControlCenterView::slotButtonClicked(int id)
 {
-    filliconview(id);
+    fillIconView( id );
 }
 
-void Y2ControlCenterView::slotquit()
-{
-    emit quit();
-}
 
-void Y2ControlCenterView::slotresetcursor()
+void Y2ControlCenterView::slotResetCursor()
 {
     QApplication::restoreOverrideCursor();
 }
 
-void Y2ControlCenterView::slothelp()
+
+void Y2ControlCenterView::help()
 {
     // title of help message box with help text
     QString titletext=_("YaST2 Control Center - Help");
@@ -489,40 +502,46 @@ void Y2ControlCenterView::slothelp()
     QMessageBox::information(this,titletext,helptext,buttontext);
 }
 
-void Y2ControlCenterView::slotsearch()
+
+
+void Y2ControlCenterView::search()
 {
-    unsigned int ok = 1;
-    if (!items)
+    if ( ! _items )
+	_items= new QVector<const YMod>;
+
+    if (! _searchDialog )
     {
-	items= new QVector<const YMod>;
+	_searchDialog = new SearchDialog(this);
+	_searchDialog->resize(380,380);
+	connect( _searchDialog,	SIGNAL( sigSearch       ( QString ) ),
+		 this,		SLOT  ( slotSearchModule( QString ) ) );
     }
-    if (!sd)
-    {
-	sd = new SearchDialog(this);
-	sd->resize(380,380);
-	connect(sd, SIGNAL(sigsearch(QString)), this, SLOT(slotsearchmodule(QString)));
-    }
-    ok=sd->exec();
+
+    int searchDialogResult = _searchDialog->exec();
 
     // item clicked (0="ok", 1="cancel" -> ok-2 = module to run)
-    if (ok>1)
+    if ( searchDialogResult > 1 )
     {
-	runModule(items->at(ok-2));
+	runModule( _items->at( searchDialogResult - 2 ) );
     }
 }
 
-void Y2ControlCenterView::slotsearchmodule(QString text)
+void Y2ControlCenterView::slotSearchModule(QString text)
 {
-    items->clear();
+    if ( ! _items )
+	return;
+
+    _items->clear();
     QString icondir = ICON_DIR "/";
     if (!text.isEmpty())
     {
-//			cerr << "Searching for " << text << endl;
-	sd->ClearResults();
+	_searchDialog->ClearResults();
 	const YMod* m;
 	unsigned int i=0;
+
 	//walk through all groups
-	for ( ModGroup* ptr=modules->firstGroup();ptr;ptr=modules->nextGroup())
+
+	for ( ModGroup* ptr=_modules->firstGroup();ptr;ptr=_modules->nextGroup())
 	{
 	    m=ptr->first();
 	    //walk through all modules in group
@@ -531,13 +550,13 @@ void Y2ControlCenterView::slotsearchmodule(QString text)
 		if (m->getName().contains(QRegExp(text,false,false)) || \
 		    m->getDescription().contains(QRegExp(text,false,false)))
 		{
-//						cout << "Found: " << m->getName() << "(" <<i  << ")" << endl;
-		    sd->SearchResult(new QListBoxPixmap(QPixmap(icondir + m->getIcon()),m->getName()));
-		    if (items->size()<=i)
+//		    cout << "Found: " << m->getName() << "(" <<i  << ")" << endl;
+		    _searchDialog->SearchResult(new QListBoxPixmap(QPixmap(icondir + m->getIcon()),m->getName()));
+		    if (_items->size()<=i)
 		    {
-			items->resize(i+1);
+			_items->resize(i+1);
 		    }
-		    items->insert(i,m);
+		    _items->insert(i,m);
 		    i++;
 		}
 		m=ptr->next();
@@ -545,20 +564,20 @@ void Y2ControlCenterView::slotsearchmodule(QString text)
 	}
 	if (i==0)
 	{
-	    sd->message(_("Nothing found"),10000);
+	    _searchDialog->message(_("Nothing found"),10000);
 	}
 	else
 	{
 	    // print search result
 	    QString msg=_("%1 module found","%1 modules found",i);
 	    msg=msg.arg(i);
-	    sd->message(msg,10000);
+	    _searchDialog->message(msg,10000);
 	}
     }
     else
     {
-	sd->ClearResults();
-	sd->message(_("No search string specified"),10000);
+	_searchDialog->ClearResults();
+	_searchDialog->message(_("No search string specified"),10000);
     }
 
 }

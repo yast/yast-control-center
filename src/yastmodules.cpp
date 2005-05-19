@@ -71,7 +71,7 @@ bool YModules::init()
     {
 	groupList.sort();
 	modList.sort();
-	emit sig_finished(0);
+	emit modulesReady();
 #if 0
 	dumpModules();
 	dumpGroups();
@@ -118,7 +118,7 @@ bool YModules::initGroups()
 
     if ( ! dir.exists() )
     {
-	emit sig_error( QString( _("Directory %1 does not exist.") ).arg( dir.absPath() ));
+	emit modError( QString( _("Directory %1 does not exist.") ).arg( dir.absPath() ));
 	return false;
     }
 
@@ -141,7 +141,7 @@ bool YModules::initModules()
 
     if ( ! dir.exists() )
     {
-	emit sig_error( QString( _("Directory %1 does not exist.") ).arg( dir.absPath()));
+	emit modError( QString( _("Directory %1 does not exist.") ).arg( dir.absPath()));
 	return false;
     }
 
