@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri Jun 10 16:50:58 CEST 2005 - sh@suse.de
+
+- Fixed icon name in .desktop file
+- V 2.12.3 
+
+-------------------------------------------------------------------
 Thu May 19 17:22:43 CEST 2005 - sh@suse.de
 
 - Made y2cc look more like a normal Qt application
