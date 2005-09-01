@@ -55,10 +55,10 @@ void Y2ControlCenter::initMenuBar()
     QPopupMenu * fileMenu = new QPopupMenu( this );
 
     // "File" menu
-    menuBar()->insertItem( "&File", fileMenu );
+    menuBar()->insertItem( _( "&File" ), fileMenu );
 
     // "File" -> "Quit" menu item - quits the application
-    fileMenu->insertItem( "&Quit", qApp, SLOT( quit() ), CTRL + Key_Q );
+    fileMenu->insertItem( _( "&Quit" ), qApp, SLOT( quit() ), CTRL + Key_Q );
 
 
     //
@@ -68,10 +68,10 @@ void Y2ControlCenter::initMenuBar()
     QPopupMenu * editMenu = new QPopupMenu( this );
 
     // "Edit" menu
-    menuBar()->insertItem( "&Edit", editMenu );
+    menuBar()->insertItem( _( "&Edit" ), editMenu );
 
     // "Edit" -> "Search" menu item - searches for YaST2 modules
-    editMenu->insertItem( "&Search", _view, SLOT( search() ), Key_F3 );
+    editMenu->insertItem( _( "&Search" ), _view, SLOT( search() ), Key_F3 );
 
 
     
@@ -82,10 +82,10 @@ void Y2ControlCenter::initMenuBar()
     QPopupMenu * helpMenu = new QPopupMenu( this );
 
     // "Help" menu
-    menuBar()->insertItem( "&Help", helpMenu );
+    menuBar()->insertItem( _( "&Help" ), helpMenu );
 
     // "Help" -> "Help" menu item - searches for YaST2 modules
-    helpMenu->insertItem( "&Help", _view, SLOT( help() ), Key_F1 );
+    helpMenu->insertItem( _( "&Help" ), _view, SLOT( help() ), Key_F1 );
 
 
     

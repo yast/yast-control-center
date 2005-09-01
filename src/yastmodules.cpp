@@ -10,7 +10,7 @@
 |						     (C) SuSE Linux AG |
 \----------------------------------------------------------------------/
 
-  File:		QY2Settings.cpp
+  File:		yastmodules.cpp
 
   Authors:	Ludwig Nussel     <lnussel@suse.de>
 		Stefan Hundhammer <sh@suse.de>
