@@ -71,7 +71,7 @@ void Y2ControlCenter::initMenuBar()
     menuBar()->insertItem( _( "&Edit" ), editMenu );
 
     // "Edit" -> "Search" menu item - searches for YaST2 modules
-    editMenu->insertItem( _( "&Search" ), _view, SLOT( search() ), Key_F3 );
+    editMenu->insertItem( _( "&Search..." ), _view, SLOT( search() ), Key_F3 );
 
 
     
