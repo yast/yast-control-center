@@ -96,7 +96,7 @@ int main( int argc, char *argv[] )
 	y2cc.move( available.topLeft() );
     }
     else
-	y2cc.resize( 800, 580 );
+	y2cc.resize( 680, 365 );
 
     app.setMainWidget( &y2cc );
 
