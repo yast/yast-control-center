@@ -1,8 +1,8 @@
 @HEADER-COMMENT@
 
-# neededforbuild  qt3-devel-packages yast2-devtools pkgconfig
 
 @HEADER@
+BuildRequires:	libdrm-devel libjpeg-devel pkgconfig qt3-devel update-desktop-files yast2-devtools
 
 Summary:	-
 Requires:	yast2
