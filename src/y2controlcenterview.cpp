@@ -122,22 +122,24 @@ Y2ControlCenterView::Y2ControlCenterView(QWidget *parent)
 	     this, 	SLOT  ( slotOnItem	 ( QIconViewItem *) ) );
 
 
-#if USE_BUTTONS
-
     //
     // Buttons
     //
 
     QHBox * buttonBox = new QHBox( this );
 
-
     QPushButton * button = 0;
+    
+#if USE_BUTTONS
+
     //
     // Help button
     //
 
     button = new QPushButton( _("&Help"), buttonBox );
     connect( button, SIGNAL( clicked() ), this, SLOT( help() ) );
+
+#endif
 
     //
     // Search button
@@ -151,6 +153,8 @@ Y2ControlCenterView::Y2ControlCenterView(QWidget *parent)
     QWidget * stretcher = new QWidget( buttonBox );
     stretcher->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum ) ); // hor/vert
 
+
+#if USE_BUTTONS
 
     //
     // Close button

@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Oct 18 16:50:04 CEST 2006 - sh@suse.de
+
+- Implemented feature #300915: Increase Visibility of Search Function 
+- V 2.13.3
+
+-------------------------------------------------------------------
 Tue May  2 17:54:19 CEST 2006 - sreeves@suse.de
 
 - Fix for #170702 - add to Control Center.
