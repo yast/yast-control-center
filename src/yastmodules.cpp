@@ -48,13 +48,18 @@ using std::endl;
 #include "myintl.h"
 #include "y2cc_globals.h"
 
-#define DEBUG_MODE 0
+#define DEBUG_MODE 		0
+#define VERBOSE_GETTEXT		0
+#define DESKTOP_TRANSLATIONS	"desktop_translations"
 
 
 YModules::YModules()
 {
     modList.setAutoDelete( true );	// delete items when they are removed
     groupList.setAutoDelete( true );	// delete items when they are removed
+
+    bindtextdomain( DESKTOP_TRANSLATIONS, DESKTOP_TRANSLATIONS_DIR );
+    bind_textdomain_codeset( DESKTOP_TRANSLATIONS, "utf8" );
 }
 
 
@@ -76,7 +81,7 @@ bool YModules::init()
 	dumpModules();
 	dumpGroups();
 #endif
-	
+
 	return true;
     }
     else // Error
@@ -105,7 +110,7 @@ void YModules::initLang()
     {
 	langWithCountry = lang_cstr;
 	langWithCountry.replace( QRegExp( "[@\\.].*$" ), "" );	// remove .utf8 / @euro etc.
-	
+
 	lang = langWithCountry;
 	lang.replace( QRegExp( "_.*$" ), "" );			// remove _DE etc.
     }
@@ -151,16 +156,16 @@ bool YModules::initModules()
 	  it != desktop_files.end();
 	  ++it )
     {
-	readModuleDesktopFile( dir.path() + "/" + *it );
+	readModuleDesktopFile( dir.path(), *it );
     }
 
     return true;
 }
 
 
-bool YModules::readModuleDesktopFile( const QString & filename )
+bool YModules::readModuleDesktopFile( const QString & path, const QString & filename )
 {
-    QY2Settings desktopFile( filename );
+    QY2Settings desktopFile( path + "/" + filename );
 
     if ( desktopFile.readError() )
 	return false;
@@ -169,26 +174,65 @@ bool YModules::readModuleDesktopFile( const QString & filename )
 
     if ( desktopFile[ "Hidden" ] == "true" )
 	return true;
-    
+
     YMod * mod = new YMod();
     CHECK_PTR( mod );
 
+
+    //
+    // Name
+    //
+
     QString name = desktopFile[ QString( "Name[%1]" ).arg( langWithCountry ) ];
-    
+
     if ( name.isEmpty() )
 	name = desktopFile[ QString( "Name[%1]" ).arg( lang ) ];
-    
+
+    if ( name.isEmpty() )
+    {
+	QString msgid = QString( "Name(%1)" ).arg( filename );
+	msgid += ": ";
+	msgid += desktopFile[ "Name" ];
+	name = QString::fromUtf8( dgettext( DESKTOP_TRANSLATIONS, msgid.ascii() ) );
+
+	if ( name == msgid )	// no translation?
+	    name = "";
+
+#if VERBOSE_GETTEXT
+	fprintf( stderr, "Reading key %s -> %s\n", msgid.ascii(), name.ascii() );
+#endif
+    }
+
     if ( name.isEmpty() )
 	name = desktopFile[ "Name" ];
 
     mod->setName( name );
 
-    
+
+    //
+    // GenericName
+    //
+
     QString description = desktopFile[ QString( "GenericName[%1]" ).arg( langWithCountry ) ];
-    
+
     if ( description.isEmpty() )
 	description = desktopFile[ QString( "GenericName[%1]" ).arg( lang ) ];
-	
+
+    if ( description.isEmpty() )
+    {
+	QString msgid = QString( "GenericName(%1)" ).arg( filename );
+	msgid += ": ";
+	msgid += desktopFile[ "GenericName" ];
+	description = QString::fromUtf8( dgettext( DESKTOP_TRANSLATIONS, msgid.ascii() ) );
+
+	if ( description == msgid )	// no translation?
+	    description = "";
+
+#if VERBOSE_GETTEXT
+	fprintf( stderr, "Reading key %s -> %s\n", msgid.ascii(), description.ascii() );
+#endif
+    }
+
     if ( description.isEmpty() )
 	description = desktopFile[ "GenericName" ];
 
@@ -196,12 +240,12 @@ bool YModules::readModuleDesktopFile( const QString & filename )
 
     QString icon = desktopFile[ "Icon" ];
     QRegExp extension( "\\.(png|jpg)$", false );	// case insensitive
-    
+
     if ( icon.find( extension ) < 0 )	// no .png or .jpg extension?
 	icon += ".png";			// assume .png
-    
+
     mod->setIcon( icon );
-    
+
     mod->setYCPName	( desktopFile[ "X-SuSE-YaST-Call"	] );
     mod->setGroup	( desktopFile[ "X-SuSE-YaST-Group"	] );
     mod->setArguments	( desktopFile[ "X-SuSE-YaST-Argument"	] );
@@ -234,31 +278,31 @@ bool YModules::readGroupDesktopFile( const QString & filename )
 	return false;
 
     desktopFile.selectSection( "Desktop Entry" );
-    
+
     if ( desktopFile[ "Hidden" ] == "true" )
 	return true;
-    
+
     QString rawName = desktopFile[ "X-SuSE-YaST-Group"   ];
     QString sortKey = desktopFile[ "X-SuSE-YaST-SortKey" ];
-    
+
     QString name = desktopFile[ QString( "Name[%1]" ).arg( langWithCountry ) ];
-    
+
     if ( name.isEmpty() )
 	name = desktopFile[ QString( "Name[%1]" ).arg( lang ) ];
-	
+
     if ( name.isEmpty() )
 	name = desktopFile[ "Name" ];
 
     QString icon = desktopFile.get( "Icon", "defaultgroup.png" );
     QRegExp extension( "\\.(png|jpg)$", false );	// case insensitive
-    
+
     if ( icon.find( extension ) < 0 )	// no .png or .jpg extension?
 	icon += ".png";			// assume .png
-    
+
     ModGroup * grp = new ModGroup( rawName );
 
     groupList.first(); // move groupList.current() to the first group
-	
+
     if ( groupList.find( grp ) >= 0 )
     {
 	// group already existing
@@ -269,7 +313,7 @@ bool YModules::readGroupDesktopFile( const QString & filename )
 	grp->setName( name );
 	grp->setIcon( icon );
 	grp->setSortKey( sortKey );
-	
+
 	groupList.append( grp );
     }
 
@@ -295,20 +339,20 @@ void YModules::addModule( YMod * module )
 #endif
     {
 	modList.append( module );
-	
+
 	ModGroup * tmpGrp = new ModGroup( module->getGroup() );
 
 	groupList.first(); // move groupList.current() to the first group
-	
+
 	if ( groupList.find( tmpGrp ) < 0 )
 	{
 	    // group did not exist
 	    qWarning( "Warning: new Group detected for Module " +
 		      module->getName() + ", misspelled in .desktop file?");
-	    
+
 	    tmpGrp->setIcon("defaultgroup.png");
 	    tmpGrp->setSortKey( "zzzzz" );
-	    
+
 	    tmpGrp = new ModGroup( module->getGroup() );
 	    tmpGrp->addModule(module);
 	    groupList.append( tmpGrp );
@@ -316,9 +360,9 @@ void YModules::addModule( YMod * module )
 	else
 	{
 	    // groupList.current() points now to what groupList.find() found
-	    
+
 	    groupList.current()->addModule( module );
-	    
+
 	    delete tmpGrp;
 	    tmpGrp=0;
 	}
@@ -368,7 +412,7 @@ void YModules::dumpModules()
 	printf( "\tgroup: %s\n",	(const char *) (*it)->getGroup()   );
 	printf( "\ticon: %s\n",	 	(const char *) (*it)->getIcon()    );
 	printf( "\tsortKey: %s\n\n", 	(const char *) (*it)->getSortKey() );
-	
+
 	++it;
     }
 }
@@ -387,7 +431,7 @@ void YModules::dumpGroups()
 	printf( "%s\n",			(const char *) (*it)->getName()    );
 	printf( "\ticon: %s\n",	 	(const char *) (*it)->getIcon()    );
 	printf( "\tsortKey: %s\n\n", 	(const char *) (*it)->getSortKey() );
-	
+
 	++it;
     }
 }

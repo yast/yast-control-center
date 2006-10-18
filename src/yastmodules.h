@@ -99,7 +99,7 @@ protected:
      * Read one module .desktop file and add a module accordingly.
      * Returns 'true' on success.
      **/
-    bool readModuleDesktopFile( const QString & filename );
+    bool readModuleDesktopFile( const QString & path, const QString & filename );
 
     /**
      * Read one group .desktop file and add a module group accordingly.
