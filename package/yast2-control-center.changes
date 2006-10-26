@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Oct 26 17:33:08 CEST 2006 - sh@suse.de
+
+- Fixed bug #213869: Missing ellipsis on "Search" button
+- V 2.13.4 
+
+-------------------------------------------------------------------
 Wed Oct 18 18:31:41 CEST 2006 - sh@suse.de
 
 - Implemented feature #300460: Use gettext for module names 

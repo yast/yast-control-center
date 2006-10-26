@@ -145,7 +145,7 @@ Y2ControlCenterView::Y2ControlCenterView(QWidget *parent)
     // Search button
     //
 
-    button = new QPushButton( _("&Search"), buttonBox );
+    button = new QPushButton( _("&Search..."), buttonBox );
     connect( button, SIGNAL( clicked() ), this, SLOT( search() ) );
 
 
