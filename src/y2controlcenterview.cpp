@@ -35,7 +35,8 @@ using std::endl;
 
 
 
-#define SUPPRESS_LIST_BOX_HIGHLIGHT	1
+#define SUPPRESS_LIST_BOX_HIGHLIGHT	0
+#define NONSTANDARD__LIST_BOX_COLORS	0
 #define USE_BUTTONS			0
 
 
@@ -90,9 +91,12 @@ Y2ControlCenterView::Y2ControlCenterView(QWidget *parent)
 #if SUPPRESS_LIST_BOX_HIGHLIGHT
     pal.setColor( QColorGroup::Highlight,_listBox->palette().active().base() );
 #endif
+#if NONSTANDARD__LIST_BOX_COLORS
     pal.setColor( QColorGroup::Base,_listBox->palette().active().button() );
     pal.setColor( QColorGroup::HighlightedText,_listBox->palette().active().text() );
+#endif
     _listBox->setPalette( pal );
+    
     _listBox->setFocus();
 
 

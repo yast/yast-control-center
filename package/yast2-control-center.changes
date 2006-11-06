@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Mon Nov  6 16:06:55 CET 2006 - sh@suse.de
+
+- Fixed bug #217247: No contrast in categories list box
+- V 2.13.5 
+
+-------------------------------------------------------------------
 Thu Oct 26 17:33:08 CEST 2006 - sh@suse.de
 
 - Fixed bug #213869: Missing ellipsis on "Search" button
