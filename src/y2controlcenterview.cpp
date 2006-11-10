@@ -35,7 +35,8 @@ using std::endl;
 
 
 
-#define SUPPRESS_LIST_BOX_HIGHLIGHT	1
+#define SUPPRESS_LIST_BOX_HIGHLIGHT	0
+#define NONSTANDARD__LIST_BOX_COLORS	0
 #define USE_BUTTONS			0
 
 
@@ -90,9 +91,12 @@ Y2ControlCenterView::Y2ControlCenterView(QWidget *parent)
 #if SUPPRESS_LIST_BOX_HIGHLIGHT
     pal.setColor( QColorGroup::Highlight,_listBox->palette().active().base() );
 #endif
+#if NONSTANDARD__LIST_BOX_COLORS
     pal.setColor( QColorGroup::Base,_listBox->palette().active().button() );
     pal.setColor( QColorGroup::HighlightedText,_listBox->palette().active().text() );
+#endif
     _listBox->setPalette( pal );
+    
     _listBox->setFocus();
 
 
@@ -122,16 +126,16 @@ Y2ControlCenterView::Y2ControlCenterView(QWidget *parent)
 	     this, 	SLOT  ( slotOnItem	 ( QIconViewItem *) ) );
 
 
-#if USE_BUTTONS
-
     //
     // Buttons
     //
 
     QHBox * buttonBox = new QHBox( this );
 
-
     QPushButton * button = 0;
+    
+#if USE_BUTTONS
+
     //
     // Help button
     //
@@ -139,11 +143,13 @@ Y2ControlCenterView::Y2ControlCenterView(QWidget *parent)
     button = new QPushButton( _("&Help"), buttonBox );
     connect( button, SIGNAL( clicked() ), this, SLOT( help() ) );
 
+#endif
+
     //
     // Search button
     //
 
-    button = new QPushButton( _("&Search"), buttonBox );
+    button = new QPushButton( _("&Search..."), buttonBox );
     connect( button, SIGNAL( clicked() ), this, SLOT( search() ) );
 
 
@@ -151,6 +157,8 @@ Y2ControlCenterView::Y2ControlCenterView(QWidget *parent)
     QWidget * stretcher = new QWidget( buttonBox );
     stretcher->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum ) ); // hor/vert
 
+
+#if USE_BUTTONS
 
     //
     // Close button

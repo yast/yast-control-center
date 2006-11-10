@@ -7,7 +7,9 @@ AM_CXXFLAGS = \
 	-DPIXMAP_DIR=\"${themedir}/current/control-center\"	\
 	-DMODULES_DESKTOP_DIR=\"${desktopdir}\"			\
 	-DGROUPS_DESKTOP_DIR=\"${desktopdir}/groups\"		\
-	-DLOCALEDIR=\"${localedir}\"
+	-DLOCALEDIR=\"${localedir}\"				\
+	-DDESKTOP_TRANSLATIONS_DIR=\"/usr/share/locale\"
+
 
 MOC = $(QTDIR)/bin/moc
 

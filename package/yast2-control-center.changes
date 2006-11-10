@@ -1,4 +1,33 @@
 -------------------------------------------------------------------
+Fri Nov 10 13:46:41 CET 2006 - sh@suse.de
+
+- Merged SLE-10-SP1-Branch to trunk (-r31627:34246)
+- V 2.14.1
+
+-------------------------------------------------------------------
+Mon Nov  6 16:06:55 CET 2006 - sh@suse.de
+
+- Fixed bug #217247: No contrast in categories list box
+- V 2.13.5 
+
+-------------------------------------------------------------------
+Thu Oct 26 17:33:08 CEST 2006 - sh@suse.de
+
+- Fixed bug #213869: Missing ellipsis on "Search" button
+- V 2.13.4 
+
+-------------------------------------------------------------------
+Wed Oct 18 18:31:41 CEST 2006 - sh@suse.de
+
+- Implemented feature #300460: Use gettext for module names 
+- V 2.13.3
+
+-------------------------------------------------------------------
+Wed Oct 18 16:50:04 CEST 2006 - sh@suse.de
+
+- Implemented feature #300915: Increase Visibility of Search Function 
+
+-------------------------------------------------------------------
 Tue May  2 17:54:19 CEST 2006 - sreeves@suse.de
 
 - Fix for #170702 - add to Control Center.
