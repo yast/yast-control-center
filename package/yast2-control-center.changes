@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Mon Jan 22 15:26:58 CET 2007 - sh@suse.de
+
+- Fixed bug #235796: Warning about unknown module groups 
+- V 2.13.6
+
+-------------------------------------------------------------------
 Mon Nov  6 16:06:55 CET 2006 - sh@suse.de
 
 - Fixed bug #217247: No contrast in categories list box

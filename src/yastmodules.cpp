@@ -50,6 +50,7 @@ using std::endl;
 
 #define DEBUG_MODE 		0
 #define VERBOSE_GETTEXT		0
+#define VERBOSE_UNKNOWN_GROUPS	0
 #define DESKTOP_TRANSLATIONS	"desktop_translations"
 
 
@@ -347,8 +348,11 @@ void YModules::addModule( YMod * module )
 	if ( groupList.find( tmpGrp ) < 0 )
 	{
 	    // group did not exist
+
+#if VERBOSE_UNKNOWN_GROUPS
 	    qWarning( "Warning: new Group detected for Module " +
 		      module->getName() + ", misspelled in .desktop file?");
+#endif
 
 	    tmpGrp->setIcon("defaultgroup.png");
 	    tmpGrp->setSortKey( "zzzzz" );
