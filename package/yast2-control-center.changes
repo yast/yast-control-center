@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Tue Feb 13 14:59:41 CET 2007 - sh@suse.de
+
+- Fixed bug #240240: Added "NotShowIn=GNOME" to .desktop file
+- V 2.13.7
+
+-------------------------------------------------------------------
 Mon Jan 22 15:26:58 CET 2007 - sh@suse.de
 
 - Fixed bug #235796: Warning about unknown module groups 
