@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Fri Feb 16 14:07:58 CET 2007 - sh@suse.de
+
+- Fixed bug #246018: Typo in msg 
+
+-------------------------------------------------------------------
 Tue Feb 13 15:03:06 CET 2007 - sh@suse.de
 
 - Fixed bug #240240: Added "NotShowIn=GNOME" to .desktop file 
