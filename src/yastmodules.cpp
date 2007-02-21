@@ -51,6 +51,7 @@ using std::endl;
 #define DEBUG_MODE 		0
 #define VERBOSE_GETTEXT		0
 #define DESKTOP_TRANSLATIONS	"desktop_translations"
+#define DEFAULT_GROUP_ICON	"yast-default-group.png"
 
 
 YModules::YModules()
@@ -293,7 +294,7 @@ bool YModules::readGroupDesktopFile( const QString & filename )
     if ( name.isEmpty() )
 	name = desktopFile[ "Name" ];
 
-    QString icon = desktopFile.get( "Icon", "defaultgroup.png" );
+    QString icon = desktopFile.get( "Icon", DEFAULT_GROUP_ICON );
     QRegExp extension( "\\.(png|jpg)$", false );	// case insensitive
 
     if ( icon.find( extension ) < 0 )	// no .png or .jpg extension?
@@ -350,7 +351,7 @@ void YModules::addModule( YMod * module )
 	    qWarning( "Warning: new Group detected for Module " +
 		      module->getName() + ", misspelled in .desktop file?");
 
-	    tmpGrp->setIcon("defaultgroup.png");
+	    tmpGrp->setIcon(DEFAULT_GROUP_ICON);
 	    tmpGrp->setSortKey( "zzzzz" );
 
 	    tmpGrp = new ModGroup( module->getGroup() );
@@ -678,7 +679,7 @@ ModGroup::ModGroup()
     //class YModules holds the primary pointer to the Data
     modules.setAutoDelete(false);
     sorted=true;
-    icon="defaultgroup.png";
+    icon=DEFAULT_GROUP_ICON;
     sortkey="";
     name="";
     rawname="";
@@ -688,7 +689,7 @@ ModGroup::ModGroup(const QString& Name)
 {
     modules.setAutoDelete(false);
     rawname=Name;
-    icon="defaultgroup.png";
+    icon=DEFAULT_GROUP_ICON;
     sorted=true;
 }
 
