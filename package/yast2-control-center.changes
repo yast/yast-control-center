@@ -1,4 +1,12 @@
 -------------------------------------------------------------------
+Tue Feb 27 12:30:29 CET 2007 - sh@suse.de
+
+- No longer using "NotShowIn=GNOME"
+  See also bug #247812: No YaST2 control center in GNOME
+- V 2.14.3
+ 
+
+-------------------------------------------------------------------
 Fri Feb 16 14:07:58 CET 2007 - sh@suse.de
 
 - Fixed bug #246018: Typo in msg 
