@@ -1,4 +1,13 @@
 -------------------------------------------------------------------
+Tue Feb 27 12:09:55 CET 2007 - sh@suse.de
+
+- Reverted last change: No longer using "NotShowIn=GNOME"
+  The very concept of 2 apps using one .desktop file
+  is broken by design.
+  See also bug #247812: No YaST2 control center in GNOME
+- V 2.13.8
+
+-------------------------------------------------------------------
 Tue Feb 13 14:59:41 CET 2007 - sh@suse.de
 
 - Fixed bug #240240: Added "NotShowIn=GNOME" to .desktop file

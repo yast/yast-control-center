@@ -5,7 +5,6 @@ Icon=yast
 GenericName=Control Center
 GenericName[de]=Kontrollzentrum
 Exec=/sbin/yast2
-NotShowIn=GNOME
 X-KDE-SubstituteUID=true
 X-KDE-RootOnly=true
 
