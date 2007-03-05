@@ -1,4 +1,13 @@
 -------------------------------------------------------------------
+Mon Mar  5 17:17:29 CET 2007 - sh@suse.de
+
+- Package split (fix for bug #240240):
+  - yast2-control-center    with .desktop file and icon
+  - yast2-control-center-qt with binary
+
+- V 2.13.9
+
+-------------------------------------------------------------------
 Tue Feb 27 12:09:55 CET 2007 - sh@suse.de
 
 - Reverted last change: No longer using "NotShowIn=GNOME"
