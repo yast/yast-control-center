@@ -5,12 +5,23 @@
 BuildRequires:	libdrm-devel libjpeg-devel pkgconfig qt3-devel update-desktop-files yast2-devtools
 
 Summary:	-
-Requires:	yast2
+Requires:	yast2 yast2-control-center-binary
 Provides:	y2c_menu y2m_menu yast2-menu
 Obsoletes:	y2c_menu y2m_menu yast2-menu
 
 %description
 -
+
+%package qt
+Summary:	-
+Requires:	yast2-control-center
+Provides:	yast2-control-center-binary
+Supplements:	kdebase3
+Group:		System/YaST
+
+%description qt
+-
+
 
 @PREP@
 
@@ -23,7 +34,10 @@ Obsoletes:	y2c_menu y2m_menu yast2-menu
 
 %files
 %defattr(-,root,root)
-@ybindir@/y2controlcenter
 /usr/share/applications/YaST.desktop
 /usr/share/pixmaps/yast.png
+
+%files qt
+%defattr(-,root,root)
+@ybindir@/y2controlcenter
 %doc @docdir@
