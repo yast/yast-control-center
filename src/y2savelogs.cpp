@@ -51,6 +51,7 @@ void Y2SaveLogs::saveProcessExited()
     }
     else
     {
+        emit statusMsg( _("Couldn't save y2logs.") );
         QMessageBox::warning( 0,                                        // parent
                               "Error",                                  // caption
                                QString( "Couldn't save y2logs - "
@@ -105,6 +106,10 @@ void Y2SaveLogs::SaveLogs()
 		delete proc;
 
                 lock = false;
+            }
+            else
+            {
+                emit statusMsg( _("Writing log files ...") );
             }
         }
         else
