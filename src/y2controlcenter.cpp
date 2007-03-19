@@ -27,6 +27,7 @@ Y2ControlCenter::Y2ControlCenter( WFlags wflags )
     initMenuBar();
 
     y2LogSaver = new Y2SaveLogs();
+    connect(y2LogSaver, SIGNAL(statusMsg(const QString&)), this, SLOT(slotStatusHelpMsg(const QString&)));
 }
 
 Y2ControlCenter::~Y2ControlCenter()

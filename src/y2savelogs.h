@@ -17,7 +17,7 @@
 /**
   * This Class asks for a filename and saves YaST logfies 
   */
-class Y2SaveLogs  : QObject
+class Y2SaveLogs  : public QObject
 {
     Q_OBJECT
 
@@ -33,6 +33,9 @@ public slots:
 
 
 protected:
+
+signals:
+    void statusMsg( const QString& msg );
 
 private:
 

@@ -44,8 +44,12 @@ void Y2SaveLogs::save()
 
 void Y2SaveLogs::saveProcessExited()
 {
-    if ( !proc->normalExit() || 
-        proc->exitStatus() != 0 )
+    if ( proc->normalExit() && 
+        proc->exitStatus() == 0 )
+    {
+        emit statusMsg( _("Log files written successfully.") );
+    }
+    else
     {
         QMessageBox::warning( 0,                                        // parent
                               "Error",                                  // caption
@@ -55,6 +59,7 @@ void Y2SaveLogs::saveProcessExited()
                                QMessageBox::NoButton,                    // button1
                                QMessageBox::NoButton );                  // button2
     }
+
 
     delete proc;
 
