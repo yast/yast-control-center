@@ -8,26 +8,8 @@
 
 // include files for QT
 #include <qstring.h>
-#include <qpopupmenu.h>
-#include <qmainwindow.h>
-#include <qaccel.h>
-#include <qmenubar.h>
-#include <qtoolbar.h>
-#include <qpixmap.h>
-#include <qtoolbutton.h>
-#include <qapp.h>
-#include <qstatusbar.h>
-#include <qwhatsthis.h>
-#include <qmsgbox.h>
-#include <qfiledialog.h>
-#include <qprinter.h>
-#include <qpainter.h>
-#include <qtimer.h>
-#include <qmessagebox.h>
-#include <qsessionmanager.h>
 #include <qprocess.h>
-#include <qsignal.h>
-#include <qobject.h>
+
 
 // application specific includes
 #include "myintl.h"
@@ -59,8 +41,8 @@ private:
 
     void SaveLogs();
     QString askForSaveFileName( const QString & startWith,
-                                  const QString & filter,
-                                  const QString & headline );
+				const QString & filter,
+				const QString & headline );
 
 };
 #endif

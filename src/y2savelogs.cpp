@@ -8,15 +8,15 @@
 */
 
 #include "y2savelogs.h"
-#include <qpopupmenu.h>
-#include <qprocess.h>
-#include <qsignal.h>
 
+#include <qfiledialog.h>
+#include <qmessagebox.h>
 
 
 Y2SaveLogs::Y2SaveLogs()
 {
-	lock = false;
+    lock = false;
+    proc = 0;
 }
 
 Y2SaveLogs::~Y2SaveLogs()

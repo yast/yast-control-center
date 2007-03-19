@@ -103,27 +103,30 @@ void Y2ControlCenter::initStatusBar()
 
 void Y2ControlCenter::slotStatusHelpMsg(const QString &text)
 {
-  statusBar()->message(text, 4000);
+    statusBar()->message(text, 4000);
 }
 
 bool Y2ControlCenter::eventFilter( QObject *obj, QEvent *ev )
 {
-    if ( ev->type() == QEvent::KeyPress ) {
+    if ( ev->type() == QEvent::KeyPress )
+    {
         QKeyEvent *k = (QKeyEvent*)ev;
 
         if ( k->key() == Qt::Key_F8    &&       // Shift-F8: save y2logs
-            k->state() == Qt::ShiftButton ) {
-	       y2LogSaver->save();
+	     k->state() == Qt::ShiftButton )
+	{
+	    y2LogSaver->save();
+	    return true; // don't process this event any further
         }
-    } else {
-       return QMainWindow::eventFilter( obj, ev );
     }
+    
+    return QMainWindow::eventFilter( obj, ev );
 }
 
 // override session management
 void QApplication::saveState(QSessionManager & sm)
 {
-  sm.setRestartHint( QSessionManager::RestartNever );
+    sm.setRestartHint( QSessionManager::RestartNever );
 }
 
 // override session management
