@@ -31,6 +31,7 @@ y2controlcenter_SOURCES =	\
 	y2controlcenter.cpp	\
 	y2controlcenterview.cpp	\
 	yastmodules.cpp		\
+	y2savelogs.cpp		\
 	main.cpp
 
 noinst_HEADERS =		\
@@ -44,6 +45,7 @@ noinst_HEADERS =		\
 	y2controlcenter.h	\
 	y2controlcenterview.h	\
 	yastmodules.h		\
+	y2savelogs.h		\
 	suseicon.xpm
 
 y2controlcenter_METASOURCES = 		\
@@ -60,6 +62,7 @@ searchdialog.o:			searchdialog.moc.cpp
 y2controlcenter.o:		y2controlcenter.moc.cpp
 y2controlcenterview.o:		y2controlcenterview.moc.cpp
 yastmodules.o:			yastmodules.moc.cpp
+y2savelogs.o:			y2savelogs.moc.cpp
 process.o:			process.moc.cpp
 y2cc_iconview.o:		y2cc_iconview.moc.cpp
 
@@ -67,6 +70,7 @@ searchdialog.moc.cpp:		searchdialog.h
 y2controlcenter.moc.cpp:	y2controlcenter.h
 y2controlcenterview.moc.cpp:	y2controlcenterview.h
 yastmodules.moc.cpp:		yastmodules.h
+y2savelogs.moc.cpp:		y2savelogs.h
 process.moc.cpp:		process.h
 y2cc_iconview.moc.cpp:		y2cc_iconview.h
 

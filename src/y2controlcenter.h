@@ -33,6 +33,7 @@
 // application specific includes
 #include "myintl.h"
 #include "y2controlcenterview.h"
+#include "y2savelogs.h"
 
 /**
   * This Class is the base class for your application. It sets up the main
@@ -64,11 +65,17 @@ protected:
 
     void initMenuBar();
     void initStatusBar();
+    bool eventFilter( QObject *obj, QEvent *ev );
 
 
 private:
 
     Y2ControlCenterView * _view;
+    Y2SaveLogs * y2LogSaver;
+    void askSaveLogs();
+    QString askForSaveFileName( const QString & startWith,
+                                  const QString & filter,
+                                  const QString & headline );
 
 };
 #endif

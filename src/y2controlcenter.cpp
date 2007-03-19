@@ -11,6 +11,7 @@
 */
 
 #include "y2controlcenter.h"
+#include "y2savelogs.h"
 #include <qpopupmenu.h>
 
 
@@ -24,10 +25,13 @@ Y2ControlCenter::Y2ControlCenter( WFlags wflags )
     setCentralWidget( _view );
 
     initMenuBar();
+
+    y2LogSaver = new Y2SaveLogs();
 }
 
 Y2ControlCenter::~Y2ControlCenter()
 {
+   delete y2LogSaver; 
 }
 
 
@@ -100,6 +104,20 @@ void Y2ControlCenter::initStatusBar()
 void Y2ControlCenter::slotStatusHelpMsg(const QString &text)
 {
   statusBar()->message(text, 4000);
+}
+
+bool Y2ControlCenter::eventFilter( QObject *obj, QEvent *ev )
+{
+    if ( ev->type() == QEvent::KeyPress ) {
+        QKeyEvent *k = (QKeyEvent*)ev;
+
+        if ( k->key() == Qt::Key_F8    &&       // Shift-F8: save y2logs
+            k->state() == Qt::ShiftButton ) {
+	       y2LogSaver->save();
+        }
+    } else {
+       return QMainWindow::eventFilter( obj, ev );
+    }
 }
 
 // override session management
