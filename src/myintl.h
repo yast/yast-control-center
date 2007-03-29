@@ -1,5 +1,3 @@
-
-
 /*
  *  Author: Arvin Schnell <arvin@suse.de>
  */
