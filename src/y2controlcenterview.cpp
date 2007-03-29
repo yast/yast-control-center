@@ -343,6 +343,7 @@ void Y2ControlCenterView::slotInitListBox()
 	    {
 		configfile.open(IO_ReadWrite);
 	    }
+	    set_textdomain( "control-center" );
 	    QMessageBox::information( this, _("YaST2 Control Center"),
 				      _("YaST2 Control Center is not running as root.\n"
 					"You will only see modules which do not require root privileges."));

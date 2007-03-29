@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu Mar 29 14:26:47 CEST 2007 - sh@suse.de
+
+- Use correct textdomain for warning popup if started as non-root 
+
+-------------------------------------------------------------------
 Mon Mar 19 14:26:28 CET 2007 - sh@suse.de
 
 - Added split-provides (bug #255368)
