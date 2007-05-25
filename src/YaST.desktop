@@ -3,7 +3,6 @@ Type=Application
 Name=YaST
 Icon=yast
 GenericName=Control Center
-GenericName[de]=Kontrollzentrum
 Exec=/sbin/yast2
 X-KDE-SubstituteUID=true
 X-KDE-RootOnly=true
