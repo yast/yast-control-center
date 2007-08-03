@@ -15,6 +15,7 @@ Obsoletes:	y2c_menu y2m_menu yast2-menu
 %package qt
 Summary:	-
 Requires:	yast2-control-center
+PreReq:		yast2-control-center
 Provides:	yast2-control-center-binary
 Provides:	yast2-control-center:@ybindir@/y2controlcenter
 Supplements:	kdebase3
