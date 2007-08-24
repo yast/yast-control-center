@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri Aug 24 16:41:49 CEST 2007 - sh@suse.de
+
+- Added borders around group icons (bug #295712)
+- V 2.15.3
+
+-------------------------------------------------------------------
 Fri Aug 24 14:10:08 CEST 2007 - sh@suse.de
 
 - Don't show menu entry in desktops other than KDE or GNOME

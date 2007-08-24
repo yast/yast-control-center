@@ -39,6 +39,9 @@ using std::endl;
 #define NONSTANDARD__LIST_BOX_COLORS	0
 #define USE_BUTTONS			0
 
+#define GROUP_ICON_HORIZ_BORDER		1
+#define GROUP_ICON_VERT_BORDER		1
+
 
 #define LEFTLISTBOXWIDTH 200
 //just guessed
@@ -276,21 +279,37 @@ void Y2ControlCenterView::slotInitListBox()
 {
     QString icon,groupname;
     QString icondir = ICON_DIR "/";
-    int i=0,firstenabled=-1;
-    QListBoxPixmap* pixmap;
+    int i = 0;
+    int firstenabled = -1;
 
-//  _modules->dumpgroups();
+    //  _modules->dumpgroups();
 
-    //walk through groups and insert icons for them into listbox
-    for ( const ModGroup* ptr=_modules->firstGroup();ptr;ptr=_modules->nextGroup(),i++)
+    //
+    // Walk through groups and insert icons for them into listbox
+    //
+    
+    for ( const ModGroup* ptr = _modules->firstGroup();
+	  ptr != 0;
+	  ptr = _modules->nextGroup(), i++)
     {
-	icon=ptr->getIcon();
-	groupname=ptr->getName();
-	pixmap=new QListBoxPixmap(QPixmap(icondir + icon),groupname);
-	_listBox->insertItem(pixmap);
+	icon = ptr->getIcon();
+	groupname = ptr->getName();
+
+	QPixmap origIcon( QPixmap( icondir + icon ) );
+	QPixmap iconWithBorder( origIcon.width()  + 2 * GROUP_ICON_HORIZ_BORDER,
+				origIcon.height() + 2 * GROUP_ICON_VERT_BORDER,
+				origIcon.depth() );
+	QBitmap mask( iconWithBorder.width(), iconWithBorder.height(), true );
+	bitBlt( &mask, GROUP_ICON_HORIZ_BORDER, GROUP_ICON_VERT_BORDER, origIcon.mask() );
+	iconWithBorder.setMask( mask );
+	bitBlt( &iconWithBorder, GROUP_ICON_HORIZ_BORDER, GROUP_ICON_VERT_BORDER, &origIcon );
+	
+	QListBoxPixmap * pixmapItem = new QListBoxPixmap( iconWithBorder, groupname );
+	_listBox->insertItem( pixmapItem );
+	
 	if (ptr->isEmpty())
 	{
-	    pixmap->setSelectable(false);
+	    pixmapItem->setSelectable(false);
 	}
 	else if (firstenabled<0)
 	{
