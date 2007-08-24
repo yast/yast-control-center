@@ -4,6 +4,7 @@ Name=YaST
 Icon=yast
 GenericName=Control Center
 Exec=/sbin/yast2
+OnlyShowIn=KDE;GNOME;
 X-KDE-SubstituteUID=true
 X-KDE-RootOnly=true
 Encoding=UTF-8

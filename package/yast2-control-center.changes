@@ -1,4 +1,12 @@
 -------------------------------------------------------------------
+Fri Aug 24 14:10:08 CEST 2007 - sh@suse.de
+
+- Don't show menu entry in desktops other than KDE or GNOME
+  (won't run properly anyway without root permission which is a
+   non-standard extension of the desktop file format)
+- V 2.15.2 
+
+-------------------------------------------------------------------
 Fri Aug  3 13:03:31 CEST 2007 - sh@suse.de
 
 - V 2.15.1
