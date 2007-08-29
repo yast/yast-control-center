@@ -60,11 +60,13 @@ Y2ControlCenterView::Y2ControlCenterView(QWidget *parent)
 
     setMargin( 5 );
 
-#if 0
-    QWidget * title_bar = layoutTitleBar( this );
-    CHECK_PTR( title_bar );
-    title_bar->setMinimumWidth(640);
-#endif
+    // show titlebar only if title-bar-gradient.png exists
+    if ( !QPixmap( PIXMAP_DIR "/title-bar-gradient.png" ).isNull() )
+    {
+	QWidget * title_bar = layoutTitleBar( this );
+	CHECK_PTR( title_bar );
+	title_bar->setMinimumWidth(640);
+    }
 
 #if 0
     QFrame * separator = new QFrame( this );
