@@ -67,6 +67,9 @@ public:
     void dumpModules();
     void dumpGroups();
 
+    // Remove groups that don't contain any modules
+    void removeEmptyGroups();
+
     const QString* getErrorString() const;
 
 signals:

@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Oct 24 14:16:28 CEST 2007 - tgoettlicher@suse.de
+
+- fixed YaST control center shows empty section (#309452)
+- V 2.15.6
+
+-------------------------------------------------------------------
 Wed Oct 24 11:48:20 CEST 2007 - tgoettlicher@suse.de
 
 - fixed pixelated icons in YaST navigation (left pane) (#308641) 

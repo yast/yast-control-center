@@ -77,6 +77,8 @@ bool YModules::init()
     {
 	groupList.sort();
 	modList.sort();
+	removeEmptyGroups();
+
 	emit modulesReady();
 #if 0
 	dumpModules();
@@ -434,6 +436,24 @@ void YModules::dumpGroups()
 	printf( "\tsortKey: %s\n\n", 	(const char *) (*it)->getSortKey() );
 
 	++it;
+    }
+}
+
+void YModules::removeEmptyGroups()
+{
+    GroupListIterator it( groupList );
+
+    while ( *it )
+    {
+	if ((*it)->isEmpty() )
+	{
+	    groupList.remove(*it);	
+	    (*it)->first();
+	}
+	else
+	{
+	    ++it;
+	}
     }
 }
 
