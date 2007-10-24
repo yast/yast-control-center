@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Oct 24 11:48:20 CEST 2007 - tgoettlicher@suse.de
+
+- fixed pixelated icons in YaST navigation (left pane) (#308641) 
+- V 2.15.5
+
+-------------------------------------------------------------------
 Wed Aug 29 14:41:07 CEST 2007 - tgoettlicher@suse.de
 
 - controlcenter shows titlebar depending on existence of title-bar-gradient.png

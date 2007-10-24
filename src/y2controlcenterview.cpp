@@ -297,16 +297,15 @@ void Y2ControlCenterView::slotInitListBox()
 	icon = ptr->getIcon();
 	groupname = ptr->getName();
 
-	QPixmap origIcon( QPixmap( icondir + icon ) );
-	QPixmap iconWithBorder( origIcon.width()  + 2 * GROUP_ICON_HORIZ_BORDER,
-				origIcon.height() + 2 * GROUP_ICON_VERT_BORDER,
-				origIcon.depth() );
-	QBitmap mask( iconWithBorder.width(), iconWithBorder.height(), true );
-	bitBlt( &mask, GROUP_ICON_HORIZ_BORDER, GROUP_ICON_VERT_BORDER, origIcon.mask() );
-	iconWithBorder.setMask( mask );
-	bitBlt( &iconWithBorder, GROUP_ICON_HORIZ_BORDER, GROUP_ICON_VERT_BORDER, &origIcon );
-	
-	QListBoxPixmap * pixmapItem = new QListBoxPixmap( iconWithBorder, groupname );
+	QImage img = QPixmap( icondir + icon ).convertToImage();
+
+	// draw border around icon because we want more space between the icons
+	img = img.copy(	-1 * GROUP_ICON_HORIZ_BORDER ,			// x
+			-1 * GROUP_ICON_VERT_BORDER,			// y
+			2 * GROUP_ICON_HORIZ_BORDER + img.width() ,	// width
+			2 * GROUP_ICON_VERT_BORDER + img.height()   );	// height
+
+	QListBoxPixmap * pixmapItem = new QListBoxPixmap( img, groupname );
 	_listBox->insertItem( pixmapItem );
 	
 	if (ptr->isEmpty())
