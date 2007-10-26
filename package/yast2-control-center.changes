@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri Oct 26 15:48:39 CEST 2007 - tgoettlicher@suse.de
+
+- launch yast modules only when LMB is clicked (#332476)
+- V 2.15.7
+
+-------------------------------------------------------------------
 Wed Oct 24 14:16:28 CEST 2007 - tgoettlicher@suse.de
 
 - fixed YaST control center shows empty section (#309452)
