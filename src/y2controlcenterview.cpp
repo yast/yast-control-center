@@ -118,11 +118,11 @@ Y2ControlCenterView::Y2ControlCenterView(QWidget *parent)
     _iconView->setItemTextPos( QIconView::Right );
     _iconView->setSorting( false );
 
-    connect( _iconView,	SIGNAL( clicked		( QIconViewItem * ) ),
-	     this,	SLOT  ( slotIconClicked	( QIconViewItem * ) ) );
+    connect( _iconView,	SIGNAL( mouseButtonClicked ( int, QIconViewItem *, const QPoint& ) ),
+	     this,	SLOT  ( slotIconClicked	   ( int, QIconViewItem *, const QPoint&) ));
 
-    connect( _iconView, SIGNAL( returnPressed   ( QIconViewItem * ) ),
-	     this,	SLOT  ( slotIconClicked ( QIconViewItem * ) ) );
+    connect( _iconView, SIGNAL( returnPressed     ( QIconViewItem * ) ),
+	     this,	SLOT  ( slotIconClicked	  ( QIconViewItem * ) ));
 
     connect( _iconView, SIGNAL( onItem		( QIconViewItem * ) ),
 	     this,	SLOT  ( slotOnItem	( QIconViewItem * ) ) );
@@ -416,6 +416,12 @@ const QString* Y2ControlCenterView::getErrorString() const
 void Y2ControlCenterView::slotIconClicked(QIconViewItem *item)
 {
     if ( item )
+	runModule( ( (MyQIconViewItem *) item )->getModule() );
+}
+
+void Y2ControlCenterView::slotIconClicked(int button, QIconViewItem *item, const QPoint &pos)
+{
+    if ( item && button == Qt::LeftButton  )
 	runModule( ( (MyQIconViewItem *) item )->getModule() );
 }
 

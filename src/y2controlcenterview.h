@@ -51,6 +51,7 @@ protected slots:
     void slotResetCursor();
     void slotSearchModule(QString text);
     void slotIconClicked(QIconViewItem *);
+    void slotIconClicked(int button, QIconViewItem *item, const QPoint &pos);
     void slotOnItem(QIconViewItem *);
     void slotAdjustListbox();
     void errorPopup(QString msg);
