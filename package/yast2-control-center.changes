@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Tue Nov 27 13:39:45 CET 2007 - tgoettlicher@suse.de
+
+- V 2.15.8
+
+-------------------------------------------------------------------
 Tue Nov 27 13:40:59 CET 2007 - mvidner@suse.cz
 
 - Make it build in a prefix different from /usr.
