@@ -8,15 +8,15 @@ AM_CXXFLAGS = \
 	-DMODULES_DESKTOP_DIR=\"${desktopdir}\"			\
 	-DGROUPS_DESKTOP_DIR=\"${desktopdir}/groups\"		\
 	-DLOCALEDIR=\"${localedir}\"				\
-	-DDESKTOP_TRANSLATIONS_DIR=\"/usr/share/locale\"
+	-DDESKTOP_TRANSLATIONS_DIR=\"${datadir}/locale\"
 
 
 MOC = $(QTDIR)/bin/moc
 
-self_desktopdir=/usr/share/applications
+self_desktopdir=${datadir}/applications
 self_desktop_DATA = YaST.desktop
 
-self_icondir=/usr/share/pixmaps
+self_icondir=${datadir}/pixmaps
 self_icon_DATA=yast.png
 
 ybin_PROGRAMS = y2controlcenter

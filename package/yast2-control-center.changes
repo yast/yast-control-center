@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Tue Nov 27 13:40:59 CET 2007 - mvidner@suse.cz
+
+- Make it build in a prefix different from /usr.
+
+-------------------------------------------------------------------
 Fri Oct 26 15:48:39 CEST 2007 - tgoettlicher@suse.de
 
 - launch yast modules only when LMB is clicked (#332476)
