@@ -45,8 +45,7 @@ noinst_HEADERS =		\
 	y2controlcenter.h	\
 	y2controlcenterview.h	\
 	yastmodules.h		\
-	y2savelogs.h		\
-	suseicon.xpm
+	y2savelogs.h
 
 y2controlcenter_METASOURCES = 		\
 	process.moc.cpp 		\

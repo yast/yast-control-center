@@ -63,6 +63,7 @@ public slots:
 
 protected:
 
+    void setAppIcon();
     void initMenuBar();
     void initStatusBar();
     bool eventFilter( QObject *obj, QEvent *ev );

@@ -35,7 +35,7 @@ using std::endl;
 #include "myintl.h"
 #include "y2controlcenter.h"
 #include "y2cc_config.h"
-#include "suseicon.xpm"
+
 
 //global class with config options
 Config config;
@@ -114,7 +114,6 @@ int main( int argc, char *argv[] )
 	}
     }
     y2cc.setCaption( title );
-    y2cc.setIcon(QPixmap((const char **)suseicon_xpm));
     y2cc.show();
 
     QTimer::singleShot( 0, &y2cc, SLOT( configure() ) );
@@ -122,4 +121,3 @@ int main( int argc, char *argv[] )
     return app.exec();
 }
 
-// vim: sw=4

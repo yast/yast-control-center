@@ -18,6 +18,7 @@
 Y2ControlCenter::Y2ControlCenter( WFlags wflags )
     : QMainWindow( 0, 0, wflags )	// parent, name, wflags
 {
+    setAppIcon();
     initStatusBar();
 
     _view = new Y2ControlCenterView( this );
@@ -30,9 +31,27 @@ Y2ControlCenter::Y2ControlCenter( WFlags wflags )
     connect(y2LogSaver, SIGNAL(statusMsg(const QString&)), this, SLOT(slotStatusHelpMsg(const QString&)));
 }
 
+
 Y2ControlCenter::~Y2ControlCenter()
 {
    delete y2LogSaver; 
+}
+
+
+void Y2ControlCenter::setAppIcon()
+{
+    QString iconName( ICON_DIR "/yast.png" ); 
+    QPixmap appIcon( iconName );
+
+    if ( ! appIcon.isNull() )
+    {
+	// fprintf( stderr, "y2controlcenter: Using icon %s\n", iconName.ascii() );
+	topLevelWidget()->setIcon( appIcon );
+    }
+    else
+    {
+	fprintf( stderr, "y2controlcenter: No icon %s\n", iconName.ascii() );
+    }
 }
 
 
