@@ -19,6 +19,7 @@ PreReq:		yast2-control-center
 Provides:	yast2-control-center-binary
 Provides:	yast2-control-center:@ybindir@/y2controlcenter
 Supplements:	kdebase3
+Supplements:	kdebase4-session
 Group:		System/YaST
 
 %description qt

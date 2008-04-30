@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Wed Apr 30 13:57:34 CEST 2008 - sh@suse.de
+
+- Added "supplements: kdebase4-session" to .spec (bnc #385110) 
+
+-------------------------------------------------------------------
 Tue Apr 29 16:44:03 CEST 2008 - sh@suse.de
 
 - Fixed bnc #144694: Too low resolution for control center app icon
