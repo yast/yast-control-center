@@ -1,5 +1,6 @@
 [Desktop Entry]
 Type=Application
+Categories=Settings;System;
 Name=YaST
 Icon=yast
 GenericName=Control Center
