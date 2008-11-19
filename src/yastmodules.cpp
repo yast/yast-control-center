@@ -309,7 +309,7 @@ bool YModules::readGroupDesktopFile( const QString & filename )
     if ( groupList.find( grp ) >= 0 )
     {
 	// group already existing
-	qWarning( "Warning: Duplicate group " + rawName + " in " + filename );
+	qWarning( "Warning: Duplicate group %s in %s", rawName.ascii(), filename.ascii() );
     }
     else
     {
@@ -350,8 +350,8 @@ void YModules::addModule( YMod * module )
 	if ( groupList.find( tmpGrp ) < 0 )
 	{
 	    // group did not exist
-	    qWarning( "Warning: new Group detected for Module " +
-		      module->getName() + ", misspelled in .desktop file?");
+	    qWarning( "Warning: new Group detected for Module %s, misspelled in .desktop file?",
+		      module->getName().ascii() );
 
 	    tmpGrp->setIcon(DEFAULT_GROUP_ICON);
 	    tmpGrp->setSortKey( "zzzzz" );
@@ -493,9 +493,9 @@ void YModules::runModule( const YMod* module)
     }
     cmd += " &";
 
-    qDebug( QString("Command: ") + cmd);
+    qDebug( "Command: %s", cmd.ascii() );
 
-    system(cmd);
+    system( cmd );
 }
 
 

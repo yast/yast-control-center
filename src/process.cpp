@@ -50,7 +50,6 @@ int Process::close()
   stream=0L;
 #endif
   int ret=pclose(fp);
-  qDebug(QString("process closed: %1").arg(ret));
   fp=NULL;
   delete timer;
   timer=0L;
