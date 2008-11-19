@@ -50,6 +50,7 @@ using std::endl;
 
 #define DEBUG_MODE 		0
 #define VERBOSE_GETTEXT		0
+#define VERBOSE_GROUPS		0
 #define DESKTOP_TRANSLATIONS	"desktop_translations"
 #define DEFAULT_GROUP_ICON	"yast-default-group.png"
 
@@ -61,6 +62,11 @@ YModules::YModules()
 
     bindtextdomain( DESKTOP_TRANSLATIONS, DESKTOP_TRANSLATIONS_DIR );
     bind_textdomain_codeset( DESKTOP_TRANSLATIONS, "utf8" );
+
+#if VERBOSE_GETTEXT
+    fprintf( stderr, "Using translations from %s.mo below %s\n",
+	     DESKTOP_TRANSLATIONS, DESKTOP_TRANSLATIONS_DIR );
+#endif
 }
 
 
@@ -136,7 +142,7 @@ bool YModules::initGroups()
 	  it != desktop_files.end();
 	  ++it )
     {
-	readGroupDesktopFile( dir.path() + "/" + *it );
+	readGroupDesktopFile( dir.path(), *it );
     }
 
     return true;
@@ -273,9 +279,9 @@ bool YModules::readModuleDesktopFile( const QString & path, const QString & file
 }
 
 
-bool YModules::readGroupDesktopFile( const QString & filename )
+bool YModules::readGroupDesktopFile( const QString & path,  const QString & filename )
 {
-    QY2Settings desktopFile( filename );
+    QY2Settings desktopFile( path + "/" + filename );
 
     if ( desktopFile.readError() )
 	return false;
@@ -292,6 +298,26 @@ bool YModules::readGroupDesktopFile( const QString & filename )
 
     if ( name.isEmpty() )
 	name = desktopFile[ QString( "Name[%1]" ).arg( lang ) ];
+
+    if ( name.isEmpty() )
+    {
+	QString msgid = QString( "Name(%1)" ).arg( filename );
+	msgid += ": ";
+	msgid += desktopFile[ "Name" ];
+	name = QString::fromUtf8( dgettext( DESKTOP_TRANSLATIONS, msgid.ascii() ) );
+
+	if ( name == msgid )	// no translation?
+	{
+#if VERBOSE_GROUPS
+	    fprintf( stderr, "No translation for group name %s\n", msgid.ascii() );
+#endif
+	    name = "";
+	}
+
+#if VERBOSE_GROUPS
+	fprintf( stderr, "[Groups] Reading key %s -> %s\n", msgid.ascii(), name.ascii() );
+#endif
+    }
 
     if ( name.isEmpty() )
 	name = desktopFile[ "Name" ];

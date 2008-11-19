@@ -108,7 +108,7 @@ protected:
      * Read one group .desktop file and add a module group accordingly.
      * Returns 'true' on success.
      **/
-    bool readGroupDesktopFile( const QString & filename );
+    bool readGroupDesktopFile( const QString & path, const QString & filename );
 
     /**
      * Add a module group (a category)

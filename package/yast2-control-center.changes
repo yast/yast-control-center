@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Nov 19 13:05:31 CET 2008 - sh@suse.de
+
+- Fixed bnc #445781: Module groups not translated
+- V 2.17.3 
+
+-------------------------------------------------------------------
 Wed Oct 29 15:20:18 CET 2008 - sh@suse.de
 
 - Fixed bnc #438197: Need to scroll categories
