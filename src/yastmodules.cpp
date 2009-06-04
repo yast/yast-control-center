@@ -120,7 +120,17 @@ void YModules::initLang()
 
 bool YModules::initGroups()
 {
-    QDir dir( GROUPS_DESKTOP_DIR "/", "*.desktop" );
+	QString Groups_Desktop_Dir( GROUPS_DESKTOP_DIR );
+
+    const char *desktop_dir_cstr = getenv( "XDG_CONFIG_HOME" );
+
+	if( desktop_dir_cstr )
+	{
+		Groups_Desktop_Dir = desktop_dir_cstr;
+		Groups_Desktop_Dir += "/groups/";
+	}
+			
+	QDir dir( Groups_Desktop_Dir, "*.desktop" );
 
     if ( ! dir.exists() )
     {
@@ -143,7 +153,16 @@ bool YModules::initGroups()
 
 bool YModules::initModules()
 {
-    QDir dir( MODULES_DESKTOP_DIR "/", "*.desktop" );
+	QString Modules_Desktop_Dir( MODULES_DESKTOP_DIR );
+
+    const char *desktop_dir_cstr = getenv( "XDG_CONFIG_HOME" );
+
+	if( desktop_dir_cstr )
+	{
+		Modules_Desktop_Dir = desktop_dir_cstr;
+	}
+
+    QDir dir( Modules_Desktop_Dir, "*.desktop" );
 
     if ( ! dir.exists() )
     {
