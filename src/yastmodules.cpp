@@ -130,7 +130,7 @@ bool YModules::initGroups()
 {
 	QString Groups_Desktop_Dir( GROUPS_DESKTOP_DIR );
 
-    const char *desktop_dir_cstr = getenv( "XDG_CONFIG_HOME" );
+    const char *desktop_dir_cstr = getenv( "YAST2_DESKTOP_DIR" );
 
 	if( desktop_dir_cstr )
 	{
@@ -163,7 +163,7 @@ bool YModules::initModules()
 {
 	QString Modules_Desktop_Dir( MODULES_DESKTOP_DIR );
 
-    const char *desktop_dir_cstr = getenv( "XDG_CONFIG_HOME" );
+    const char *desktop_dir_cstr = getenv( "YAST2_DESKTOP_DIR" );
 
 	if( desktop_dir_cstr )
 	{
