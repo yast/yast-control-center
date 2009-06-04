@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Jun  4 17:09:49 CEST 2009 - tgoettlicher@suse.de
+
+- Changed $XDG_CONFIG_HOME to $YAST2_DESKTOP_DIR (bnc #509891)
+- V 2.13.12
+
+-------------------------------------------------------------------
 Thu Jun  4 16:50:47 CEST 2009 - tgoettlicher@suse.de
 
 - Added support for $XDG_CONFIG_HOME (bnc #509891)
