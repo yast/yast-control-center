@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Jun  4 16:55:49 CEST 2009 - tgoettlicher@suse.de
+
+- Added support for $XDG_CONFIG_HOME (bnc #509891)
+- V 2.18.2
+
+-------------------------------------------------------------------
 Wed Nov 19 13:05:31 CET 2008 - sh@suse.de
 
 - Fixed bnc #445781: Module groups not translated
