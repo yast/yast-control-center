@@ -10,7 +10,7 @@ Provides:	y2c_menu y2m_menu yast2-menu
 Obsoletes:	y2c_menu y2m_menu yast2-menu
 
 %description
--
+This package contains the menu selection component for YaST2.
 
 %package qt
 Summary:	YaST2 - Control Center (Qt Version)
@@ -22,8 +22,8 @@ Supplements:	kdebase4-session
 Group:		System/YaST
 
 %description qt
--
-
+This package contains the menu selection component for YaST2 using the
+Qt toolkit.
 
 @PREP@
 
