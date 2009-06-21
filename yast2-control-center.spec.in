@@ -4,7 +4,7 @@
 @HEADER@
 BuildRequires:	libdrm-devel libjpeg-devel pkgconfig qt3-devel update-desktop-files yast2-devtools
 
-Summary:	-
+Summary:	YaST2 - Control Center
 Requires:	yast2 yast2-control-center-binary
 Provides:	y2c_menu y2m_menu yast2-menu
 Obsoletes:	y2c_menu y2m_menu yast2-menu
@@ -13,7 +13,7 @@ Obsoletes:	y2c_menu y2m_menu yast2-menu
 -
 
 %package qt
-Summary:	-
+Summary:	YaST2 - Control Center (Qt Version)
 Requires:	yast2-control-center
 Provides:	yast2-control-center-binary
 Provides:	yast2-control-center:@ybindir@/y2controlcenter
