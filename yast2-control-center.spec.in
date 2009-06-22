@@ -2,6 +2,7 @@
 
 
 @HEADER@
+License: GPL v2 or later
 BuildRequires:	libdrm-devel libjpeg-devel pkgconfig qt3-devel update-desktop-files yast2-devtools
 
 Summary:	YaST2 - Control Center
