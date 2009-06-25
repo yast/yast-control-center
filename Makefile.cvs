@@ -1,0 +1,18 @@
+#
+# Makefile.cvs
+#
+
+PREFIX = /usr
+
+configure:
+	mkdir build ;\
+	cd build ;\
+	cmake -DCMAKE_INSTALL_PREFIX=$(PREFIX) ../ 
+
+install: configure
+	cd build ;\
+	make && make install
+
+reconf:
+	cd build ;\
+	cmake rebuild_cache ../

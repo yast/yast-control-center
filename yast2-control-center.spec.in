@@ -1,0 +1,66 @@
+@HEADER-COMMENT@
+
+
+@HEADER@
+Group:	System/YaST
+License: GPL v2 or later
+BuildRequires:	libdrm-devel libjpeg-devel pkgconfig libqt4-devel update-desktop-files yast2-devtools
+BuildRequires:  cmake
+
+Summary:	YaST2 - Control Center
+Requires:	yast2 yast2-control-center-binary
+Provides:	y2c_menu y2m_menu yast2-menu
+Obsoletes:	y2c_menu y2m_menu yast2-menu
+
+%description
+This package contains the menu selection component for YaST2.
+
+%package qt
+Summary:	YaST2 - Control Center (Qt Version)
+Requires:	yast2-control-center
+Provides:	yast2-control-center-binary
+Provides:	yast2-control-center:@ybindir@/y2controlcenter
+Supplements:	kdebase3
+Supplements:	kdebase4-session
+Group:		System/YaST
+
+%description qt
+This package contains the menu selection component for YaST2 using the
+Qt toolkit.
+
+%prep
+%setup
+
+%build
+mkdir build
+cd build
+export CFLAGS="$RPM_OPT_FLAGS"
+export CXXFLAGS="$CFLAGS"
+cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} \
+      -DLIB=%{_lib} \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_SKIP_RPATH=1 \
+      ..
+make %{?jobs:-j %jobs} VERBOSE=1
+
+%install
+cd build
+make install DESTDIR=$RPM_BUILD_ROOT
+cd ..
+
+%suse_update_desktop_file -G "Administrator Settings" YaST SystemSetup Core-System X-SuSE-ControlCenter-System
+
+%clean
+rm -rf "$RPM_BUILD_ROOT"
+
+%files
+%defattr(-,root,root)
+/usr/share/applications/YaST.desktop
+/usr/share/pixmaps/yast.png
+
+%files qt
+%defattr(-,root,root)
+%{_prefix}/lib/YaST2/bin/y2controlcenter
+%doc COPYING 
+
+%changelog

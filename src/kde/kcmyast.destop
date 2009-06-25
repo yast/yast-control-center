@@ -1,0 +1,13 @@
+[Desktop Entry]
+Exec=kcmshell4 kcm_yast
+Icon=yast
+Type=Service
+X-DocPath=kcontrol/emoticons/index.html
+
+X-KDE-ServiceTypes=KCModule,KCModuleInit
+X-KDE-Library=kcm_yast
+X-KDE-ParentApp=kcontrol
+X-KDE-System-Settings-Parent-Category=computer-administration
+X-KDE-Weight=110
+
+Name=Advanced Administration (YaST)
