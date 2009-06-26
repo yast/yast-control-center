@@ -4,6 +4,7 @@ INCLUDE_DIRECTORIES(/usr/include/initng ${CMAKE_CURRENT_BINARY_DIR})
 
 SET(THEMEDIR "/usr/share/YaST2/theme")
 
+ADD_DEFINITIONS(-DQT_NO_DEBUG_OUTPUT)
 ADD_DEFINITIONS("-DLOCALEDIR=\"${CMAKE_INSTALL_PREFIX}/share/YaST2/locale\"")
 ADD_DEFINITIONS("-DICON_DIR=\"${THEMEDIR}/current/icons/32x32/apps\"")
 ADD_DEFINITIONS("-DPIXMAP_DIR=\"${THEMEDIR}/current/icons/32x32/apps\"")
@@ -65,7 +66,6 @@ QT4_AUTOMOC(${yast2-control-center_SRCS})
 QT4_WRAP_CPP(yast2-control-center_MOC ${yast2-control-center_UIS_H})
 QT4_ADD_RESOURCES(yast2-control-center_RCC_SRCS ${yast2-control-center_RCCS})
 
-#ADD_DEFINITIONS(-DQT_NO_DEBUG)
 
 
 ADD_EXECUTABLE(y2controlcenter ${yast2-control-center_SRCS} ${yast2-control-center_MOC} ${yast2-control-center_RCC_SRCS})
