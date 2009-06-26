@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri Jun 26 18:05:48 CEST 2009 - kmachalkova@suse.cz
+
+- Initial version of Qt4 port (FaTE #305550)
+- 2.18.4 
+
+-------------------------------------------------------------------
 Thu Jun  4 17:16:19 CEST 2009 - tgoettlicher@suse.de
 
 - Changed $XDG_CONFIG_HOME to $YAST2_DESKTOP_DIR (bnc #509891)
