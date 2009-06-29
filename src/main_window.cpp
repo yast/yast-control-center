@@ -137,9 +137,9 @@ MainWindow::MainWindow()
 
     readSettings();
 
-    initActions();
-    d->modview->addAction( addToF );
-    d->modview->setContextMenuPolicy( Qt::ActionsContextMenu );
+    //initActions();
+    //d->modview->addAction( addToF );
+    //d->modview->setContextMenuPolicy( Qt::ActionsContextMenu );
 
     setWinTitle();
     statusBar()->showMessage( _("Ready") );

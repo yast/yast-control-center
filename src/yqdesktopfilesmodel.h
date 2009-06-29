@@ -103,7 +103,7 @@ protected:
 
         Private() {}
 
-        ~Private() { qWarning() << "Destroy!"; }
+        ~Private() { /*qWarning() << "Destroy!";*/ }
         
         // directories to read
         QStringList desktop_dirs;
