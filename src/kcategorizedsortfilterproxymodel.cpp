@@ -321,5 +321,10 @@ void KCategorizedSortFilterProxyModel::bublisFilterFunction( const QString &s )
 QString KCategorizedSortFilterProxyModel::matchingGroupFilterRegexp()
 {
     QStringList slist = d->filterGroups.toList();
-    return slist.join("|");
+
+    if ( !slist.isEmpty() )
+	return slist.join("|");
+    else
+	// dumb constant, make sure nothing matches if the list of matching groups is empty
+	return QString("zzzz");
 }
