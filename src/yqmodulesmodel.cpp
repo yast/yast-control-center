@@ -50,8 +50,8 @@ YQModulesModel::YQModulesModel( QObject * parent )
     , priv(new Private)
 {
     addDesktopFilesPath( MODULES_DESKTOP_DIR );
-    addIconPath("/usr/share/YaST2/theme/current/icons/32x32/apps");
-    addIconPath("/usr/share/icons/hicolor/32x32/apps");
+    addIconPath( ICON_DIR );
+    addIconPath( FALLBACK_ICON_DIR );
     removeEmptyGroups();
 }
 
