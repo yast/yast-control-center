@@ -139,6 +139,18 @@ QVariant YQModuleGroupsModel::data( const QModelIndex &index, int role ) const
 	else
  	    return QVariant();
     }
+    else if ( role == Qt::DecorationRole )
+    {
+	QVariant icon = YQDesktopFilesModel::data( index, role );
+	QString fallback_icon = "yast-default-group";
+
+	if ( icon.isValid() )
+	    return icon;
+	else
+	{
+	    return findIcon( fallback_icon );
+	}
+    }
     else
         return YQDesktopFilesModel::data(index, role);
 }
