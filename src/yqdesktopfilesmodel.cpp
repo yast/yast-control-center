@@ -239,8 +239,26 @@ QVariant YQDesktopFilesModel::translatedPropertyValue( const QModelIndex &index,
     else
 	return msgstr;
 
-} 
+}
+ 
+QVariant YQDesktopFilesModel::findIcon(  QString &icon ) const
+{
+    QRegExp extension( "\\.(png|jpg)$", Qt::CaseInsensitive );
+    if ( icon.indexOf( extension ) < 0 )	// no .png or .jpg extension?
+        icon += ".png";			// assume .png
+    QStringListIterator it(d->icon_dirs);
+    while (it.hasNext())
+    {
+        QString icondir(it.next());
+        if ( QFile::exists(icondir + "/" + icon) )
+        {
+            return QIcon(icondir + "/" + icon);
+        }
+    }
+    return QVariant();
 
+}
+ 
 void YQDesktopFilesModel::sort( int, Qt::SortOrder order )
 {
     emit layoutAboutToBeChanged();
@@ -264,19 +282,7 @@ QVariant YQDesktopFilesModel::data( const QModelIndex &index, int role ) const
     else if ( role == Qt::DecorationRole )
     {
         QString icon = propertyValue( index, "Icon" ).toString();
-        QRegExp extension( "\\.(png|jpg)$", Qt::CaseInsensitive );
-        if ( icon.indexOf( extension ) < 0 )	// no .png or .jpg extension?
-            icon += ".png";			// assume .png
-        QStringListIterator it(d->icon_dirs);
-        while (it.hasNext())
-        {
-            QString icondir(it.next());
-            if ( QFile::exists(icondir + "/" + icon) )
-            {
-                return QIcon(icondir + "/" + icon);
-            }
-        }
-        return QVariant();
+	return findIcon( icon );
     }
     else if ( role == Qt::UserRole )
     {
@@ -343,4 +349,6 @@ void YQDesktopFilesModel::addPropertyToDesktopFile( QString &fname, const QStrin
 	d->cache[ fname ] = pm;
     }
 }
+
+
 #include "yqdesktopfilesmodel.moc"

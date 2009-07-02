@@ -82,6 +82,7 @@ public:
      */
     QVariant propertyValue( const QModelIndex &index, const QString &key ) const;
     QVariant translatedPropertyValue( const QModelIndex &index, const QString &key ) const;
+    QVariant findIcon ( QString &icon ) const;
 
     virtual QVariant data( const QModelIndex &index, int role = Qt::DisplayRole ) const;
 
