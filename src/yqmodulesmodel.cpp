@@ -161,6 +161,17 @@ QVariant YQModulesModel::data( const QModelIndex &index, int role ) const
         QString tooltip = translatedPropertyValue(index, "GenericName").toString();
         return tooltip;       
     }
+    else if ( role == Qt::DecorationRole )
+    {
+	QVariant icon = YQDesktopFilesModel::data( index, role );
+
+	if ( icon.isValid() )
+	    return icon;
+	else
+	{
+	    return groupsModel()->data( groupForModule( index ), role );
+	}	
+    }
     else // otherwise just use the parent class
     {    
         return YQDesktopFilesModel::data(index, role);
