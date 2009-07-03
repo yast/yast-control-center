@@ -241,6 +241,7 @@ void MainWindow::readSettings()
     
     settings.beginGroup("MainWindow");
     resize(settings.value("Size", QSize(680,420)).toSize()); 
+    move(settings.value("Position", QPoint(200,200)).toPoint());
     settings.endGroup();
 
     settings.beginGroup("PersonalItems");
@@ -260,6 +261,7 @@ void MainWindow::writeSettings()
      
     settings.beginGroup("MainWindow");
     settings.setValue("Size", size()); 
+    settings.setValue("Position", pos());
     settings.endGroup();
 
     settings.beginGroup( "PersonalItems" ); 
