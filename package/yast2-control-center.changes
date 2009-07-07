@@ -1,4 +1,14 @@
 -------------------------------------------------------------------
+Tue Jul  7 12:43:23 CEST 2009 - kmachalkova@suse.cz
+
+- Replaced not expanding @ybindir@ in spec.in by something sensible
+- Few minor fixes
+  * Show no groups if no module matches the query
+  * Remember window position
+  * Use some system of fallback icons for groups and modules
+- 2.18.5
+
+-------------------------------------------------------------------
 Fri Jun 26 18:05:48 CEST 2009 - kmachalkova@suse.cz
 
 - Initial version of Qt4 port (FaTE #305550)
