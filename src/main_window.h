@@ -39,6 +39,8 @@ protected slots:
   void slotModulePressed( const QModelIndex &index );
   void slotLaunchModule( const QModelIndex &index );
   void slotFilterChanged();
+  void initialMsg();
+
 protected:
   void initActions();
   void closeEvent( QCloseEvent *event);

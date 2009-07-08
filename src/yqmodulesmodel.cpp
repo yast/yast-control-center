@@ -178,6 +178,11 @@ QVariant YQModulesModel::data( const QModelIndex &index, int role ) const
     }
 }
 
+bool YQModulesModel::isRoot()
+{
+    return priv->userIsRoot;
+}
+
 void YQModulesModel::removeEmptyGroups()
 {
     QStringList groups; 

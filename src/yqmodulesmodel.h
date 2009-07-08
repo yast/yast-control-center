@@ -69,6 +69,8 @@ public:
    */
   YQModuleGroupsModel * groupsModel() const;
 
+  bool isRoot();   
+
 private:
   class Private;
   Private *const priv;

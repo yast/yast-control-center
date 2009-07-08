@@ -27,6 +27,7 @@
 #include <QQueue>
 #include <QSettings>
 #include <QStatusBar>
+#include <QMessageBox>
 
 #include "kcategorizedsortfilterproxymodel.h"
 #include "kcategorizedview.h"
@@ -233,6 +234,14 @@ void MainWindow::slotFilterChanged()
 
     QString gr_filter = d->kcsfpm->matchingGroupFilterRegexp();
     d->gcsfpm->setFilterRegExp ( gr_filter );
+}
+
+void MainWindow::initialMsg()
+{
+    if ( !d->modmodel->isRoot() )
+	QMessageBox::information(this, _("YaST2 Control Center"), 
+            _("YaST2 Control Center is not running as root.\n"
+	    "You will only see modules which do not require root privileges."));
 }
 
 void MainWindow::readSettings()

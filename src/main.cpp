@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QTimer>
 
 #include "main_window.h"
 
@@ -10,6 +11,9 @@ QApplication app(argc, argv);
 MainWindow mainWin;
 
 mainWin.show();
+
+QTimer::singleShot(60, &mainWin, SLOT( initialMsg() ));
+
 return app.exec();
 
 }
