@@ -170,7 +170,7 @@ void MainWindow::setFullScreen( bool fs )
 
 void MainWindow::setNoBorder( bool nb )
 {
-    d->fullScreen = nb ;
+    d->noBorder = nb ;
 }
 
 void MainWindow::initActions()
@@ -218,6 +218,11 @@ void MainWindow::slotLaunchModule( const QModelIndex &index)
 
     QString cmd = QString("/sbin/yast2 ");
     cmd += client;
+
+    if ( d->noBorder )	
+	cmd += " --noborder ";
+    if ( d->fullScreen )
+	cmd += " --fullscreen ";
 
     if (!argument.isEmpty() )
     {

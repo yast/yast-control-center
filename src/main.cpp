@@ -55,14 +55,18 @@ int main(int argc, char **argv)
 	wflags |= Qt::FramelessWindowHint;
 
     MainWindow mainWin ( wflags );
-    mainWin.show();
-    
+
+    mainWin.setFullScreen ( fullscreen );
+    mainWin.setNoBorder( noborder );
+
     if ( fullscreen )
     {
 	QRect available = app.desktop()->availableGeometry();
 	mainWin.resize( available.width(), available.height() );
 	mainWin.move( available.topLeft() );
     }
+
+    mainWin.show();
 
     QTimer::singleShot(60, &mainWin, SLOT( initialMsg() ));
     
