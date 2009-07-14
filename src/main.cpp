@@ -19,7 +19,6 @@ void printhelpandexit()
 	 << "\nOPTIONS:"
 	 << "\n"
 	 << "\n    --help         -h    this message"
-	 << "\n    --root         -r    also show \"root only\" modules"
 	 << "\n    --fullscreen         use full screen"
 	 << "\n    --noborder           no window manager border for main window"
 	 << endl;
