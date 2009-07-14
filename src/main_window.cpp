@@ -68,10 +68,14 @@ public:
     QLineEdit *searchField;
 
     QQueue <QString>  recentlyUsed;
+
+    bool noBorder;
+    bool fullScreen;
+
 };    
 
-MainWindow::MainWindow()
-  : QMainWindow()
+MainWindow::MainWindow( Qt::WindowFlags wflags )
+  : QMainWindow( 0, wflags )
   , d(new Private)
 {
     qDebug();
@@ -157,6 +161,16 @@ MainWindow::MainWindow()
     connect( d->searchField, SIGNAL( textChanged( const QString &)),
 	     SLOT( slotFilterChanged() ));
 
+}
+
+void MainWindow::setFullScreen( bool fs )
+{
+    d->fullScreen = fs;
+}
+
+void MainWindow::setNoBorder( bool nb )
+{
+    d->fullScreen = nb ;
 }
 
 void MainWindow::initActions()

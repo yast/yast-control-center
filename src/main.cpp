@@ -1,4 +1,6 @@
 #include <QApplication>
+#include <QDesktopWidget>
+#include <QRect>
 #include <QTimer>
 
 #include <iostream>
@@ -28,6 +30,9 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
+    bool fullscreen = false;
+    bool noborder = false;
+
     for ( int i=0 ;i < argc ;i++ )
     {
 	QString opt = argv[i];
@@ -37,13 +42,29 @@ int main(int argc, char **argv)
 	if ( opt.startsWith( "--" ) )
 	    opt.remove(0, 1);
 
-	if ( opt == "-h" || opt == "-help" )	printhelpandexit();
+	if ( opt == "-h" || opt == "-help" )	
+	    printhelpandexit();
+	else if ( opt == "-fullscreen" )	
+	    fullscreen = true;
+	else if ( opt == "-noborder" )	
+	    noborder   = true;
     }
 	   
-    MainWindow mainWin;
-    
+    Qt::WFlags wflags = Qt::Window;
+
+    if ( noborder )
+	wflags |= Qt::FramelessWindowHint;
+
+    MainWindow mainWin ( wflags );
     mainWin.show();
     
+    if ( fullscreen )
+    {
+	QRect available = app.desktop()->availableGeometry();
+	mainWin.resize( available.width(), available.height() );
+	mainWin.move( available.topLeft() );
+    }
+
     QTimer::singleShot(60, &mainWin, SLOT( initialMsg() ));
     
     return app.exec();

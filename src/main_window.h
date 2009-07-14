@@ -31,8 +31,11 @@ class MainWindow : public QMainWindow
 Q_OBJECT
 
 public:
-  MainWindow();
+  MainWindow( Qt::WindowFlags wflags = Qt::Window );
   ~MainWindow();
+
+  void setFullScreen( bool fs); 
+  void setNoBorder( bool nb ); 
 
 protected slots:
   void slotGroupPressed( const QModelIndex &index );
@@ -53,6 +56,7 @@ private:
   void writeSettings();
   void readSettings();
   void setWinTitle();
+
 };
 
 #endif
