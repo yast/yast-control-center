@@ -32,7 +32,11 @@ bool paircmp( QPair<int, QString> p1, QPair<int, QString> p2)
 YQModuleGroupsModel::YQModuleGroupsModel( QObject * parent )
     : YQDesktopFilesModel(parent)
 {
-    addDesktopFilesPath( GROUPS_DESKTOP_DIR );
+
+    QString default_dir( GROUPS_DESKTOP_DIR );
+    QString alt_dir = QString( getenv( "YAST2_DESKTOP_DIR") );   
+
+    addDesktopFilesPath( alt_dir.isEmpty() ? default_dir : alt_dir + "/groups/");
     addIconPath( ICON_DIR );
     addIconPath( FALLBACK_ICON_DIR );
     reindex();

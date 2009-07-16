@@ -49,7 +49,10 @@ YQModulesModel::YQModulesModel( QObject * parent )
     : YQDesktopFilesModel(parent)
     , priv(new Private)
 {
-    addDesktopFilesPath( MODULES_DESKTOP_DIR );
+    QString default_dir( MODULES_DESKTOP_DIR );
+    QString alt_dir = QString( getenv( "YAST2_DESKTOP_DIR") );   
+
+    addDesktopFilesPath( alt_dir.isEmpty() ? default_dir : alt_dir );
     addIconPath( ICON_DIR );
     addIconPath( FALLBACK_ICON_DIR );
     removeEmptyGroups();
