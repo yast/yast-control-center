@@ -10,6 +10,7 @@ using std::cerr;
 using std::endl;
 
 #include "main_window.h"
+#include "i18n.h"
 
 void printhelpandexit()
 {
@@ -28,6 +29,7 @@ void printhelpandexit()
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
+    set_textdomain("control-center");
 
     bool fullscreen = false;
     bool noborder = false;
