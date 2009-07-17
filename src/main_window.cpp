@@ -42,6 +42,11 @@
 #define APP_NAME "y2controlcenter-qt"
 #define USED_QUEUE_SIZE 5
 
+
+/*
+  Textdomain "control-center"
+*/
+
 class MainWindow::Private
 {
 public:
@@ -118,9 +123,10 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
 
     QHBoxLayout *searchLayout = new QHBoxLayout();
     QLabel *searchLabel = new QLabel();
-    searchLabel->setText( _("Search") );
-    searchLayout->addWidget(searchLabel);
     d->searchField = new QLineEdit();
+    searchLabel->setText( _("&Search") );
+    searchLabel->setBuddy( d->searchField );
+    searchLayout->addWidget(searchLabel);
     searchLayout->addWidget(d->searchField);
 
     leftPanelLayout->addLayout( searchLayout );    
