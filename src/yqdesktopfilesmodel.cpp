@@ -195,6 +195,8 @@ bool YQDesktopFilesModel::removeRow(int row )
    d->desktop_files.removeAt( row );
 
    d->cache.remove( key );
+
+   return true;
    
 }
 
