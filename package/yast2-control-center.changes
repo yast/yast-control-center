@@ -1,4 +1,14 @@
 -------------------------------------------------------------------
+Fri Jul 17 13:38:07 CEST 2009 - kmachalkova@suse.cz
+
+- Show warning (user is not root) at startup
+- Process CLI options 
+- Put $YAST_DESKTOP_DIR support back again
+- Enable translating strings in 'control-center' textdomain + 
+  generating pot files by y2tools
+- 2.18.6
+
+-------------------------------------------------------------------
 Tue Jul  7 12:43:23 CEST 2009 - kmachalkova@suse.cz
 
 - Replaced not expanding @ybindir@ in spec.in by something sensible
