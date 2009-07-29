@@ -60,7 +60,6 @@ public:
                                            ///< value won't be shown on the view, is only for sorting purposes. What will
                                            ///< be shown as "Category" on the view will be asked with the role
                                            ///< CategoryDisplayRole.
-	GenericNameRole    = 0x1BA81D0E   
     };
 
     KCategorizedSortFilterProxyModel(QObject *parent = 0);

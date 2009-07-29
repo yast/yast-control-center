@@ -157,7 +157,7 @@ QVariant YQModulesModel::data( const QModelIndex &index, int role ) const
 	
         return groupsModel()->data( idx, Qt::UserRole); 
     }
-    else if ( role == KCategorizedSortFilterProxyModel::GenericNameRole )
+    else if ( role == GenericNameRole )
     {
 	
         //QString tooltip = d->infoProvider.provideInfo( this, index );

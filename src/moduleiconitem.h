@@ -28,7 +28,7 @@
 #include <QPainterPath>
 #include <QRectF>
 
-#include "kcategorizedsortfilterproxymodel.h"
+#include "yqmodulesmodel.h"
 
 class KCModuleInfo;
 

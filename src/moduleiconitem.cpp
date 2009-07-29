@@ -79,7 +79,7 @@ void ModuleIconItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 		painter->setPen( inv );
 	    }
 
-	    QString descr = option.fontMetrics.elidedText( index.data( KCategorizedSortFilterProxyModel::GenericNameRole ).toString(), Qt::ElideRight, option.rect.width() );
+	    QString descr = option.fontMetrics.elidedText( index.data( YQModulesModel::GenericNameRole ).toString(), Qt::ElideRight, option.rect.width() );
 	    QRect tr = option.rect;
 	    tr.setTop( tr.top() + decorationSize.height() + 2*style->pixelMetric( QStyle::PM_FocusFrameVMargin) );
 	    painter->drawText( tr, Qt::AlignLeft | Qt::TextSingleLine, descr ); 

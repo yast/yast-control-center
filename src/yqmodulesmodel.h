@@ -30,10 +30,7 @@ public:
 
   enum UserRoleData
   {
-    RawName,
-    SortKey,
-    Hidden,
-    LastColumn
+    GenericNameRole    = 0x1BA81D0E   
   };
 
   YQModulesModel( QObject * parent = 0 );
