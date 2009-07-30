@@ -60,6 +60,8 @@ public:
                                            ///< value won't be shown on the view, is only for sorting purposes. What will
                                            ///< be shown as "Category" on the view will be asked with the role
                                            ///< CategoryDisplayRole.
+
+        KeywordsRole	= 0x09B2C2AA
     };
 
     KCategorizedSortFilterProxyModel(QObject *parent = 0);
@@ -117,6 +119,8 @@ public:
     void bublisFilterFunction( const QString &s );
 
     QString matchingGroupFilterRegexp();
+
+    QString filterFixedString() const;
 
 protected:
     /**
@@ -184,6 +188,7 @@ protected:
 private:
     class Private;
     Private *const d;
+
 };
 
 

@@ -30,7 +30,7 @@ public:
 
   enum UserRoleData
   {
-    GenericNameRole    = 0x1BA81D0E   
+    GenericNameRole	= 0x1BA81D0E
   };
 
   YQModulesModel( QObject * parent = 0 );

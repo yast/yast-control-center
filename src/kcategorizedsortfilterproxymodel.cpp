@@ -300,22 +300,28 @@ int KCategorizedSortFilterProxyModel::compareCategories(const QModelIndex &left,
 
 bool KCategorizedSortFilterProxyModel::filterAcceptsRow( int row, const QModelIndex &srcindex ) const
 {
-    bool ret = QSortFilterProxyModel::filterAcceptsRow( row, srcindex ); 
     QModelIndex i0 = sourceModel()->index( row, YQDesktopFilesModel::Group, srcindex);
+    QModelIndex i1 = sourceModel()->index( row, 0, srcindex);
+    QStringList keywordList = sourceModel()->data( i1, KeywordsRole ).toStringList();
+    QString keywords = keywordList.join(" ");
 
-    if( ret )
+    bool nameMatches = QSortFilterProxyModel::filterAcceptsRow( row, srcindex ); 
+    bool keywordMatches = ( !keywords.isEmpty() && keywords.contains( filterFixedString()) );
+
+    if( nameMatches || keywordMatches )
     {
         QString gr = sourceModel()->data(i0, Qt::UserRole).toString();
 	d->filterGroups.insert( gr );
     }
-    return ret;
+
+    return ( nameMatches || keywordMatches );
 }
 
 void KCategorizedSortFilterProxyModel::bublisFilterFunction( const QString &s )
 {    
     d->filterGroups.clear();
     setFilterFixedString( s );
-
+    d->filterString = s; 
 }
 
 QString KCategorizedSortFilterProxyModel::matchingGroupFilterRegexp()
@@ -327,4 +333,9 @@ QString KCategorizedSortFilterProxyModel::matchingGroupFilterRegexp()
     else
 	// dumb constant, make sure nothing matches if the list of matching groups is empty
 	return QString("zzzz");
+}
+
+QString KCategorizedSortFilterProxyModel::filterFixedString()  const
+{
+    return d->filterString;
 }

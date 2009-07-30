@@ -159,10 +159,14 @@ QVariant YQModulesModel::data( const QModelIndex &index, int role ) const
     }
     else if ( role == GenericNameRole )
     {
-	
         //QString tooltip = d->infoProvider.provideInfo( this, index );
         QString tooltip = translatedPropertyValue(index, "GenericName").toString();
         return tooltip;       
+    }
+    else if ( role == KCategorizedSortFilterProxyModel::KeywordsRole )
+    {
+	//FIXME: use translatedPropertyValue
+	return propertyValue( index, "X-SuSE-YaST-Keywords" );
     }
     else if ( role == Qt::DecorationRole )
     {

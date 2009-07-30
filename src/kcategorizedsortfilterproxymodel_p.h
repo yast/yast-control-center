@@ -47,6 +47,7 @@ public:
     bool sortCategoriesByNaturalComparison;
 
     QSet<QString> filterGroups;
+    QString filterString;
 };
 
 #endif
