@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Thu Jul 30 15:02:04 CEST 2009 - kmachalkova@suse.cz
+
+- Support search in module keywords (X-SuSE-YaST-Keywords) 
+  (FaTE#305845)
+- 2.18.7
+
+-------------------------------------------------------------------
 Fri Jul 17 13:38:07 CEST 2009 - kmachalkova@suse.cz
 
 - Show warning (user is not root) at startup
