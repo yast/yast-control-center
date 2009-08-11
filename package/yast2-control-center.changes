@@ -1,4 +1,13 @@
 -------------------------------------------------------------------
+Tue Aug 11 15:47:04 CEST 2009 - kmachalkova@suse.cz
+
+- Two X-KDE-* keys added to .desktop to enable launching of YaST 
+  from within KDE System Settings (bnc#526911)
+- Removed X-KDE-SubstituteUID from .desktop, using Exec=xdg-su ..
+  instead. Thus, OnlyShowIn key is not needed anymore (bnc#525876)
+- 2.18.8
+
+-------------------------------------------------------------------
 Thu Jul 30 15:02:04 CEST 2009 - kmachalkova@suse.cz
 
 - Support search in module keywords (X-SuSE-YaST-Keywords) 
