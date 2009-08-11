@@ -8,4 +8,6 @@ Exec=/sbin/yast2
 OnlyShowIn=KDE;GNOME;
 X-KDE-SubstituteUID=true
 X-KDE-RootOnly=true
+X-KDE-System-Settings-Parent-Category=system
+X-KDE-ServiceTypes=KCModule
 Encoding=UTF-8
