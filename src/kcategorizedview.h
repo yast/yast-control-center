@@ -115,6 +115,9 @@ protected Q_SLOTS:
     virtual void dataChanged(const QModelIndex &topLeft,
                              const QModelIndex &bottomRight);
 
+signals:
+	void leftMouseClick( const QModelIndex &idx );
+
 private:
     class Private;
     Private *const d;

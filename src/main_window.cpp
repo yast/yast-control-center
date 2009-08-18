@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <rpc/types.h>
 #include <stdlib.h> 
+#include <time.h>
 
 #include <QLayout>
 #include <QLabel>
@@ -56,6 +57,8 @@ public:
         , modview(0L)
         , kcsfpm(0L)
 	, gcsfpm(0L)
+	, lastCallTime(0)
+	, minwait(5)
     {
     }
     ~Private()
@@ -67,12 +70,15 @@ public:
     KCategorizedView * modview;
     // category proxy model
     KCategorizedSortFilterProxyModel * kcsfpm;
-
     QSortFilterProxyModel *gcsfpm;
 
     QLineEdit *searchField;
 
     QQueue <QString>  recentlyUsed;
+
+    QModelIndex lastCalledIndex;
+    time_t lastCallTime;
+    time_t minwait;
 
     bool noBorder;
     bool fullScreen;
@@ -158,10 +164,10 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
     connect( d->groupview, SIGNAL( pressed( const QModelIndex & ) ),
              SLOT( slotGroupPressed( const QModelIndex & ) ) );
 
-    connect( d->modview, SIGNAL( pressed( const QModelIndex & ) ),
-             SLOT( slotModulePressed( const QModelIndex & ) ) );
+    connect( d->modview, SIGNAL( leftMouseClick ( const QModelIndex  &) ),
+             SLOT( slotLaunchModule( const QModelIndex & ) ) );
 
-    connect( d->modview, SIGNAL( doubleClicked( const QModelIndex & ) ),
+    connect( d->modview, SIGNAL( activated( const QModelIndex & ) ),
              SLOT( slotLaunchModule( const QModelIndex & ) ) );
 
     connect( d->searchField, SIGNAL( textChanged( const QString &)),
@@ -211,6 +217,25 @@ void MainWindow::slotModulePressed( const QModelIndex &index )
 
 void MainWindow::slotLaunchModule( const QModelIndex &index)
 {
+    if ( index == d->lastCalledIndex )
+    {
+            time_t now = time( NULL );
+
+            // ignore accidential double clicks
+
+            if ( now >= d->lastCallTime &&                 // make sure we not going backward in time
+                                                        // (system time or time zone changed by
+                                                        // some YaST2 module - see bug #71816)
+                 now - d->lastCallTime < d->minwait )         // elapsed time too short?
+            {
+		qDebug() << "Ignoring 2nd click, clicking too fast" ;
+                return; // ignore this click
+            }
+    }
+
+    d->lastCallTime     = time( NULL );
+    d->lastCalledIndex = index;
+
     QModelIndex i1 = d->modmodel->index( d->kcsfpm->mapToSource( index ).row(), YQDesktopFilesModel::Call );
     QModelIndex i2 = d->modmodel->index( d->kcsfpm->mapToSource( index ).row(), YQDesktopFilesModel::Argument );
     QModelIndex i3 = d->modmodel->index( d->kcsfpm->mapToSource( index ).row(), YQDesktopFilesModel::Name );
