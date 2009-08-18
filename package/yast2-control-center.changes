@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Tue Aug 18 17:57:48 CEST 2009 - kmachalkova@suse.cz
+
+- Use left mouse single click (bnc#525287) and/or 'Enter' key 
+  (bnc#528631) to launch the modules 
+- 2.18.9
+
+-------------------------------------------------------------------
 Tue Aug 11 15:47:04 CEST 2009 - kmachalkova@suse.cz
 
 - Two X-KDE-* keys added to .desktop to enable launching of YaST 
