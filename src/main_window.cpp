@@ -17,10 +17,10 @@
 #include <stdlib.h> 
 #include <time.h>
 
+#include <QApplication>
 #include <QLayout>
 #include <QLabel>
 #include <QToolBar>
-#include <QLabel>
 #include <QLineEdit>
 #include <QDockWidget>
 #include <QListView>
@@ -28,6 +28,7 @@
 #include <QQueue>
 #include <QSettings>
 #include <QStatusBar>
+#include <QTimer>
 #include <QMessageBox>
 
 #include "kcategorizedsortfilterproxymodel.h"
@@ -270,11 +271,15 @@ void MainWindow::slotLaunchModule( const QModelIndex &index)
 	d->recentlyUsed.dequeue();
     }
 
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
     qDebug() << "Run command: " << cmd.toAscii();
     QString msg = _("Starting module %1...").arg( client );
     statusBar()->showMessage( msg, 2000 );
 
     system( cmd.toAscii() ); 
+
+    QTimer::singleShot( 3*1000, this, SLOT( slotRestoreCursor() ) ); 
 }
 
 void MainWindow::slotFilterChanged()
@@ -292,6 +297,11 @@ void MainWindow::initialMsg()
 	QMessageBox::information(this, _("YaST2 Control Center"), 
             _("YaST2 Control Center is not running as root.\n"
 	    "You will only see modules which do not require root privileges."));
+}
+
+void MainWindow::slotRestoreCursor()
+{
+    QApplication::restoreOverrideCursor();
 }
 
 void MainWindow::readSettings()

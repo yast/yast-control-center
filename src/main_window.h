@@ -43,6 +43,7 @@ protected slots:
   void slotLaunchModule( const QModelIndex &index );
   void slotFilterChanged();
   void initialMsg();
+  void slotRestoreCursor();
 
 protected:
   void initActions();
