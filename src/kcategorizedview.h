@@ -54,6 +54,8 @@ public:
 
     virtual QRect visualRect(const QModelIndex &index) const;
 
+    void scrollTo (const QModelIndex &index );
+
     KCategoryDrawer *categoryDrawer() const;
 
     void setCategoryDrawer(KCategoryDrawer *categoryDrawer);

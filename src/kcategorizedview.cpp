@@ -623,6 +623,18 @@ QRect KCategorizedView::visualRect(const QModelIndex &index) const
     return d->visualRect(index);
 }
 
+void KCategorizedView::scrollTo (const QModelIndex &index )
+{
+    QRect rect = visualRect( index );
+    int v = verticalScrollBar()->value();
+    int header = categoryDrawer()->categoryHeight(QModelIndex(), viewOptions());
+
+    // upper edge of 1st icon in a group + current position of scrollbar
+    // scroll a bit more up, to show the cat. header, but not too much (over max)
+    int scroll = qMin( rect.top() + v - header, verticalScrollBar()->maximum() );
+    verticalScrollBar()->setValue( scroll );
+}
+
 KCategoryDrawer *KCategorizedView::categoryDrawer() const
 {
     return d->categoryDrawer;
