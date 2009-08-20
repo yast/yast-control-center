@@ -125,6 +125,7 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
 
     // Setup Dock Widget with groups and search field
     QDockWidget *groupdock = new QDockWidget(this);
+    groupdock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     QWidget *leftPanel = new QWidget( this );
     QVBoxLayout *leftPanelLayout = new QVBoxLayout( leftPanel );
 
