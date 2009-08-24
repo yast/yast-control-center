@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Mon Aug 24 15:51:45 CEST 2009 - kmachalkova@suse.cz
+
+- Scroll icon view so that category header is in the topmost 
+  position (if possible) - bnc#525288 
+- 2.18.10
+
+-------------------------------------------------------------------
 Wed Aug 19 16:21:09 UTC 2009 - wstephenson@novell.com
 
 - Don't allow the group dock widget to be closed
