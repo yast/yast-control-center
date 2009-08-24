@@ -37,6 +37,7 @@ public:
 
     YQModuleGroupsModel *groupsModel;
     QMap<QModelIndex, QModelIndex> groupCache;
+    QMap<QString, QString> groupStringCache;
     YCCModuleInfoProvider infoProvider;
 
     bool userIsRoot; 
@@ -72,6 +73,7 @@ PropertyMap YQModulesModel::readDesktopFile( const QString &path )
     PropertyMap data;
     const QString rootOnly = "X-SuSE-YaST-RootOnly";
     const QString group = "X-SuSE-YaST-Group";
+    const QString name = "Name";
 
     QSettings desktopFile( path, QSettings::IniFormat );
 
@@ -93,12 +95,27 @@ PropertyMap YQModulesModel::readDesktopFile( const QString &path )
 	  desktopFile.value(rootOnly).toBool() )
 	return data;
 
+    QString oneGroup;
+    QString oneName;
     while (keyit.hasNext())
     {
         QString key(keyit.next());
         data.insert(key, desktopFile.value(key));
+
+	// cache <groupname : modname> pairs to quickly look up
+	// what's the first module in the group
+	oneGroup = desktopFile.value(group).toString();
+	oneName = desktopFile.value(name).toString();
+
+	if ( priv->groupStringCache.find(oneGroup) != priv->groupStringCache.end() )
+	{
+	    if ( oneName < priv->groupStringCache[oneGroup])
+		priv->groupStringCache[oneGroup] = oneName;
+	}
+	else
+	    priv->groupStringCache.insert(oneGroup, oneName);
     }
-    
+   
     qDebug() << path << " read with " << data.size() << " keys";
   
     return data;
@@ -113,10 +130,10 @@ QModelIndex YQModulesModel::firstModuleInGroup( const QModelIndex &index ) const
     if ( grpid.isEmpty() )
         return QModelIndex();
     
-    qDebug() << "look element with value " << grpid;
-    
-    // Look first item that has property set to that group id.
-    return indexForValue( "X-SuSE-YaST-Group", grpid );
+    qDebug() << "Look up 1st module in group " << grpid;
+
+    QString firstMod = priv->groupStringCache[grpid];
+    return indexForValue("Name", firstMod );    
 }
 
 Qt::ItemFlags YQModulesModel::flags ( const QModelIndex & index ) const
@@ -147,7 +164,7 @@ QVariant YQModulesModel::data( const QModelIndex &index, int role ) const
     // this 2 roles are required if the model is expected to work
     // with the categorized view
     if ( role == KCategorizedSortFilterProxyModel::CategoryDisplayRole )
-     {
+    {
         return groupsModel()->data( groupForModule(index) );
     }
     else if ( role == KCategorizedSortFilterProxyModel::CategorySortRole )
@@ -157,16 +174,16 @@ QVariant YQModulesModel::data( const QModelIndex &index, int role ) const
 	
         return groupsModel()->data( idx, Qt::UserRole); 
     }
+    else if ( role == KCategorizedSortFilterProxyModel::KeywordsRole )
+    {
+	//FIXME: use translatedPropertyValue
+	return propertyValue( index, "X-SuSE-YaST-Keywords" );
+    }
     else if ( role == GenericNameRole )
     {
         //QString tooltip = d->infoProvider.provideInfo( this, index );
         QString tooltip = translatedPropertyValue(index, "GenericName").toString();
         return tooltip;       
-    }
-    else if ( role == KCategorizedSortFilterProxyModel::KeywordsRole )
-    {
-	//FIXME: use translatedPropertyValue
-	return propertyValue( index, "X-SuSE-YaST-Keywords" );
     }
     else if ( role == Qt::DecorationRole )
     {
