@@ -147,12 +147,18 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
     d->groupview = new QListView(  );
     d->groupview->setModel(d->gcsfpm);
     d->groupview->setIconSize( QSize(32,32) );
+
+    //now pre-select something
+    d->groupview->setSelectionMode( QAbstractItemView::SingleSelection );
+    QModelIndex selection = d->groupview->model()->index(0,0);
+    d->groupview->setCurrentIndex( selection );
+    d->modview->selectCategory( d->modmodel->groupsModel()->data(selection).toString() );
+
     leftPanelLayout->addWidget( d->groupview );
     
     groupdock->setWidget( leftPanel );
 
     addDockWidget(Qt::LeftDockWidgetArea, groupdock);
-
 
     readSettings();
 
