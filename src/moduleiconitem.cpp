@@ -59,8 +59,7 @@ void ModuleIconItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 		style = QApplication::style();
 	}
 
-
-	QPen p = painter->pen();
+	QFont f = painter->font();
 	if (selected || mouseover)
 	{
 	    if (selected) 
@@ -73,20 +72,22 @@ void ModuleIconItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 		QColor hover = option.palette.color(QPalette::Highlight);
 		hover.setAlpha(88);
 		painter->fillPath(roundedRectangle(option.rect, 10), hover);
-
-		QColor inv = option.palette.color( QPalette::WindowText );
-		inv.setAlpha(100);
-		painter->setPen( inv );
+		painter->setPen( option.palette.color( QPalette::WindowText ) );
 	    }
+	    QFont newFont = option.font;
+	    newFont.setPointSize( option.font.pointSize() - 2);
+	    QFontMetrics newFm = QFontMetrics( newFont );
 
-	    QString descr = option.fontMetrics.elidedText( index.data( YQModulesModel::GenericNameRole ).toString(), Qt::ElideRight, option.rect.width() );
+	    QString descr = newFm.elidedText( index.data( YQModulesModel::GenericNameRole ).toString(), Qt::ElideRight, option.rect.width() );
 	    QRect tr = option.rect;
 	    tr.setTop( tr.top() + decorationSize.height() + 2*style->pixelMetric( QStyle::PM_FocusFrameVMargin) );
+	    tr.setLeft( tr.left() + 2*style->pixelMetric( QStyle::PM_FocusFrameHMargin ));
+
+	    painter->setFont( newFont);
 	    painter->drawText( tr, Qt::AlignLeft | Qt::TextSingleLine, descr ); 
 	    
 	}
-	painter->setPen( p );		
-
+	painter->setFont( f );
 //	if( index.data( Qt::UserRole ).toInt() == KIconLoader::DisabledState ) {
 //		painter->setPen( option.palette.color( QPalette::Disabled, QPalette::Text ) );
 //	}
