@@ -1,4 +1,12 @@
 -------------------------------------------------------------------
+Tue Sep  1 17:56:45 CEST 2009 - kmachalkova@suse.cz
+
+- Use more contrast colours for highlighted items in icon view 
+  (bnc#531528)
+- Pre-select 1st module category (partly bnc#531529) 
+- 2.18.11
+
+-------------------------------------------------------------------
 Mon Aug 24 15:51:45 CEST 2009 - kmachalkova@suse.cz
 
 - Scroll icon view so that category header is in the topmost 
