@@ -238,7 +238,13 @@ bool KCategorizedSortFilterProxyModel::lessThan(const QModelIndex &left, const Q
 
 bool KCategorizedSortFilterProxyModel::subSortLessThan(const QModelIndex &left, const QModelIndex &right) const
 {
-    return QSortFilterProxyModel::lessThan(left, right);
+    QModelIndex i1 = createIndex(left.row(), YQDesktopFilesModel::Name);
+    QModelIndex i2 = createIndex(right.row(), YQDesktopFilesModel::Name);
+
+    QVariant l = (left.model() ? left.model()->data(i1, Qt::UserRole) : QVariant());
+    QVariant r = (right.model() ? right.model()->data(i2, Qt::UserRole) : QVariant());
+
+    return l.toString() < r.toString();
 }
 
 int KCategorizedSortFilterProxyModel::compareCategories(const QModelIndex &left, const QModelIndex &right) const
