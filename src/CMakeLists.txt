@@ -75,6 +75,7 @@ INSTALL(TARGETS y2controlcenter DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/YaST2/bi
 
 INSTALL(FILES yast.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/pixmaps )
 INSTALL(FILES YaST.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications )
+INSTALL(FILES YaST-systemsettings.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/kde4/services )
 
 SET(MODELS_TEST_SRCS
   models_test.cpp
