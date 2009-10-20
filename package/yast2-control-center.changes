@@ -4,7 +4,7 @@ Tue Oct 20 11:59:43 CEST 2009 - kmachalkova@suse.cz
 - The same module order for every language (to prevent broken sync
   between left and right pane for non-English locale - bnc#525288)
 - .desktop file split into system-wide and KDE-specific one for
-   kcontrol (do not use xdg-su from within kcontrol - bnc544313)
+   kcontrol (do not use xdg-su from within kcontrol - bnc#544313)
 - 2.18.12
 
 -------------------------------------------------------------------
