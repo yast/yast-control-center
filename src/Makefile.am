@@ -4,6 +4,7 @@
 
 AM_CXXFLAGS = \
 	-DICON_DIR=\"${themedir}/current/icons/32x32/apps\" 	\
+	-DFALLBACK_ICON_DIR=\"${prefix}/share/icons/hicolor/32x32/apps\"	\
 	-DPIXMAP_DIR=\"${themedir}/current/control-center\"	\
 	-DMODULES_DESKTOP_DIR=\"${desktopdir}\"			\
 	-DGROUPS_DESKTOP_DIR=\"${desktopdir}/groups\"		\

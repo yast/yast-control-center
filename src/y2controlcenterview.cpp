@@ -104,6 +104,8 @@ Y2ControlCenterView::Y2ControlCenterView(QWidget *parent)
     
     _listBox->setFocus();
 
+    addIconPath( ICON_DIR );
+    addIconPath( FALLBACK_ICON_DIR );
 
     //
     // IconView for the Module Icons
@@ -280,7 +282,6 @@ void Y2ControlCenterView::errorPopup( QString msg )
 void Y2ControlCenterView::slotInitListBox()
 {
     QString icon,groupname;
-    QString icondir = ICON_DIR "/";
     int i = 0;
     int firstenabled = -1;
 
@@ -296,8 +297,9 @@ void Y2ControlCenterView::slotInitListBox()
     {
 	icon = ptr->getIcon();
 	groupname = ptr->getName();
+	QString iconpath = findIcon( icon );
 
-	QImage img = QPixmap( icondir + icon ).convertToImage();
+	QImage img = QPixmap( iconpath ).convertToImage();
 
 	// draw border around icon because we want more space between the icons
 	img = img.copy(	-1 * GROUP_ICON_HORIZ_BORDER ,			// x
@@ -490,10 +492,9 @@ Y2ControlCenterView::fillIconView( int group_id )
     const YMod* m = group->first ();
     while (m)
     {
-	QString iconfile = ICON_DIR "/";
-	iconfile += m->getIcon ();
+	QString iconpath = findIcon( m->getIcon());
 
-	QPixmap pixmap (iconfile);
+	QPixmap pixmap (iconpath);
 #if 0
 	if (pixmap.isNull ())
 	    qDebug ("failed to load icon %s", (const char*) iconfile);
@@ -507,6 +508,29 @@ Y2ControlCenterView::fillIconView( int group_id )
     }
 }
 
+void Y2ControlCenterView::addIconPath( const QString &dir )
+{
+    icon_dirs << dir;
+}
+
+QString Y2ControlCenterView::findIcon( QString icon )
+{
+    if ( iconFileCache.find( icon ) != iconFileCache.end() ) {
+	return iconFileCache[ icon ];
+    }
+
+    for (QStringList::Iterator it = icon_dirs.begin(); it != icon_dirs.end(); it++)
+    {
+        QString icondir = *it;
+        if ( QFile::exists(icondir + "/" + icon) )
+        {
+	    iconFileCache.insert( icon, icondir + "/" + icon );
+	    return QString(icondir + "/" + icon);
+        }
+    }
+
+    return QString();
+}
 
 void Y2ControlCenterView::slotButtonClicked(int id)
 {
@@ -567,7 +591,6 @@ void Y2ControlCenterView::slotSearchModule(QString text)
 	return;
 
     _items->clear();
-    QString icondir = ICON_DIR "/";
     if (!text.isEmpty())
     {
 	_searchDialog->ClearResults();
@@ -585,8 +608,9 @@ void Y2ControlCenterView::slotSearchModule(QString text)
 		if (m->getName().contains(QRegExp(text,false,false)) || \
 		    m->getDescription().contains(QRegExp(text,false,false)))
 		{
+		    QString iconpath = findIcon( m->getIcon() );
 //		    cout << "Found: " << m->getName() << "(" <<i  << ")" << endl;
-		    _searchDialog->SearchResult(new QListBoxPixmap(QPixmap(icondir + m->getIcon()),m->getName()));
+		    _searchDialog->SearchResult(new QListBoxPixmap(QPixmap( iconpath ),m->getName()));
 		    if (_items->size()<=i)
 		    {
 			_items->resize(i+1);

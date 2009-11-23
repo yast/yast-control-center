@@ -61,6 +61,8 @@ protected:
     QWidget * layoutTitleBar( QWidget * parent );
     void setGradient( QWidget * widget, const QPixmap & pixmap );
     void fillIconView( int group_id );
+    void addIconPath( const QString &dir );
+    QString findIcon( QString icon );
     
 private:
     
@@ -70,6 +72,9 @@ private:
     QListBox *		_listBox;
     MyQIconView * 	_iconView;
     SearchDialog *	_searchDialog;
+
+    QStringList icon_dirs;
+    QMap <QString, QString> iconFileCache; 
     
     const QString * error;
     const YMod * lastCalledModule;
