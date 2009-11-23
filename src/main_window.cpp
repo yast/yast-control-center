@@ -301,8 +301,8 @@ void MainWindow::slotFilterChanged()
 void MainWindow::initialMsg()
 {
     if ( !d->modmodel->isRoot() )
-	QMessageBox::information(this, _("YaST2 Control Center"), 
-            _("YaST2 Control Center is not running as root.\n"
+	QMessageBox::information(this, _("YaST Control Center"), 
+            _("YaST Control Center is not running as root.\n"
 	    "You will only see modules which do not require root privileges."));
 }
 
@@ -348,7 +348,7 @@ void MainWindow::writeSettings()
 
 void MainWindow::setWinTitle()
 {
-    QString title = _("YaST2 Control Center");
+    QString title = _("YaST Control Center");
     char hostname[ MAXHOSTNAMELEN+1 ];
     if ( gethostname( hostname, sizeof( hostname )-1 ) == 0 )
     {

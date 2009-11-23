@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Mon Nov 23 16:30:53 CET 2009 - kmachalkova@suse.cz
+
+- Use 'YaST' instead of 'YaST2' in messages and window titlebars 
+  (bnc#532518) 
+
+-------------------------------------------------------------------
 Tue Oct 20 11:59:43 CEST 2009 - kmachalkova@suse.cz
 
 - The same module order for every language (to prevent broken sync
