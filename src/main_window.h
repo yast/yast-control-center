@@ -53,6 +53,7 @@ private:
   Private *const d;
 
   QAction *addToF;
+  QAction *shutdown;
 
   void writeSettings();
   void readSettings();

@@ -162,7 +162,8 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
 
     readSettings();
 
-    //initActions();
+    initActions();
+    addAction( shutdown );
     //d->modview->addAction( addToF );
     //d->modview->setContextMenuPolicy( Qt::ActionsContextMenu );
 
@@ -181,6 +182,8 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
     connect( d->searchField, SIGNAL( textChanged( const QString &)),
 	     SLOT( slotFilterChanged() ));
 
+    connect( shutdown, SIGNAL( activated()), qApp, SLOT( quit()));
+
 }
 
 void MainWindow::setFullScreen( bool fs )
@@ -195,7 +198,9 @@ void MainWindow::setNoBorder( bool nb )
 
 void MainWindow::initActions()
 {
-   addToF = new QAction( "Add to Favourites", this ); 
+   //addToF = new QAction( "Add to Favourites", this ); 
+   shutdown = new QAction( this );
+   shutdown->setShortcut( ("Ctrl+Q") ); 
 }
 
 void MainWindow::slotGroupPressed( const QModelIndex &index )

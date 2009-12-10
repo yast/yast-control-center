@@ -1,10 +1,12 @@
 -------------------------------------------------------------------
 Thu Dec 10 13:03:24 CET 2009 - kmachalkova@suse.cz
 
-- Show correctly GenericNames containing comma (convert QStringList
+- Correctly show GenericNames containing comma (convert QStringList
   to QString) (bnc#550085)
 - Show Name from .desktop (instead of client name) in status line
   (bnc#544167)
+- Enable closing the main window with Ctrl+Q (bnc#551737)
+- 2.19.0
 
 -------------------------------------------------------------------
 Mon Nov 23 16:30:53 CET 2009 - kmachalkova@suse.cz
