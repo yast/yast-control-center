@@ -228,16 +228,37 @@ QVariant YQDesktopFilesModel::translatedPropertyValue( const QModelIndex &index,
 {
     QString fname =  d->desktop_files.value( index.row() );
     QFileInfo fi(fname); 
-    QString  value = propertyValue(index, key).toString();
+    QVariant value = propertyValue(index, key);
+    QString valueAsString = "";
+
+    // We can get QString, as well as QStringList if the .desktop key is csv
+    // (Qt's being too smart here and converts csv automatically to QStringList
+    // unless it's quoted). I'm not really happy about this solution, would be 
+    // better to enforce quoting csv, but .desktop standard does not enforce 
+    // quoting either (bnc#550085)
+    switch( value.type())
+    {
+	case QVariant::String: {
+	    valueAsString = value.toString();
+	    break;
+	} 
+	case QVariant::StringList: {
+	    valueAsString = value.toStringList().join(", ");
+	    break;
+	}
+	default:
+	    break;
+    }
+
 
     QString msgid = QString( "%1(%2)" ).arg( key, fi.fileName() ); 
     msgid += ": ";
-    msgid += value;
+    msgid += valueAsString;
 
     QString msgstr = QString::fromUtf8( dgettext ( DESKTOP_TRANSLATIONS, msgid.toAscii()) );
 
     if( msgid == msgstr)
-	return value;
+	return valueAsString;
     else
 	return msgstr;
 

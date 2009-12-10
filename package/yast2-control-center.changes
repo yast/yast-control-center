@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Dec 10 13:03:24 CET 2009 - kmachalkova@suse.cz
+
+- Show correctly GenericNames containing comma (convert QStringList
+  to QString) (bnc#550085)
+
+-------------------------------------------------------------------
 Mon Nov 23 16:30:53 CET 2009 - kmachalkova@suse.cz
 
 - Use 'YaST' instead of 'YaST2' in messages and window titlebars 
