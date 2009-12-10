@@ -3,6 +3,8 @@ Thu Dec 10 13:03:24 CET 2009 - kmachalkova@suse.cz
 
 - Show correctly GenericNames containing comma (convert QStringList
   to QString) (bnc#550085)
+- Show Name from .desktop (instead of client name) in status line
+  (bnc#544167)
 
 -------------------------------------------------------------------
 Mon Nov 23 16:30:53 CET 2009 - kmachalkova@suse.cz

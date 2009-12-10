@@ -281,7 +281,8 @@ void MainWindow::slotLaunchModule( const QModelIndex &index)
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     qDebug() << "Run command: " << cmd.toAscii();
-    QString msg = _("Starting module %1...").arg( client );
+    //Translators: module name comes here (%1) e.g. HTTP server, Scanner,...
+    QString msg = _("Starting configuration module \"%1\"...").arg( name );
     statusBar()->showMessage( msg, 2000 );
 
     system( cmd.toAscii() ); 
