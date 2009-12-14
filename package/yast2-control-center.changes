@@ -6,6 +6,7 @@ Thu Dec 10 13:03:24 CET 2009 - kmachalkova@suse.cz
 - Show Name from .desktop (instead of client name) in status line
   (bnc#544167)
 - Enable closing the main window with Ctrl+Q (bnc#551737)
+- Re-activated y2log saving (port of original Qt3 code - bnc#548520)
 - 2.19.0
 
 -------------------------------------------------------------------
