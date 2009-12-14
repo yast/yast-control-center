@@ -164,8 +164,11 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
 
     initActions();
     addAction( shutdown );
+    addAction( saveLogs );
     //d->modview->addAction( addToF );
     //d->modview->setContextMenuPolicy( Qt::ActionsContextMenu );
+
+    logSaver = new YQSaveLogs();
 
     setWinTitle();
     statusBar()->showMessage( _("Ready") );
@@ -184,6 +187,11 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
 
     connect( shutdown, SIGNAL( activated()), qApp, SLOT( quit()));
 
+    connect( saveLogs, SIGNAL( activated()), logSaver, SLOT( save() ));
+
+    connect( logSaver, SIGNAL( statusMsg( const QString &)), statusBar(), 
+	     SLOT( showMessage( const QString &) ));
+
 }
 
 void MainWindow::setFullScreen( bool fs )
@@ -200,7 +208,10 @@ void MainWindow::initActions()
 {
    //addToF = new QAction( "Add to Favourites", this ); 
    shutdown = new QAction( this );
-   shutdown->setShortcut( ("Ctrl+Q") ); 
+   shutdown->setShortcut( Qt::CTRL + Qt::Key_Q ); 
+
+   saveLogs = new QAction( this );
+   saveLogs->setShortcut( Qt::SHIFT + Qt::Key_F8); 
 }
 
 void MainWindow::slotGroupPressed( const QModelIndex &index )
@@ -378,6 +389,7 @@ void MainWindow::closeEvent (QCloseEvent *event)
 MainWindow::~MainWindow()
 {
     delete d;
+    delete logSaver;
 }
 
 #include "main_window.moc"

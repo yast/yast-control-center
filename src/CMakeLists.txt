@@ -31,6 +31,8 @@ SET(yast2-control-center_SRCS
     yqmodulesmodel.cpp
     yqmodulesproxymodel.cpp
 
+    yqsavelogs.cpp
+
     i18n.cpp
 )
 
@@ -55,6 +57,8 @@ SET(yast2-control-center_HDRS
     yqmodulegroupsmodel.h
     yqmodulesmodel.h
     yqmodulesproxymodel.h
+
+    yqsavelogs.h
 
     i18n.h
 )

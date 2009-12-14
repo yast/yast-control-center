@@ -15,6 +15,7 @@
 #include "kcategorizedview.h"
 #include "kcategorydrawer.h"
 #include "moduleiconitem.h"
+#include "yqsavelogs.h"
 
 
 #include <QMainWindow>
@@ -54,6 +55,9 @@ private:
 
   QAction *addToF;
   QAction *shutdown;
+  QAction *saveLogs;
+
+  YQSaveLogs *logSaver;
 
   void writeSettings();
   void readSettings();
