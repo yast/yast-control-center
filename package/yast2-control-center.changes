@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu Jan  7 14:24:15 CET 2010 - jsrain@suse.cz
+
+- added yast2-control-center-qt Recommends yast2-qt (bnc#545331)
+
+-------------------------------------------------------------------
 Thu Dec 10 13:03:24 CET 2009 - kmachalkova@suse.cz
 
 - Correctly show GenericNames containing comma (convert QStringList
