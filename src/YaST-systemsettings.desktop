@@ -3,8 +3,7 @@ Type=Service
 Name=YaST
 Icon=yast
 GenericName=Administrator Settings
-Exec=/sbin/yast2
+Exec=kdesu -c /sbin/yast2
 X-KDE-RootOnly=true
 X-KDE-System-Settings-Parent-Category=system
-X-KDE-ServiceTypes=KCModule
-
+X-KDE-ServiceTypes=SystemSettingsExternalApp

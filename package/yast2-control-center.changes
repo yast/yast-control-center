@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Thu Mar 11 13:51:41 CET 2010 - kmachalkova@suse.cz
+
+- Integrate YaST with new KControl - it is ExternaApp, not KCModule
+  (bnc#574864)
+- 2.19.1 
+
+-------------------------------------------------------------------
 Thu Jan  7 14:24:15 CET 2010 - jsrain@suse.cz
 
 - added yast2-control-center-qt Recommends yast2-qt (bnc#545331)
