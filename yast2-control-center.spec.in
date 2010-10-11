@@ -3,7 +3,7 @@
 
 @HEADER@
 Group:	System/YaST
-License: GPL v2 or later
+License: GPLv2+
 BuildRequires:	libdrm-devel libjpeg-devel pkgconfig libqt4-devel update-desktop-files yast2-devtools
 BuildRequires:  cmake
 

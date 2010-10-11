@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Mon Oct 11 11:17:55 CEST 2010 - tgoettlicher@suse.de
+
+- Adapted license format
+- 2.19.3 
+
+-------------------------------------------------------------------
 Fri Oct  8 12:32:21 CEST 2010 - tgoettlicher@suse.de
 
 - fixed: bnc #644856: wrong systemsetting category
