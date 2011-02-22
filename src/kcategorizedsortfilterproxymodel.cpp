@@ -323,11 +323,13 @@ bool KCategorizedSortFilterProxyModel::filterAcceptsRow( int row, const QModelIn
     return ( nameMatches || keywordMatches );
 }
 
-void KCategorizedSortFilterProxyModel::bublisFilterFunction( const QString &s )
+void KCategorizedSortFilterProxyModel::customFilterFunction( const QString &s )
 {    
     d->filterGroups.clear();
     setFilterFixedString( s );
     d->filterString = s; 
+    invalidateFilter();
+    invalidate();
 }
 
 QString KCategorizedSortFilterProxyModel::matchingGroupFilterRegexp()

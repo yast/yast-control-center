@@ -10,4 +10,4 @@ install(TARGETS kcm_yast  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### install files ###############
 install( FILES kcmyast.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
-install( FILES emoticons.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
+#install( FILES emoticons.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )

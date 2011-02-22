@@ -116,7 +116,7 @@ public:
       */
     static int naturalCompare(const QString &a, const QString &b);
 
-    void bublisFilterFunction( const QString &s );
+    void customFilterFunction( const QString &s );
 
     QString matchingGroupFilterRegexp();
 

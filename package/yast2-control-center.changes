@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Tue Feb 22 14:20:36 CET 2011 - tgoettlicher@suse.de
+
+- bnc #661109: Layout of icons gets mixed after using search
+- 2.20.0 
+
+-------------------------------------------------------------------
 Mon Oct 11 11:17:55 CEST 2010 - tgoettlicher@suse.de
 
 - Adapted license format

@@ -309,7 +309,7 @@ void MainWindow::slotLaunchModule( const QModelIndex &index)
 void MainWindow::slotFilterChanged()
 {
     QString stext = d->searchField->text();
-    d->kcsfpm->bublisFilterFunction( stext );
+    d->kcsfpm->customFilterFunction( stext );
 
     QString gr_filter = d->kcsfpm->matchingGroupFilterRegexp();
     d->gcsfpm->setFilterRegExp ( gr_filter );
