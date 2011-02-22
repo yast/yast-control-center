@@ -27,6 +27,7 @@
 #include <QScrollBar>
 #include <QPaintEvent>
 #include <QDebug>
+#include <iostream>
 
 
 #include "kcategorydrawer.h"
@@ -174,9 +175,11 @@ QRect KCategorizedView::Private::visualRectInViewport(const QModelIndex &index) 
     int itemWidthPlusSeparation = listView->spacing() + itemWidth;
     if (!itemWidthPlusSeparation)
         itemWidthPlusSeparation++;
+
     int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
     if (!elementsPerRow)
         elementsPerRow++;
+
 
     int column;
     int row;

@@ -20,8 +20,6 @@
  */
 
 #include "moduleiconitem.h"
-//#include <kiconloader.h>
-//#include <kdebug.h>
 #include "kcmoduleinfo.h"
 
 #include <climits>
@@ -88,9 +86,6 @@ void ModuleIconItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 	    
 	}
 	painter->setFont( f );
-//	if( index.data( Qt::UserRole ).toInt() == KIconLoader::DisabledState ) {
-//		painter->setPen( option.palette.color( QPalette::Disabled, QPalette::Text ) );
-//	}
 
 	QIcon::Mode iconMode = QIcon::Normal;
 	if (selected) iconMode = QIcon::Selected;
@@ -114,8 +109,8 @@ QSize ModuleIconItemDelegate::sizeHint ( const QStyleOptionViewItem & option, co
    QFontMetrics fm( f );
 
    QSize s = QItemDelegate::sizeHint( option, index );
-   int w = lviewstyle->pixelMetric( QStyle::PM_FocusFrameHMargin ) + 2*lviewstyle->pixelMetric( QStyle::PM_ListViewIconSize ) + 
-	       + fm.boundingRect( text ).width();	
+   int w =  2*lviewstyle->pixelMetric( QStyle::PM_FocusFrameHMargin ) + 2*lviewstyle->pixelMetric( QStyle::PM_ListViewIconSize ) + 8 + fm.boundingRect( text ).width();	
+
    return QSize( w, s.height()); 
 }
 
@@ -137,42 +132,4 @@ QPainterPath ModuleIconItemDelegate::roundedRectangle(const QRectF &rect, qreal 
 	return path;
 }
 
-/*ModuleIconItem::ModuleIconItem( QListWidget* parent, const KCModuleInfo& module)
-	:// QListWidgetItem(SmallIcon( module.icon(), IMAGE_SIZE ), module.moduleName(), parent),
-	imageName(module.icon())
-{
 
-	std::cout << "ModuleIconItem::ModuleIconItem" << std::endl;
-//	setData( Qt::UserRole, KIconLoader::DefaultState );
-	modules.append(module);
-	setSize();
-}
-
-ModuleIconItem::ModuleIconItem( QListWidget* parent, const QString &text,
-		const QString &_imageName )
-	: //QListWidgetItem( SmallIcon( _imageName, IMAGE_SIZE ), text, parent ),
-	imageName(_imageName)
-{
-	std::cout << "ModuleIconItem::ModuleIconItem" << std::endl;
-//	setData( Qt::UserRole, KIconLoader::DefaultState );
-	setSize();
-}
-
-void ModuleIconItem::loadIcon( bool enabled )
-{
-	std::cout << "ModuleIconItem::loadIcon" << std::endl;
-//	int newState = enabled ? KIconLoader::DefaultState : KIconLoader::DisabledState;
-//	if( newState == data( Qt::UserRole ).toInt() )
-		return;
-
-//	setData( Qt::UserRole, newState );
-//	setIcon( DesktopIcon( imageName, IMAGE_SIZE , newState ) );
-}
-
-void ModuleIconItem::setSize()
-{
-	QStyle *style = listWidget()->style();
-	QFontMetrics fm(font());
-	const QRect &rect = fm.boundingRect(0, 0, ICON_WIDTH, INT_MAX, Qt::TextWordWrap, text());
-	setData(Qt::SizeHintRole, QSize(ICON_WIDTH, IMAGE_SIZE + style->pixelMetric(QStyle::PM_FocusFrameVMargin) + rect.height()));
-}*/
