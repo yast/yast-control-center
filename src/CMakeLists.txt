@@ -17,22 +17,15 @@ SET(yast2-control-center_SRCS
     main.cpp
     main_window.cpp
     kcategorizedview.cpp
- #   menuitem.cpp
     kcategorydrawer.cpp
     kcategorizedsortfilterproxymodel.cpp
-  #  kcmodulemodel.cpp
     moduleiconitem.cpp
-  #  kcmoduleinfo.cpp
-
     yccmoduleinfoprovider.cpp
-
     yqdesktopfilesmodel.cpp
     yqmodulegroupsmodel.cpp
     yqmodulesmodel.cpp
     yqmodulesproxymodel.cpp
-
     yqsavelogs.cpp
-
     i18n.cpp
 )
 
@@ -43,23 +36,17 @@ SET(yast2-control-center_SRCS
 SET(yast2-control-center_HDRS
     main_window.h
     kcategorizedview.h
-  #  menuitem.h
-  #  kcmodulemodel.h
     kcategorydrawer.h
     kcategorizedsortfilterproxymodel.h
     moduleiconitem.h
-  #  kcmoduleinfo.h
     kcategorizedview_p.h
-  
     yccmoduleinfoprovider.h
-
     yqdesktopfilesmodel.h
     yqmodulegroupsmodel.h
     yqmodulesmodel.h
     yqmodulesproxymodel.h
-
+    listview.h
     yqsavelogs.h
-
     i18n.h
 )
 

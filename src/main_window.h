@@ -62,6 +62,9 @@ private:
   void writeSettings();
   void readSettings();
   void setWinTitle();
+  QSize readGroupViewSize();
+
+  QDockWidget *groupdock;
 
 };
 

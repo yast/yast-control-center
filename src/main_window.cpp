@@ -38,11 +38,14 @@
 
 #include "yqmodulesmodel.h"
 #include "yqmodulegroupsmodel.h"
+#include "listview.h"
 
 //#include "moduleiconitem.h"
 #define ORG_NAME "YaST2"
 #define APP_NAME "y2controlcenter-qt"
 #define USED_QUEUE_SIZE 5
+
+#define GROUPSIZE QSize(200,350)
 
 
 /*
@@ -67,7 +70,7 @@ public:
      }
 
     YQModulesModel *modmodel;
-    QListView *groupview;
+    ListView *groupview;
     KCategorizedView * modview;
     // category proxy model
     KCategorizedSortFilterProxyModel * kcsfpm;
@@ -144,9 +147,11 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
     d->gcsfpm->setFilterKeyColumn( 2 );
     d->gcsfpm->setFilterRole( Qt::UserRole );
 
-    d->groupview = new QListView(  );
+    d->groupview = new ListView(  );
+
     d->groupview->setModel(d->gcsfpm);
     d->groupview->setIconSize( QSize(32,32) );
+    d->groupview->setSizeHint( readGroupViewSize() );
 
     //now pre-select something
     d->groupview->setSelectionMode( QAbstractItemView::SingleSelection );
@@ -192,6 +197,8 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
     connect( logSaver, SIGNAL( statusMsg( const QString &)), statusBar(), 
 	     SLOT( showMessage( const QString &) ));
 
+
+//    d->groupview->setSizeHint(500,500);
 }
 
 void MainWindow::setFullScreen( bool fs )
@@ -348,6 +355,19 @@ void MainWindow::readSettings()
 
 }
 
+QSize MainWindow::readGroupViewSize()
+{
+    QSettings settings(ORG_NAME, APP_NAME);
+    QSize size;
+    
+    settings.beginGroup("GroupView");
+    size = settings.value("Size", GROUPSIZE).toSize(); 
+    settings.endGroup();
+
+    return size;
+}
+
+
 void MainWindow::writeSettings() 
 {
     QSettings settings(ORG_NAME, APP_NAME);
@@ -361,6 +381,11 @@ void MainWindow::writeSettings()
     QStringList used_list( d->recentlyUsed ); 
     settings.setValue( "RecentlyUsed", used_list.join(",") );
     settings.endGroup();
+
+    settings.beginGroup("GroupView");
+    settings.setValue("Size", d->groupview->size());
+    settings.endGroup();
+
 }
 
 void MainWindow::setWinTitle()

@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Feb 23 13:06:01 CET 2011 - tgoettlicher@suse.de
+
+- remember panel width (bnc #613352) 
+- 2.20.2
+
+-------------------------------------------------------------------
 Tue Feb 22 17:36:58 CET 2011 - tgoettlicher@suse.de
 
 - fixed bnc #650907: yast2 shrinks module selector item on search
