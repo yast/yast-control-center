@@ -57,7 +57,7 @@ QModelIndex YQDesktopFilesModel::indexForValue( const QString &key, const QVaria
         }
     }
 
-    qWarning() << "No index for key: " << key << " value: " << value.toString();
+//    qWarning() << "No index for key: " << key << " value: " << value.toString();
     return QModelIndex();
 }
 
