@@ -697,6 +697,8 @@ void KCategorizedView::setCategoryDrawer(KCategoryDrawer *categoryDrawer)
     }
 }
 
+
+
 void KCategorizedView::selectCategory( const QString cat )
 {
     QRect previous = d->categoryVisualRect( d->selectedCategory );
@@ -917,147 +919,6 @@ void KCategorizedView::resizeEvent(QResizeEvent *event)
     d->updateScrollbars();
 }
 
-/*void KCategorizedView::setSelection(const QRect &rect,
-                                    QItemSelectionModel::SelectionFlags flags)
-{
-    if (!d->proxyModel || !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
-    {
-        QListView::setSelection(rect, flags);
-        return;
-    }
-
-    if (!flags)
-        return;
-
-    if (flags & QItemSelectionModel::Clear)
-    {
-        selectionModel()->clear();
-        d->lastSelection.clear();
-    }
-
-    QModelIndexList dirtyIndexes = d->intersectionSet(rect);
-
-    // no items affected, just leave
-    if (!dirtyIndexes.count())
-    {
-        selectionModel()->select(d->lastSelection, QItemSelectionModel::SelectCurrent);
-
-        return;
-    }
-
-    QModelIndex topLeft;
-    QModelIndex bottomRight;
-
-    if (d->mouseButtonPressed || d->rightMouseButtonPressed) // selection with click + drag
-    {
-        QItemSelection selection;
-
-        QModelIndex prev = dirtyIndexes[0];
-        QModelIndex first = prev;
-        foreach (const QModelIndex &index, dirtyIndexes)
-        {
-            // we have a different interval. non-contiguous items
-            if ((index.row() - prev.row()) > 1) {
-                selection << QItemSelectionRange(first, prev);
-
-                first = index;
-            }
-
-            prev = index;
-        }
-
-        selection << QItemSelectionRange(first, prev);
-
-        if (flags & QItemSelectionModel::Current)
-        {
-            if (rect.topLeft() == rect.bottomRight())
-            {
-                selectionModel()->setCurrentIndex(indexAt(rect.topLeft()), QItemSelectionModel::NoUpdate);
-            }
-
-            selection.merge(d->lastSelection, flags);
-        }
-        else
-        {
-            selection.merge(selectionModel()->selection(), flags);
-
-            selectionModel()->select(selection, QItemSelectionModel::SelectCurrent);
-
-            return;
-        }
-
-        selectionModel()->select(selection, flags);
-    }
-    else // selection with click + keyboard keys
-    {
-        QModelIndex topLeftIndex = indexAt(QPoint(rect.topLeft().x(),
-                                                  rect.topLeft().y()));
-        QModelIndex bottomRightIndex = indexAt(QPoint(rect.bottomRight().x(),
-                                                      rect.bottomRight().y()));
-
-        // keyboard selection comes "upside down". Let's normalize it
-        if (topLeftIndex.row() > bottomRightIndex.row())
-        {
-            QModelIndex auxIndex = topLeftIndex;
-            topLeftIndex = bottomRightIndex;
-            bottomRightIndex = auxIndex;
-        }
-
-        int viewportWidth = viewport()->width() - spacing();
-        int itemWidth;
-
-        if (gridSize().isEmpty())
-        {
-            itemWidth = d->biggestItemSize.width();
-        }
-        else
-        {
-            itemWidth = gridSize().width();
-        }
-
-        int itemWidthPlusSeparation = spacing() + itemWidth;
-        if (!itemWidthPlusSeparation)
-            itemWidthPlusSeparation++;
-        int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
-        if (!elementsPerRow)
-            elementsPerRow++;
-
-        QModelIndexList theoricDirty(dirtyIndexes);
-        dirtyIndexes.clear();
-        int first = model()->rowCount();
-        int last = 0;
-
-        foreach (const QModelIndex &index, theoricDirty)
-        {
-            if ((index.row() < first) &&
-                ((((topLeftIndex.row() / elementsPerRow) == (index.row() / elementsPerRow)) &&
-                  ((topLeftIndex.row() % elementsPerRow) <= (index.row() % elementsPerRow))) ||
-                 (topLeftIndex.row() / elementsPerRow) != (index.row() / elementsPerRow)))
-            {
-                first = index.row();
-                topLeft = index;
-            }
-
-            if ((index.row() > last) &&
-                ((((bottomRightIndex.row() / elementsPerRow) == (index.row() / elementsPerRow)) &&
-                  ((bottomRightIndex.row() % elementsPerRow) >= (index.row() % elementsPerRow))) ||
-                 (bottomRightIndex.row() / elementsPerRow) != (index.row() / elementsPerRow)))
-            {
-                last = index.row();
-                bottomRight = index;
-            }
-        }
-
-        for (int i = first; i <= last; i++)
-        {
-            dirtyIndexes << model()->index(i, theoricDirty[0].column(), theoricDirty[0].parent());
-        }
-
-        QItemSelection selection(topLeft, bottomRight);
-
-        selectionModel()->select(selection, flags);
-    }
-}*/
 
 void KCategorizedView::mouseMoveEvent(QMouseEvent *event)
 {
@@ -1126,6 +987,7 @@ void KCategorizedView::mouseMoveEvent(QMouseEvent *event)
 
         viewport()->update(rect);
     }
+    viewport()->update();
 }
 
 void KCategorizedView::mousePressEvent(QMouseEvent *event)
@@ -1178,28 +1040,6 @@ void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)
     if (/*(selectionMode() != SingleSelection) && (selectionMode() != NoSelection) &&*/
         (initialPressPosition == d->initialPressPosition))
     {
-        /*foreach(const QString &category, d->categories)
-        {
-            if (d->categoryVisualRect(category).contains(event->pos()) &&
-                selectionModel())
-            {
-                QItemSelection selection; = selectionModel()->selection();
-                QModelIndexList indexList = d->categoriesIndexes[category];
-
-                foreach (const QModelIndex &index, indexList)
-                {
-                    QModelIndex selectIndex = index.model()->index(index.row(), 0);
-		    if( d->visualRectInViewport( selectIndex ).contains(initialPressPosition))
-		    {
-                        selection << QItemSelectionRange(selectIndex);
-                	//selectionModel()->select(selection, QItemSelectionModel::SelectCurrent);
-			//selectionModel()->setCurrentIndex(selectIndex, QItemSelectionModel::SelectCurrent);
-			selectionModel()->select(selectIndex, QItemSelectionModel::SelectCurrent);
-		    }
-                }
-
-            //}
-        }*/
 	selectionModel()->select( d->hovered, QItemSelectionModel::SelectCurrent);
     }
 

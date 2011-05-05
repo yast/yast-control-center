@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu May  5 15:57:43 CEST 2011 - tgoettlicher@suse.de
+
+- Fixed module highlighting when window is scrolled (bnc #685446)
+- 2.21.2
+
+-------------------------------------------------------------------
 Wed Apr 27 17:22:24 CEST 2011 - tgoettlicher@suse.de
 
 - Removed useless warning message (bnc #620617) 
