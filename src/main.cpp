@@ -1,30 +1,7 @@
-/***************************************************************************
-                          main.cpp  -  description
-                             -------------------
-    begin                : Mit Okt 18 14:21:09 CEST 2000
-    copyright            : (C) 2000 by SuSE GmbH
-    author               : lnussel@suse.de
- ***************************************************************************/
-
-/*
-  Textdomain "control-center"
-*/
-
-#include <qapplication.h>
-#include <qtimer.h>
-#include <qfont.h>
-#include <qstring.h>
-
-#include <unistd.h>
-
-// for MAXHOSTNAMELEN
-#include <rpc/types.h>
-
-// exit
-#include <stdlib.h>
-
-// strcmp
-#include <string.h>
+#include <QApplication>
+#include <QDesktopWidget>
+#include <QRect>
+#include <QTimer>
 
 #include <iostream>
 
@@ -32,13 +9,8 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
-#include "myintl.h"
-#include "y2controlcenter.h"
-#include "y2cc_config.h"
-
-
-//global class with config options
-Config config;
+#include "main_window.h"
+#include "i18n.h"
 
 void printhelpandexit()
 {
@@ -48,21 +20,19 @@ void printhelpandexit()
 	 << "\nOPTIONS:"
 	 << "\n"
 	 << "\n    --help         -h    this message"
-	 << "\n    --root         -r    also show \"root only\" modules"
 	 << "\n    --fullscreen         use full screen"
 	 << "\n    --noborder           no window manager border for main window"
 	 << endl;
     exit (0);
 }
 
-int main( int argc, char *argv[] )
+int main(int argc, char **argv)
 {
-    //  cerr << time(0) << " main()" << endl;
-    config.textdomain = "control-center";
+    QApplication app(argc, argv);
+    set_textdomain("control-center");
 
-    set_textdomain (config.textdomain);
-
-    QApplication app( argc, argv );
+    bool fullscreen = false;
+    bool noborder = false;
 
     for ( int i=0 ;i < argc ;i++ )
     {
@@ -73,51 +43,35 @@ int main( int argc, char *argv[] )
 	if ( opt.startsWith( "--" ) )
 	    opt.remove(0, 1);
 
-	if 	( opt == "-h" || opt == "-help"		)	printhelpandexit();
-	else if ( opt == "-r" || opt == "-root"		)	config.isroot     = true;
-
-	else if ( opt == "-fullscreen"			)	config.fullscreen = true;
-	else if ( opt == "-noborder"			)	config.noBorder   = true;
+	if ( opt == "-h" || opt == "-help" )	
+	    printhelpandexit();
+	else if ( opt == "-fullscreen" )	
+	    fullscreen = true;
+	else if ( opt == "-noborder" )	
+	    noborder   = true;
     }
+	   
+    Qt::WFlags wflags = Qt::Window;
 
-    //  cout << (config.isroot.value()==true?"true":"false") << endl;
+    if ( noborder )
+	wflags |= Qt::FramelessWindowHint;
 
-    Qt::WFlags wflags = Qt::WType_TopLevel;
+    MainWindow mainWin ( wflags );
 
-    if ( config.noBorder )
-	wflags |= Qt::WStyle_Customize | Qt::WStyle_NoBorder;
+    mainWin.setFullScreen ( fullscreen );
+    mainWin.setNoBorder( noborder );
 
-    Y2ControlCenter y2cc( wflags );
-
-    if ( config.fullscreen )
+    if ( fullscreen )
     {
 	QRect available = app.desktop()->availableGeometry();
-	y2cc.resize( available.width(), available.height() );
-	y2cc.move( available.topLeft() );
+	mainWin.resize( available.width(), available.height() );
+	mainWin.move( available.topLeft() );
     }
-    else
-	y2cc.resize( 680, 420 );
 
-    app.setMainWidget( &y2cc );
+    mainWin.show();
 
-
-    QString title = _("YaST2 Control Center");
-    char hostname[ MAXHOSTNAMELEN+1 ];
-    if ( gethostname( hostname, sizeof( hostname )-1 ) == 0 )
-    {
-	hostname[ sizeof( hostname ) -1 ] = '\0'; // make sure it's terminated
-
-	if ( strlen( hostname ) > 0 && strcmp( hostname, "(none)" ) != 0 )
-	{
-	    title += " @ ";
-	    title += hostname;
-	}
-    }
-    y2cc.setCaption( title );
-    y2cc.show();
-
-    QTimer::singleShot( 0, &y2cc, SLOT( configure() ) );
-
+    QTimer::singleShot(60, &mainWin, SLOT( initialMsg() ));
+    
     return app.exec();
-}
 
+}

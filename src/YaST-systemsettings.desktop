@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Service
+Name=YaST
+Icon=yast
+GenericName=Administrator Settings
+Exec=kdesu -c /sbin/yast2
+X-KDE-RootOnly=true
+X-KDE-System-Settings-Parent-Category=system-administration 
+X-KDE-ServiceTypes=SystemSettingsExternalApp
