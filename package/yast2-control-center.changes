@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri Aug  5 14:48:57 CEST 2011 - tgoettlicher@suse.de
+
+- Added application icon (bnc #621010)
+- 2.21.4
+
+-------------------------------------------------------------------
 Fri Aug  5 12:31:14 CEST 2011 - tgoettlicher@suse.de
 
 - fixed .desktop file (bnc #681249)

@@ -60,6 +60,7 @@ int main(int argc, char **argv)
 
     mainWin.setFullScreen ( fullscreen );
     mainWin.setNoBorder( noborder );
+    mainWin.setWindowIcon( QIcon( "/usr/share/pixmaps/yast.png"  ) );
 
     if ( fullscreen )
     {
