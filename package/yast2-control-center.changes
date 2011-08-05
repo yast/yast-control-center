@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Fri Aug  5 12:31:14 CEST 2011 - tgoettlicher@suse.de
+
+- fixed .desktop file (bnc #681249)
+
+-------------------------------------------------------------------
 Thu May  5 15:57:43 CEST 2011 - tgoettlicher@suse.de
 
 - Fixed module highlighting when window is scrolled (bnc #685446)
