@@ -16,6 +16,7 @@
 #include <rpc/types.h>
 #include <stdlib.h> 
 #include <time.h>
+#include <iostream>
 
 #include <QApplication>
 #include <QLayout>
@@ -304,6 +305,7 @@ void MainWindow::slotLaunchModule( const QModelIndex &index)
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     qDebug() << "Run command: " << cmd.toAscii();
+    std::cout << "Run command: " << qPrintable(cmd) << std::endl;
     //Translators: module name comes here (%1) e.g. HTTP server, Scanner,...
     QString msg = _("Starting configuration module \"%1\"...").arg( name );
     statusBar()->showMessage( msg, 2000 );
