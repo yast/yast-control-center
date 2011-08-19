@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri Aug 19 12:01:25 CEST 2011 - tgoettlicher@suse.de
+
+- Fixed bnc#549863: useless context menu in category-dock-widget
+- Version: 2.21.5
+
+-------------------------------------------------------------------
 Fri Aug  5 14:48:57 CEST 2011 - tgoettlicher@suse.de
 
 - Added application icon (bnc #621010)

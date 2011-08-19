@@ -19,6 +19,7 @@
 
 
 #include <QMainWindow>
+#include <QMenu>
 #include <QAction> 
 #include <QCloseEvent>
 
@@ -37,6 +38,7 @@ public:
 
   void setFullScreen( bool fs); 
   void setNoBorder( bool nb ); 
+  QMenu* createPopupMenu () { return NULL; };
 
 protected slots:
   void slotGroupPressed( const QModelIndex &index );
@@ -63,6 +65,7 @@ private:
   void readSettings();
   void setWinTitle();
   QSize readGroupViewSize();
+
 
   QDockWidget *groupdock;
 
