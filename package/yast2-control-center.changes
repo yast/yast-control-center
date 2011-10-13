@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Oct 13 13:47:26 CEST 2011 - tgoettlicher@suse.de
+
+- Fixed bnc#723396: added comment desktop file
+- Version: 2.21.7
+
+-------------------------------------------------------------------
 Fri Aug 19 14:49:03 CEST 2011 - tgoettlicher@suse.de
 
 - Fixed bnc#553189: yast2 control center (qt) does not print commands anymore

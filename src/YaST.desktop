@@ -6,3 +6,4 @@ Icon=yast
 GenericName=Control Center
 Exec=/usr/bin/xdg-su -c /sbin/yast2
 Encoding=UTF-8
+Comment=Manage system-wide settings
