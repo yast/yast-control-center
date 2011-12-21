@@ -3,7 +3,7 @@
 
 @HEADER@
 Group:	System/YaST
-License: GPLv2+
+License: GPL-2.0
 BuildRequires:	libdrm-devel libjpeg-devel pkgconfig libqt4-devel update-desktop-files yast2-devtools
 BuildRequires:  cmake
 
@@ -67,6 +67,6 @@ rm -rf "$RPM_BUILD_ROOT"
 %files qt
 %defattr(-,root,root)
 %{_prefix}/lib/YaST2/bin/y2controlcenter
-%doc COPYING 
+%doc COPYING.GPL2
 
 %changelog

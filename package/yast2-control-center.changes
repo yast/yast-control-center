@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Dec 21 17:52:53 CET 2011 - tgoettlicher@suse.de
+
+- Confirmed license
+- Version: 2.22.0
+
+-------------------------------------------------------------------
 Thu Oct 13 13:47:26 CEST 2011 - tgoettlicher@suse.de
 
 - Fixed bnc#723396: added comment desktop file
