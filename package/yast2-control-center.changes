@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Mon Jan 30 16:46:38 CET 2012 - tgoettlicher@suse.de
+
+- Fixed bnc#742748: selected groups with keyboard 
+- Version: 2.22.1
+
+-------------------------------------------------------------------
 Wed Dec 21 17:52:53 CET 2011 - tgoettlicher@suse.de
 
 - Confirmed license
