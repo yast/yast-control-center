@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu Mar 15 18:29:56 CET 2012 - aschnell@suse.de
+
+- added missing include for gcc 4.7
+
+-------------------------------------------------------------------
 Mon Jan 30 16:46:38 CET 2012 - tgoettlicher@suse.de
 
 - Fixed bnc#742748: selected groups with keyboard 

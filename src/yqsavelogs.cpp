@@ -31,6 +31,8 @@
 
 #include "yqsavelogs.h"
 
+#include <unistd.h>
+
 #include <QFileDialog>
 #include <QMessageBox>
 
