@@ -7,6 +7,14 @@ License: GPL-2.0
 BuildRequires:	libdrm-devel libjpeg-devel pkgconfig libqt4-devel update-desktop-files yast2-devtools
 BuildRequires:  cmake
 
+%if 0%{?force_gcc_46}
+BuildRequires:  gcc46
+BuildRequires:  gcc46-c++
+%else
+BuildRequires:  gcc-c++ >= 4.6
+%endif
+
+
 Summary:	YaST2 - Control Center
 Requires:	yast2 yast2-control-center-binary
 Provides:	y2c_menu y2m_menu yast2-menu
@@ -35,6 +43,11 @@ Qt toolkit.
 %build
 mkdir build
 cd build
+%if 0%{?force_gcc_46}
+export CC=gcc-4.6
+export CXX=g++-4.6
+%endif
+
 export CFLAGS="$RPM_OPT_FLAGS"
 export CXXFLAGS="$CFLAGS"
 cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} \

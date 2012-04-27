@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri Apr 27 15:25:14 CEST 2012 - tgoettlicher@suse.de
+
+- workaround for gcc 4.7
+- Version: 2.22.2
+
+-------------------------------------------------------------------
 Thu Mar 15 18:29:56 CET 2012 - aschnell@suse.de
 
 - added missing include for gcc 4.7
