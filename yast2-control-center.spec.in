@@ -7,7 +7,7 @@ License: GPL-2.0
 BuildRequires:	libdrm-devel libjpeg-devel pkgconfig libqt4-devel update-desktop-files yast2-devtools
 BuildRequires:  cmake
 
-Requires:       yast2-theme
+Requires:       yast2_theme
 
 %if 0%{?force_gcc_46}
 BuildRequires:  gcc46
