@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Tue Feb 26 15:20:07 CET 2013 - tgoettlicher@suse.de
+
+- Adapted requirement for libyui-qt4
+- Version: 2.22.4
+
+-------------------------------------------------------------------
 Tue Feb 26 15:09:31 CET 2013 - tgoettlicher@suse.de
 
 - Added requirement for yast2-theme
