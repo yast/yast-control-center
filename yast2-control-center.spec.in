@@ -7,6 +7,8 @@ License: GPL-2.0
 BuildRequires:	libdrm-devel libjpeg-devel pkgconfig libqt4-devel update-desktop-files yast2-devtools
 BuildRequires:  cmake
 
+Requires:       yast2_theme
+
 %if 0%{?force_gcc_46}
 BuildRequires:  gcc46
 BuildRequires:  gcc46-c++
@@ -28,7 +30,7 @@ Summary:	YaST2 - Control Center (Qt Version)
 Requires:	yast2-control-center
 Provides:	yast2-control-center-binary
 Provides:	yast2-control-center:%{_prefix}/lib/YaST2/bin/y2controlcenter
-Recommends:	yast2-qt
+Recommends:	libyui-qt4
 Supplements:	kdebase3
 Supplements:	kdebase4-session
 Group:		System/YaST
