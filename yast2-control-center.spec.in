@@ -30,7 +30,7 @@ Summary:	YaST2 - Control Center (Qt Version)
 Requires:	yast2-control-center
 Provides:	yast2-control-center-binary
 Provides:	yast2-control-center:%{_prefix}/lib/YaST2/bin/y2controlcenter
-Recommends:	libyui-qt4
+Recommends:	libyui-qt5
 Supplements:	kdebase3
 Supplements:	kdebase4-session
 Group:		System/YaST
