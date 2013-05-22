@@ -5,6 +5,13 @@ Wed May 22 15:10:27 CEST 2013 - tgoettlicher@suse.de
 - Version: 2.22.5
 
 -------------------------------------------------------------------
+Sat Mar 30 14:54:01 UTC 2013 - dimstar@opensuse.org
+
+- Add X-GNOME-SystemSettings as category to YaST.desktop: allows
+  YaST to be seen by gnome-control-center and to be added
+  transparently.
+
+-------------------------------------------------------------------
 Tue Feb 26 15:20:07 CET 2013 - tgoettlicher@suse.de
 
 - Adapted requirement for libyui-qt4

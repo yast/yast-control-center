@@ -65,7 +65,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 cd ..
 
 
-%suse_update_desktop_file -G "Administrator Settings"  %{buildroot}%{_datadir}/applications/YaST.desktop Core-System X-SuSE-ControlCenter-System
+%suse_update_desktop_file -G "Administrator Settings"  %{buildroot}%{_datadir}/applications/YaST.desktop Core-System X-SuSE-ControlCenter-System X-GNOME-SystemSettings
 %suse_update_desktop_file %{buildroot}%{_datadir}/kde4/services/YaST-systemsettings.desktop 
 
 %clean
