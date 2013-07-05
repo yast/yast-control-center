@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri Jul  5 15:39:03 CEST 2013 - tgoettlicher@suse.de
+
+- fixed inconsistency, double vs single click (bnc#780349)
+- Version: 2.22.6
+
+-------------------------------------------------------------------
 Wed May 22 15:10:27 CEST 2013 - tgoettlicher@suse.de
 
 - Adapted requirement for libyui-qt5
