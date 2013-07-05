@@ -190,7 +190,7 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
     setWinTitle();
     statusBar()->showMessage( _("Ready") );
     
-    connect( d->groupview, SIGNAL( activated( const QModelIndex & ) ),
+    connect( d->groupview, SIGNAL( clicked( const QModelIndex & ) ),
              SLOT( slotGroupPressed( const QModelIndex & ) ) );
 
     connect( d->modview, SIGNAL( leftMouseClick ( const QModelIndex  &) ),
