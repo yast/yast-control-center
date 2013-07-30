@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Tue Jul 30 08:02:01 UTC 2013 - yast-devel@opensuse.org
+
+- version 3.0.0
+
+-------------------------------------------------------------------
 Fri Jul  5 15:39:03 CEST 2013 - tgoettlicher@suse.de
 
 - fixed inconsistency, double vs single click (bnc#780349)
