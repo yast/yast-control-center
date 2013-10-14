@@ -17,11 +17,11 @@
 
 
 Name:           yast2-control-center
-Version:        3.0.0
+Version:        3.1.0
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-Source0:        yast2-control-center-3.0.0.tar.bz2
+Source0:        yast2-control-center-%{version}.tar.bz2
 BuildRequires:  cmake
 BuildRequires:  libdrm-devel
 BuildRequires:  libjpeg-devel
