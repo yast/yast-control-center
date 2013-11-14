@@ -202,9 +202,9 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
     connect( d->searchField, SIGNAL( textChanged( const QString &)),
 	     SLOT( slotFilterChanged() ));
 
-    connect( shutdown, SIGNAL( triggered()), qApp, SLOT( quit()));
+    connect( shutdown, &QAction::triggered, qApp, &QApplication::quit );
 
-    connect( saveLogs, SIGNAL( triggered()), logSaver, SLOT( save() ));
+    connect( saveLogs, &QAction::triggered, logSaver, &YQSaveLogs::save );
 
     connect( logSaver, SIGNAL( statusMsg( const QString &)), statusBar(), 
 	     SLOT( showMessage( const QString &) ));
