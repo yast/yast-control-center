@@ -44,12 +44,6 @@ License:        GPL-2.0
 Group:          System/YaST
 Requires:       yast2
 Requires:       yast2-control-center-binary
-Provides:       y2c_menu
-Provides:       y2m_menu
-Provides:       yast2-menu
-Obsoletes:      y2c_menu
-Obsoletes:      y2m_menu
-Obsoletes:      yast2-menu
 
 %description
 This package contains the menu selection component for YaST2.
