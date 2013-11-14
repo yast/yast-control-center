@@ -267,7 +267,7 @@ QVariant YQDesktopFilesModel::translatedPropertyValue( const QModelIndex &index,
     msgid += ": ";
     msgid += valueAsString;
 
-    QString msgstr = QString::fromUtf8( dgettext ( DESKTOP_TRANSLATIONS, msgid.toAscii()) );
+    QString msgstr = QString::fromUtf8( dgettext ( DESKTOP_TRANSLATIONS, msgid.toUtf8()) );
 
     if( msgid == msgstr)
 	return valueAsString;

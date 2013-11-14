@@ -74,7 +74,7 @@ int main(int argc, char **argv)
 	    noborder   = true;
     }
 	   
-    Qt::WFlags wflags = Qt::Window;
+    Qt::WindowFlags wflags = Qt::Window;
 
     if ( noborder )
 	wflags |= Qt::FramelessWindowHint;

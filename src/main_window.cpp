@@ -315,13 +315,13 @@ void MainWindow::slotLaunchModule( const QModelIndex &index)
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-    qDebug() << "Run command: " << cmd.toAscii();
+    qDebug() << "Run command: " << cmd.toUtf8();
     std::cout << "Run command: " << qPrintable(cmd) << std::endl;
     //Translators: module name comes here (%1) e.g. HTTP server, Scanner,...
     QString msg = _("Starting configuration module \"%1\"...").arg( name );
     statusBar()->showMessage( msg, 2000 );
 
-    system( cmd.toAscii() ); 
+    system( cmd.toUtf8() );
 
     QTimer::singleShot( 3*1000, this, SLOT( slotRestoreCursor() ) ); 
 }
