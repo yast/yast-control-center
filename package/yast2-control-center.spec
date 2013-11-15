@@ -25,7 +25,7 @@ Source0:        yast2-control-center-%{version}.tar.bz2
 BuildRequires:  cmake
 BuildRequires:  libdrm-devel
 BuildRequires:  libjpeg-devel
-BuildRequires:  libqt4-devel
+BuildRequires:  libqt5-qtbase-devel
 BuildRequires:  pkgconfig
 BuildRequires:  update-desktop-files
 BuildRequires:  yast2-devtools
@@ -44,12 +44,6 @@ License:        GPL-2.0
 Group:          System/YaST
 Requires:       yast2
 Requires:       yast2-control-center-binary
-Provides:       y2c_menu
-Provides:       y2m_menu
-Provides:       yast2-menu
-Obsoletes:      y2c_menu
-Obsoletes:      y2m_menu
-Obsoletes:      yast2-menu
 
 %description
 This package contains the menu selection component for YaST2.

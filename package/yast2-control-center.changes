@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Nov 14 13:11:28 UTC 2013 - mvidner@suse.com
+
+- ported to Qt5
+- 3.1.1
+
+-------------------------------------------------------------------
 Mon Oct 14 16:10:40 UTC 2013 - jreidinger@suse.com
 
 - do not use *.spec.in template, use *.spec file with RPM macros

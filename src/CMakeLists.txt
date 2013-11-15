@@ -1,5 +1,3 @@
-INCLUDE(${QT_USE_FILE})
-
 INCLUDE_DIRECTORIES(/usr/include/initng ${CMAKE_CURRENT_BINARY_DIR})
 
 SET(THEMEDIR "/usr/share/YaST2/theme")
@@ -53,14 +51,10 @@ SET(yast2-control-center_HDRS
 #SET(yast2-control-center_RCCS ../files.qrc)
 
 
-QT4_AUTOMOC(${yast2-control-center_SRCS})
-# QT4_WRAP_UI(yast2-control-center_UIS_H ${yast2-control-center_UIS})
-QT4_WRAP_CPP(yast2-control-center_MOC ${yast2-control-center_UIS_H})
-QT4_ADD_RESOURCES(yast2-control-center_RCC_SRCS ${yast2-control-center_RCCS})
-
-
+SET(CMAKE_AUTOMOC ON)
 
 ADD_EXECUTABLE(y2controlcenter ${yast2-control-center_SRCS} ${yast2-control-center_MOC} ${yast2-control-center_RCC_SRCS})
+QT5_USE_MODULES(y2controlcenter Widgets Gui)
 TARGET_LINK_LIBRARIES(y2controlcenter ${QT_LIBRARIES})
 INSTALL(TARGETS y2controlcenter DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/YaST2/bin)
 
@@ -76,8 +70,8 @@ SET(MODELS_TEST_SRCS
   yqmodulesmodel.cpp )
 
 
-QT4_AUTOMOC(${MODELS_TEST_SRCS})
 ADD_EXECUTABLE(models_test ${MODELS_TEST_SRCS})
+QT5_USE_MODULES(models_test Widgets Gui)
 TARGET_LINK_LIBRARIES(models_test ${QT_QTCORE_LIBRARIES} ${QT_QTGUI_LIBRARIES})
 
 FIND_PACKAGE(KDE4)

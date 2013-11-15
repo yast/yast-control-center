@@ -103,7 +103,7 @@ void YQSaveLogs::SaveLogs()
         QString saveLogsCommand = "/sbin/save_y2logs";
 	QStringList args = QStringList() << fileName;
 
-        if ( access( saveLogsCommand.toAscii(), X_OK ) == 0 )
+        if ( access( saveLogsCommand.toUtf8(), X_OK ) == 0 )
         {
             lock = true;
 
@@ -170,11 +170,11 @@ QString YQSaveLogs::askForSaveFileName( const QString & startWith,
             return QString::null;
 
 
-        if ( access( file_name.toAscii(), F_OK ) == 0 )    // file exists?
+        if ( access( file_name.toUtf8(), F_OK ) == 0 )    // file exists?
         {
             QString msg;
 
-            if ( access(  file_name.toAscii(), W_OK ) == 0 )
+            if ( access(  file_name.toUtf8(), W_OK ) == 0 )
             {
                 // Confirm if the user wishes to overwrite an existing file
                 msg = ( _( "%1 exists! Really overwrite?" ) ).arg( file_name );
