@@ -28,7 +28,7 @@ BuildRequires:  libjpeg-devel
 BuildRequires:  libqt5-qtbase-devel
 BuildRequires:  pkgconfig
 BuildRequires:  update-desktop-files
-BuildRequires:  yast2-devtools
+BuildRequires:  yast2-devtools >= 3.1.10
 
 Requires:       yast2_theme
 
