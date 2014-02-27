@@ -100,7 +100,7 @@ void YQSaveLogs::SaveLogs()
 
     if ( ! fileName.isEmpty() )
     {
-        QString saveLogsCommand = "/sbin/save_y2logs";
+        QString saveLogsCommand = "/usr/sbin/save_y2logs";
 	QStringList args = QStringList() << fileName;
 
         if ( access( saveLogsCommand.toUtf8(), X_OK ) == 0 )
