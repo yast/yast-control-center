@@ -54,8 +54,7 @@ SET(yast2-control-center_HDRS
 SET(CMAKE_AUTOMOC ON)
 
 ADD_EXECUTABLE(y2controlcenter ${yast2-control-center_SRCS} ${yast2-control-center_MOC} ${yast2-control-center_RCC_SRCS})
-QT5_USE_MODULES(y2controlcenter Widgets Gui)
-TARGET_LINK_LIBRARIES(y2controlcenter ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(y2controlcenter Qt5::Widgets Qt5::Gui)
 INSTALL(TARGETS y2controlcenter DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/YaST2/bin)
 
 INSTALL(FILES yast.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/pixmaps )
@@ -71,8 +70,7 @@ SET(MODELS_TEST_SRCS
 
 
 ADD_EXECUTABLE(models_test ${MODELS_TEST_SRCS})
-QT5_USE_MODULES(models_test Widgets Gui)
-TARGET_LINK_LIBRARIES(models_test ${QT_QTCORE_LIBRARIES} ${QT_QTGUI_LIBRARIES})
+TARGET_LINK_LIBRARIES(models_test Qt5::Core Qt5::Widgets Qt5::Gui)
 
 FIND_PACKAGE(KDE4)
 IF ( KDE4_FOUND )
