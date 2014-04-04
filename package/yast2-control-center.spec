@@ -41,6 +41,7 @@ BuildRequires:  gcc46-c++
 BuildRequires:  gcc-c++ >= 4.6
 %endif
 
+Url:            https://github.com/yast/yast-control-center
 Summary:        YaST2 - Control Center
 License:        GPL-2.0
 Group:          System/YaST
