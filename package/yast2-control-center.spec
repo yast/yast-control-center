@@ -25,10 +25,12 @@ Source0:        yast2-control-center-%{version}.tar.bz2
 BuildRequires:  cmake
 BuildRequires:  libdrm-devel
 BuildRequires:  libjpeg-devel
-BuildRequires:  libqt5-qtbase-devel
 BuildRequires:  pkgconfig
 BuildRequires:  update-desktop-files
 BuildRequires:  yast2-devtools >= 3.1.10
+BuildRequires:  pkgconfig(Qt5Core)
+BuildRequires:  pkgconfig(Qt5Gui)
+BuildRequires:  pkgconfig(Qt5Widgets)
 
 Requires:       yast2_theme
 
