@@ -1,6 +1,6 @@
 PROJECT( yast2-control-center )
 CMAKE_MINIMUM_REQUIRED( VERSION 2.8.9 )
-FIND_PACKAGE( Qt5Core REQUIRED )
+FIND_PACKAGE(Qt5 CONFIG REQUIRED Core Widgets Gui)
 
 SET( RPMNAME "yast2-control-center" )
 

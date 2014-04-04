@@ -17,7 +17,7 @@
 
 
 Name:           yast2-control-center
-Version:        3.1.2
+Version:        3.1.3
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -25,10 +25,12 @@ Source0:        yast2-control-center-%{version}.tar.bz2
 BuildRequires:  cmake
 BuildRequires:  libdrm-devel
 BuildRequires:  libjpeg-devel
-BuildRequires:  libqt5-qtbase-devel
 BuildRequires:  pkgconfig
 BuildRequires:  update-desktop-files
 BuildRequires:  yast2-devtools >= 3.1.10
+BuildRequires:  pkgconfig(Qt5Core)
+BuildRequires:  pkgconfig(Qt5Gui)
+BuildRequires:  pkgconfig(Qt5Widgets)
 
 Requires:       yast2_theme
 
@@ -39,6 +41,7 @@ BuildRequires:  gcc46-c++
 BuildRequires:  gcc-c++ >= 4.6
 %endif
 
+Url:            https://github.com/yast/yast-control-center
 Summary:        YaST2 - Control Center
 License:        GPL-2.0
 Group:          System/YaST
