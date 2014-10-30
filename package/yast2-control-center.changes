@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Oct 30 21:22:52 UTC 2014 - hrvoje.senjan@gmail.com
+
+- Install YaST-systemsettings.desktop also to KF5 services directory,
+  so it is also shown in Plasma5 session
+
+-------------------------------------------------------------------
 Fri Apr  4 14:44:54 UTC 2014 - mvidner@suse.com
 
 - CMakeFile: QT5_USE_MODULES is deprecated in Qt5.3 (H Senjan)
