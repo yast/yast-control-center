@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Oct 30 16:15:42 UTC 2014 - antoine.belvire@laposte.net
+
+- ignore desktop files whose Hidden attribute is set to "true"
+- 3.1.4
+
+-------------------------------------------------------------------
 Fri Apr  4 14:44:54 UTC 2014 - mvidner@suse.com
 
 - CMakeFile: QT5_USE_MODULES is deprecated in Qt5.3 (H Senjan)
