@@ -7,10 +7,8 @@ before_install:
     # a newer cmake is required, here is a backport for 12.04 LTS
     - sudo add-apt-repository ppa:kalakris/cmake -y
     # install yast2-devtools from YaST:Head:Travis
-    - curl http://download.opensuse.org/repositories/YaST:/Head:/Travis/xUbuntu_12.04/Release.key | sudo apt-key add -
-    - echo "deb http://download.opensuse.org/repositories/YaST:/Head:/Travis/xUbuntu_12.04/ ./" | sudo tee -a /etc/apt/sources.list
-    - sudo apt-get update -q
-    - sudo apt-get install --no-install-recommends -y qt53base yast2-devtools cmake
+    - wget https://raw.githubusercontent.com/yast/yast-devtools/master/travis-tools/travis_setup.sh
+    - sh ./travis_setup.sh -p "qt53base yast2-devtools cmake"
 script:
     # the Qt5 ackage is in /opt, set the environment first using the bundled script
     - . /opt/qt53/bin/qt53-env.sh
