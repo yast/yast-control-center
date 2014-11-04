@@ -142,13 +142,13 @@ void YQDesktopFilesModel::readDesktopFiles()
         PropertyMap data;
 
         data = readDesktopFile(filename);    
-        if ( ! data.empty() )
+        if ( ! data.empty() && data.value("Hidden") != "true" )
         {
             d->cache.insert(filename, data);
             qDebug() << filename << " has index " << count;
             success++;
         }
-	// readDesktopFiles returned empty map - skip those
+	// readDesktopFile returned an empty map or a hidden desktop file's map - skip those
 	else
 	{
 	    qDebug() << "Skipping " << filename << ", read returned no reasonable data";
