@@ -105,7 +105,6 @@ rm -rf "$RPM_BUILD_ROOT"
 %dir %{_datadir}/kservices5
 %{_datadir}/kservices5/YaST-systemsettings.desktop
 %{_datadir}/pixmaps/yast.png
-/usr/share/kservices5/YaST-systemsettings.desktop
 
 %files qt
 %defattr(-,root,root)
