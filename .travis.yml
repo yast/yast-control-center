@@ -1,0 +1,19 @@
+language: cpp
+compiler:
+    - gcc
+before_install:
+    # install Qt 5.3 from a launchpad repository
+    - sudo add-apt-repository ppa:beineri/opt-qt532 -y
+    # a newer cmake is required, here is a backport for 12.04 LTS
+    - sudo add-apt-repository ppa:kalakris/cmake -y
+    # install yast2-devtools from YaST:Head:Travis
+    - wget https://raw.githubusercontent.com/yast/yast-devtools/SLE-12-GA/travis-tools/travis_setup.sh
+    - sh ./travis_setup.sh -p "qt53base yast2-devtools cmake"
+script:
+    # the Qt5 ackage is in /opt, set the environment first using the bundled script
+    - . /opt/qt53/bin/qt53-env.sh
+    - make -f Makefile.cvs
+    - cd build
+    - make -j 4
+    - sudo make install
+
