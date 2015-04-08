@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+  <id type="desktop">YaST.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <name>YaST</name>
+  <summary>Configuration / Control center</summary>
+  <description>
+    <p>
+      YaST is both an extremely flexible installer and a powerful control center. It's an all-purpose tool for computing.		  
+    </p>
+    <p>
+      A multitude of modules allows to flexibly extend the capabilities of YaST.
+    </p>
+  </description>
+  <screenshots>
+    <screenshot type="default">http://yast.github.io/assets/images/screenshots/screenshot_1.png</screenshot>
+  </screenshots>
+  <url type="homepage">http://yast.github.io/</url>
+  <updatecontact>yast-devel@opensuse.org</updatecontact>
+</application>

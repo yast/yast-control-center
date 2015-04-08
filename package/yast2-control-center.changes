@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Apr  8 10:26:53 UTC 2015 - dimstar@opensuse.org
+
+- Install appdata.xml file in order to show up in AppStream based
+  software centers (currently only GNOME Software).
+
+-------------------------------------------------------------------
 Thu Oct 30 21:22:52 UTC 2014 - hrvoje.senjan@gmail.com
 
 - Install YaST-systemsettings.desktop also to KF5 services directory,
