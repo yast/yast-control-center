@@ -98,6 +98,8 @@ rm -rf "$RPM_BUILD_ROOT"
 
 %files
 %defattr(-,root,root)
+%dir %{_datadir}/appdata
+%{_datadir}/appdata/YaST.appdata.xml
 %{_datadir}/applications/YaST.desktop
 %dir %{_datadir}/kde4/
 %dir %{_datadir}/kde4/services
