@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Nov  4 17:27:44 CET 2015 - shundhammer@suse.de
+
+- Recommend latest libyui-qt7, not obsolete libyui-qt5 in .spec
+  file (bsc#952249)
+
+-------------------------------------------------------------------
 Wed Apr  8 10:26:53 UTC 2015 - dimstar@opensuse.org
 
 - Install appdata.xml file in order to show up in AppStream based

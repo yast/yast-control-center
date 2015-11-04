@@ -57,7 +57,7 @@ Group:          System/YaST
 Requires:       yast2-control-center
 Provides:       yast2-control-center-binary
 Provides:       yast2-control-center:%{_prefix}/lib/YaST2/bin/y2controlcenter
-Recommends:     libyui-qt5
+Recommends:     libyui-qt7
 Supplements:    kdebase3
 Supplements:    kdebase4-session
 
