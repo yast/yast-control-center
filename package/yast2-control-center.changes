@@ -1,4 +1,12 @@
 -------------------------------------------------------------------
+Thu Dec 10 16:43:44 UTC 2015 - lslezak@suse.cz
+
+- Change the yast2-control-center-qt dependency on libyui-qt7
+  from Recommensd to Requires (bnc#958650)
+- Added support for KDE5 (added Supplements plasma5-session dependency)
+- 3.1.6
+
+-------------------------------------------------------------------
 Wed Nov  4 17:27:44 CET 2015 - shundhammer@suse.de
 
 - Recommend latest libyui-qt7, not obsolete libyui-qt5 in .spec

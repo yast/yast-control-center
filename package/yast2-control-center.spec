@@ -17,7 +17,7 @@
 
 
 Name:           yast2-control-center
-Version:        3.1.5
+Version:        3.1.6
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -57,9 +57,10 @@ Group:          System/YaST
 Requires:       yast2-control-center
 Provides:       yast2-control-center-binary
 Provides:       yast2-control-center:%{_prefix}/lib/YaST2/bin/y2controlcenter
-Recommends:     libyui-qt7
+Requires:       libyui-qt7
 Supplements:    kdebase3
 Supplements:    kdebase4-session
+Supplements:    plasma5-session
 
 %description qt
 This package contains the menu selection component for YaST2 using the
