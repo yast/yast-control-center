@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Tue May  2 13:20:35 UTC 2017 - i@xuzhao.net
+
+- Added support for 128x128 sized X11 window icon
+- 3.2.0
+
+-------------------------------------------------------------------
 Thu Dec 10 16:43:44 UTC 2015 - lslezak@suse.cz
 
 - Change the yast2-control-center-qt dependency on libyui-qt7
