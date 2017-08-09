@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Wed Aug  9 12:01:20 UTC 2017 - mvidner@suse.com
+
+- Adjusted to increased so version of the libyui library;
+  an unversioned dependency is OK (bsc#1052217)
+- 3.3.0
+
+-------------------------------------------------------------------
 Tue May  2 13:20:35 UTC 2017 - i@xuzhao.net
 
 - Added support for 128x128 sized X11 window icon
