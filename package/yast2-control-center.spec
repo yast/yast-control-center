@@ -17,7 +17,7 @@
 
 
 Name:           yast2-control-center
-Version:        3.2.0
+Version:        3.3.0
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -57,7 +57,7 @@ Group:          System/YaST
 Requires:       yast2-control-center
 Provides:       yast2-control-center-binary
 Provides:       yast2-control-center:%{_prefix}/lib/YaST2/bin/y2controlcenter
-Requires:       libyui-qt7
+Requires:       libyui-qt
 Supplements:    kdebase3
 Supplements:    kdebase4-session
 Supplements:    plasma5-session
