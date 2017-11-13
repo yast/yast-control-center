@@ -24,7 +24,7 @@
 #include "i18n.h"
 
 #include <unistd.h>
-#include <rpc/types.h>
+#include <sys/param.h>
 #include <stdlib.h> 
 #include <time.h>
 #include <iostream>
