@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Mon Nov 13 12:44:08 UTC 2017 - kukuk@suse.com
+
+- Do not included unused RPC headers (boo#1081118).
+- 4.0.0
+
+-------------------------------------------------------------------
 Wed Aug  9 12:01:20 UTC 2017 - mvidner@suse.com
 
 - Adjusted to increased so version of the libyui library;
