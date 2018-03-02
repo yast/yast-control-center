@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Fri Mar  2 08:04:29 UTC 2018 - jreidinger@suse.com
+
+- Use yast2-control-center as replacement for dropped
+  yast2-control-center-gnome (bsc#1081788)
+- 4.0.2
+
+-------------------------------------------------------------------
 Wed Feb 21 16:30:37 UTC 2018 - letcp@protonmail.com
 
 - Fixes to way icons are displayed (boo#1081517)
