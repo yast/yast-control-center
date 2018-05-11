@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri May 11 00:03:28 UTC 2018 - hellcp@opensuse.org
+
+- Fix Gnome's display of titles/icons (boo#1092845)
+- 4.0.3
+
+-------------------------------------------------------------------
 Fri Mar  2 08:04:29 UTC 2018 - jreidinger@suse.com
 
 - Use yast2-control-center as replacement for dropped
