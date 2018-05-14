@@ -41,6 +41,9 @@ typedef QMapIterator<QString, QVariant> PropertyMapIterator;
 // desktop file -> properties
 typedef QMap<QString, PropertyMap > PropertyMapCache;
 typedef QMapIterator<QString, PropertyMap> PropertyMapCacheIterator;
+// mutable iterator, if you do not need to add/remove values use
+// PropertyMapCacheIterator, it's more efficient
+typedef QMutableMapIterator<QString, PropertyMap> PropertyMapCacheMutableIterator;
 
 class cmp;
 
