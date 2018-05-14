@@ -83,7 +83,14 @@ int main(int argc, char **argv)
 
     mainWin.setFullScreen ( fullscreen );
     mainWin.setNoBorder( noborder );
-    mainWin.setWindowIcon( QIcon( "/usr/share/pixmaps/yast.png"  ) );
+    if (QIcon::hasThemeIcon("yast"))
+    {
+	mainWin.setWindowIcon( QIcon::fromTheme( "yast" ) );
+    }
+    else
+    {
+	mainWin.setWindowIcon( QIcon( "/usr/share/pixmaps/yast.png"  ) );
+    }
 
     if ( fullscreen )
     {

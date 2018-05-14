@@ -416,6 +416,7 @@ void MainWindow::setWinTitle()
 	}
     }
     setWindowTitle( title );
+    QCoreApplication::setApplicationName( title );
 }
 
 void MainWindow::closeEvent (QCloseEvent *event)
