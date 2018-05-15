@@ -227,6 +227,32 @@ void YQModulesModel::removeEmptyGroups()
  	groups <<  groupsModel()->groupId( idx );
     }
 
+    // filter out the .desktop files with unknown or missing group otherwise grouping aborts later
+    PropertyMapCacheMutableIterator it(d->cache);
+    while ( it.hasNext() )
+    {
+        it.next();
+
+        if ( !it.value().contains("X-SuSE-YaST-Group") )
+        {
+            QString file = it.key();
+            qWarning() << "Warning: Skipping file" << file << ": missing group attribute (X-SuSE-YaST-Group)";
+            d->desktop_files.removeAll( file );
+            it.remove();
+            continue;
+        }
+
+        QString group = it.value().value("X-SuSE-YaST-Group").toString();
+        if ( !groups.contains( group ) )
+        {
+            QString file = it.key();
+            qWarning() << "Warning: Skipping file" << file << ": unknown group (X-SuSE-YaST-Group)" << group
+                << "- currently defined groups:" << groups;
+            d->desktop_files.removeAll( file );
+            it.remove();
+        }
+    }
+
     QStringListIterator  git(groups);
     while (git.hasNext())
     {
