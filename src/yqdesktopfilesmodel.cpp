@@ -257,7 +257,7 @@ QVariant YQDesktopFilesModel::translatedPropertyValue( const QModelIndex &index,
 	    break;
 	} 
 	case QVariant::StringList: {
-	    valueAsString = value.toStringList().join(", ");
+	    valueAsString = value.toStringList().join(",");
 	    break;
 	}
 	default:
@@ -280,7 +280,7 @@ QVariant YQDesktopFilesModel::translatedPropertyValue( const QModelIndex &index,
     if( msgid == msgstr)
       {
  ts << "xxxxx1" << endl;
- ts << valueAsString << endl;
+ ts << msgstr << endl;
 	return valueAsString;
       }
     else
