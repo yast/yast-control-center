@@ -26,6 +26,8 @@
 #include <QIcon>
 #include <QMap>
 #include <libintl.h>
+#include <QFile>
+#include <QTextStream>
 
 #include "yqdesktopfilesmodel.h"
 
@@ -267,12 +269,26 @@ QVariant YQDesktopFilesModel::translatedPropertyValue( const QModelIndex &index,
     msgid += ": ";
     msgid += valueAsString;
 
+ QFile outFile("/tmp/log");
+ outFile.open(QIODevice::WriteOnly | QIODevice::Append);
+ QTextStream ts(&outFile);
+ ts << "xxxxx" << endl;
+ ts << ts << endl;
+
     QString msgstr = QString::fromUtf8( dgettext ( DESKTOP_TRANSLATIONS, msgid.toUtf8()) );
 
     if( msgid == msgstr)
+      {
+ ts << "xxxxx1" << endl;
+ ts << valueAsString << endl;
 	return valueAsString;
+      }
     else
+      {
+ ts << "xxxxx2" << endl;
+ ts << msgstr << endl;
 	return msgstr;
+      }
 
 }
  

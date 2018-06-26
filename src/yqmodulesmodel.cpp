@@ -22,8 +22,6 @@
 
 #include <QDebug>
 #include <QSettings>
-#include <QFile>
-#include <QTextStream>
 
 #include "yqmodulesmodel.h"
 #include "yqmodulesproxymodel.h"
@@ -189,10 +187,6 @@ QVariant YQModulesModel::data( const QModelIndex &index, int role ) const
     }
     else if ( role == KCategorizedSortFilterProxyModel::KeywordsRole )
     {
- QFile outFile("/tmp/log");
- outFile.open(QIODevice::WriteOnly | QIODevice::Append);
- QTextStream ts(&outFile);
- ts << translatedPropertyValue( index, "X-SuSE-YaST-Keywords" ).toString()  << endl;
 	return translatedPropertyValue( index, "X-SuSE-YaST-Keywords" );
     }
     else if ( role == GenericNameRole )
