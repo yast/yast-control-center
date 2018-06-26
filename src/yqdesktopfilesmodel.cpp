@@ -273,7 +273,7 @@ QVariant YQDesktopFilesModel::translatedPropertyValue( const QModelIndex &index,
  outFile.open(QIODevice::WriteOnly | QIODevice::Append);
  QTextStream ts(&outFile);
  ts << "xxxxx" << endl;
- ts << ts << endl;
+ ts << msgid << endl;
 
     QString msgstr = QString::fromUtf8( dgettext ( DESKTOP_TRANSLATIONS, msgid.toUtf8()) );
 
