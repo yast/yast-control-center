@@ -274,7 +274,6 @@ QVariant YQDesktopFilesModel::translatedPropertyValue( const QModelIndex &index,
     else
 	return msgstr;
 
-
 }
  
 QVariant YQDesktopFilesModel::findIcon(  QString &icon ) const
