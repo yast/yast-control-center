@@ -187,8 +187,7 @@ QVariant YQModulesModel::data( const QModelIndex &index, int role ) const
     }
     else if ( role == KCategorizedSortFilterProxyModel::KeywordsRole )
     {
-	//FIXME: use translatedPropertyValue
-	return propertyValue( index, "X-SuSE-YaST-Keywords" );
+	return translatedPropertyValue( index, "X-SuSE-YaST-Keywords" );
     }
     else if ( role == GenericNameRole )
     {
