@@ -255,7 +255,7 @@ QVariant YQDesktopFilesModel::translatedPropertyValue( const QModelIndex &index,
 	    break;
 	} 
 	case QVariant::StringList: {
-	    valueAsString = value.toStringList().join(", ");
+	    valueAsString = value.toStringList().join(",");
 	    break;
 	}
 	default:
