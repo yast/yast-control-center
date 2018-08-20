@@ -47,7 +47,7 @@ BuildRequires:  gcc-c++ >= 4.6
 
 Url:            https://github.com/yast/yast-control-center
 Summary:        YaST2 - Control Center
-License:        GPL-2.0
+License:        GPL-2.0-only
 Group:          System/YaST
 Requires:       yast2
 Requires:       yast2-control-center-binary
@@ -116,6 +116,6 @@ rm -rf "$RPM_BUILD_ROOT"
 %files qt
 %defattr(-,root,root)
 %{_prefix}/lib/YaST2/bin/y2controlcenter
-%doc COPYING.GPL2
+%license COPYING.GPL2
 
 %changelog

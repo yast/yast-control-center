@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Mon Aug 20 13:51:27 CEST 2018 - schubi@suse.de
+
+- Changed licence to GPL-2.0-only.
+- Changed dir of COPYING file.
+
+-------------------------------------------------------------------
 Tue Jun 26 10:21:29 CEST 2018 - schubi@suse.de
 
 - Searching for translated keywords (fate#321043).
