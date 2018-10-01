@@ -39,7 +39,6 @@
 #include <QDebug>
 #include <QQueue>
 #include <QSettings>
-#include <QStatusBar>
 #include <QTimer>
 #include <QMessageBox>
 
@@ -107,14 +106,22 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
 {
     qDebug();
 
+    QPalette pal = QApplication::palette(this);
+    QString wcolor = pal.base().color().name();
+    QString style= QString( "QMainWindow::separator { background: %1;}").arg(wcolor);
+    this->setStyleSheet(style);
+
     // Central widget
     QWidget *centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
     QHBoxLayout *layout = new QHBoxLayout;
+    layout->setSpacing(0);
+    layout->setMargin(0);
     centralWidget->setLayout(layout);
 
     // setup central widget
     d->modview = new KCategorizedView( this );
+    d->modview->setFrameStyle(QFrame::NoFrame);
     KCategoryDrawer * drawer = new KCategoryDrawer;
 
     layout->addWidget(d->modview);
@@ -140,19 +147,19 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
 
     // Setup Dock Widget with groups and search field
     QDockWidget *groupdock = new QDockWidget(this);
-    groupdock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+    groupdock->setFeatures(0);
+    groupdock->setTitleBarWidget(new QWidget());
     QWidget *leftPanel = new QWidget( this );
     QVBoxLayout *leftPanelLayout = new QVBoxLayout( leftPanel );
+    leftPanelLayout->setMargin(0);
 
     QHBoxLayout *searchLayout = new QHBoxLayout();
-    QLabel *searchLabel = new QLabel();
     d->searchField = new QLineEdit();
-    searchLabel->setText( _("&Search") );
-    searchLabel->setBuddy( d->searchField );
-    searchLayout->addWidget(searchLabel);
+    d->searchField->setPlaceholderText( _("Search") );
     searchLayout->addWidget(d->searchField);
+    searchLayout->setContentsMargins(10,10,10,6);
 
-    leftPanelLayout->addLayout( searchLayout );    
+    leftPanelLayout->addLayout( searchLayout );
 
     d->gcsfpm = new QSortFilterProxyModel( this );
     d->gcsfpm->setSourceModel( d->modmodel->groupsModel() );
@@ -160,6 +167,8 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
     d->gcsfpm->setFilterRole( Qt::UserRole );
 
     d->groupview = new ListView(  );
+    d->groupview->setFrameStyle(QFrame::NoFrame);
+    d->groupview->setStyleSheet("background-color: rgba(0,0,0,0)");
 
     d->groupview->setModel(d->gcsfpm);
     d->groupview->setIconSize( QSize(32,32) );
@@ -188,7 +197,6 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
     logSaver = new YQSaveLogs();
 
     setWinTitle();
-    statusBar()->showMessage( _("Ready") );
     
     connect( d->groupview, SIGNAL( clicked( const QModelIndex & ) ),
              SLOT( slotGroupPressed( const QModelIndex & ) ) );
@@ -205,9 +213,6 @@ MainWindow::MainWindow( Qt::WindowFlags wflags )
     connect( shutdown, &QAction::triggered, qApp, &QApplication::quit );
 
     connect( saveLogs, &QAction::triggered, logSaver, &YQSaveLogs::save );
-
-    connect( logSaver, SIGNAL( statusMsg( const QString &)), statusBar(), 
-	     SLOT( showMessage( const QString &) ));
 
 
 //    d->groupview->setSizeHint(500,500);
@@ -318,8 +323,6 @@ void MainWindow::slotLaunchModule( const QModelIndex &index)
     qDebug() << "Run command: " << cmd.toUtf8();
     std::cout << "Run command: " << qPrintable(cmd) << std::endl;
     //Translators: module name comes here (%1) e.g. HTTP server, Scanner,...
-    QString msg = _("Starting configuration module \"%1\"...").arg( name );
-    statusBar()->showMessage( msg, 2000 );
 
     system( cmd.toUtf8() );
 

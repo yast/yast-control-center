@@ -46,24 +46,15 @@ void KCategoryDrawer::drawCategory(const QModelIndex &index,
 
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing);
-
-    if (option.state & QStyle::State_Selected)
-    {
-        color = option.palette.color(QPalette::HighlightedText);
-	QColor bgcolor = option.palette.color(QPalette::Highlight);
-        painter->fillRect(option.rect, linearG( option, bgcolor ));
-    }
-    else
-    {
-        color = option.palette.color(QPalette::Text);
-    }
-
+    
+    color = option.palette.color(QPalette::WindowText);
+    QColor bgcolor = option.palette.color(QPalette::Base);
+    
 
     QStyleOptionViewItemV4 viewOptions;
     viewOptions.rect = option.rect;
     viewOptions.palette = option.palette;
     viewOptions.direction = option.direction;
-    viewOptions.state = option.state;
     viewOptions.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
     QApplication::style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewOptions, painter, 0);
 
@@ -73,19 +64,19 @@ void KCategoryDrawer::drawCategory(const QModelIndex &index,
     painter->setFont(painterFont);
 
 
-    QRect lineRect(option.rect.left(),
-                   option.rect.bottom() - 1,
-                   option.rect.width(),
+    QRect lineRect(option.rect.left() + 10,
+                   option.rect.bottom() - 16 - option.fontMetrics.height(),
+                   option.rect.width() - 20,
                    1);
 
-
-    painter->fillRect(lineRect, linearG( option, color ));
+    painter->fillRect(lineRect,  option.palette.brush(QPalette::Highlight) );
 
     painter->setPen(color);
 
     QRect textRect(option.rect);
     textRect.setLeft(textRect.left() + HORIZONTAL_HINT);
     textRect.setRight(textRect.right() - HORIZONTAL_HINT);
+    painter->fillRect(option.rect, bgcolor );
     painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft,
     metrics.elidedText(category, Qt::ElideRight, option.rect.width()));
 
@@ -96,19 +87,5 @@ int KCategoryDrawer::categoryHeight(const QModelIndex &index, const QStyleOption
 {
     Q_UNUSED(index);
 
-    return option.fontMetrics.height() + 4 /* 3 separator; 1 gradient */;
-}
-
-QLinearGradient KCategoryDrawer::linearG ( const QStyleOption &option, const QColor col ) const 
-{
-
-    QLinearGradient gradient = QLinearGradient(option.rect.topLeft(),
-                             			   option.rect.bottomRight());
-
-    gradient.setColorAt(option.direction == Qt::LeftToRight ? 0
-                                                            : 1, col);
-    gradient.setColorAt(option.direction == Qt::LeftToRight ? 1
-                                                            : 0, Qt::transparent);
-
-    return gradient;
+    return option.fontMetrics.height() + 16 /* 3 separator; 1 gradient */;
 }

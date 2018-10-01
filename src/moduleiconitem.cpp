@@ -62,14 +62,14 @@ void ModuleIconItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 	{
 	    if (selected) 
 	    {
-		painter->fillPath(roundedRectangle(option.rect, 10), option.palette.brush(QPalette::Highlight));
+		painter->fillPath(roundedRectangle(option.rect, 0), option.palette.brush(QPalette::Highlight));
 		painter->setPen(option.palette.color(QPalette::HighlightedText));
 	    }
 	    else
 	    {
 		QColor hover = option.palette.color(QPalette::Highlight);
-		hover.setAlpha(88);
-		painter->fillPath(roundedRectangle(option.rect, 10), hover);
+		hover.setAlpha(75);
+		painter->fillPath(roundedRectangle(option.rect, 0), hover);
 		painter->setPen( option.palette.color( QPalette::WindowText ) );
 	    }
 	    QFont newFont = option.font;
