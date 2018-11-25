@@ -36,7 +36,7 @@ BuildRequires:  pkgconfig(Qt5Widgets)
 Obsoletes:      yast2-control-center-gnome < %{version}
 Provides:       yast2-control-center-gnome = %{version}
 
-Requires:       yast2_theme
+Requires:       yast2
 
 %if 0%{?force_gcc_46}
 BuildRequires:  gcc46
