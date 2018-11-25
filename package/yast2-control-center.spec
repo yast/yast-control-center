@@ -17,7 +17,7 @@
 
 
 Name:           yast2-control-center
-Version:        4.1.2
+Version:        4.1.3
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -111,7 +111,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_datadir}/kde4/services/YaST-systemsettings.desktop
 %dir %{_datadir}/kservices5
 %{_datadir}/kservices5/YaST-systemsettings.desktop
-%{_datadir}/pixmaps/yast.png
+%{_datadir}/icons/*
 
 %files qt
 %defattr(-,root,root)
