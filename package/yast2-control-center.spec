@@ -111,7 +111,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_datadir}/kde4/services/YaST-systemsettings.desktop
 %dir %{_datadir}/kservices5
 %{_datadir}/kservices5/YaST-systemsettings.desktop
-%{_datadir}/icons/*
+%{yast_icondir}
 
 %files qt
 %defattr(-,root,root)
