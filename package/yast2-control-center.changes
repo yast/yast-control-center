@@ -1,8 +1,7 @@
 -------------------------------------------------------------------
 Wed Nov 28 12:56:19 UTC 2018 - Stasiek Michalski <hellcp@mailbox.org>
 
-- Require yast2 during build to meet the expectation of checks 
-  (boo#1109310)
+- Use yast-control-center icon for desktop files (boo#1109310)
 
 -------------------------------------------------------------------
 Sun Nov 25 01:53:03 UTC 2018 - Stasiek Michalski <hellcp@mailbox.org>

@@ -31,14 +31,10 @@ BuildRequires:  yast2-devtools >= 3.1.10
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Gui)
 BuildRequires:  pkgconfig(Qt5Widgets)
-# For desktop file check
-BuildRequires:  yast2
 
 # control-center-gnome is dropped and this one should be used instead
 Obsoletes:      yast2-control-center-gnome < %{version}
 Provides:       yast2-control-center-gnome = %{version}
-
-Requires:       yast2
 
 %if 0%{?force_gcc_46}
 BuildRequires:  gcc46

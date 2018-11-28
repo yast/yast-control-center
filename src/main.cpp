@@ -84,13 +84,13 @@ int main(int argc, char **argv)
 
     mainWin.setFullScreen ( fullscreen );
     mainWin.setNoBorder( noborder );
-    if (QIcon::hasThemeIcon("yast"))
+    if (QIcon::hasThemeIcon("yast-control-center"))
     {
-	mainWin.setWindowIcon( QIcon::fromTheme( "yast" ) );
+	mainWin.setWindowIcon( QIcon::fromTheme( "yast-control-center" ) );
     }
     else
     {
-	mainWin.setWindowIcon( QIcon::fromTheme( "yast-control-center" ) );
+	mainWin.setWindowIcon( QIcon::fromTheme( "yast" ) );
     }
 
     if ( fullscreen )
