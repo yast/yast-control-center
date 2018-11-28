@@ -90,7 +90,7 @@ int main(int argc, char **argv)
     }
     else
     {
-	mainWin.setWindowIcon( QIcon( "/usr/share/pixmaps/yast.png"  ) );
+	mainWin.setWindowIcon( QIcon::fromTheme( "yast-control-center" ) );
     }
 
     if ( fullscreen )

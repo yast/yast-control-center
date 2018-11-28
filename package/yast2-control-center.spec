@@ -17,7 +17,7 @@
 
 
 Name:           yast2-control-center
-Version:        4.1.2
+Version:        4.1.3
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -36,7 +36,7 @@ BuildRequires:  pkgconfig(Qt5Widgets)
 Obsoletes:      yast2-control-center-gnome < %{version}
 Provides:       yast2-control-center-gnome = %{version}
 
-Requires:       yast2_theme
+Requires:       yast2
 
 %if 0%{?force_gcc_46}
 BuildRequires:  gcc46
@@ -111,7 +111,7 @@ rm -rf "$RPM_BUILD_ROOT"
 %{_datadir}/kde4/services/YaST-systemsettings.desktop
 %dir %{_datadir}/kservices5
 %{_datadir}/kservices5/YaST-systemsettings.desktop
-%{_datadir}/pixmaps/yast.png
+%{yast_icondir}
 
 %files qt
 %defattr(-,root,root)
