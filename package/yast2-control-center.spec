@@ -17,7 +17,7 @@
 
 
 Name:           yast2-control-center
-Version:        4.1.3
+Version:        4.1.4
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -35,8 +35,6 @@ BuildRequires:  pkgconfig(Qt5Widgets)
 # control-center-gnome is dropped and this one should be used instead
 Obsoletes:      yast2-control-center-gnome < %{version}
 Provides:       yast2-control-center-gnome = %{version}
-
-Requires:       yast2
 
 %if 0%{?force_gcc_46}
 BuildRequires:  gcc46

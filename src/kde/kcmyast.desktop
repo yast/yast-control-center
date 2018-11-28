@@ -1,6 +1,6 @@
 [Desktop Entry]
 Exec=kcmshell4 kcm_yast
-Icon=yast
+Icon=yast-control-center
 Type=Service
 X-DocPath=kcontrol/emoticons/index.html
 
