@@ -278,26 +278,7 @@ QVariant YQDesktopFilesModel::translatedPropertyValue( const QModelIndex &index,
  
 QVariant YQDesktopFilesModel::findIcon(  QString &icon ) const
 {
-    if ( QIcon::hasThemeIcon(icon) )
-    {
-        return QIcon::fromTheme(icon);
-    }
-    else
-    {
-        QRegExp extension( "\\.(png|jpg|svg)$", Qt::CaseInsensitive );
-        if ( icon.indexOf( extension ) < 0 )	// no .png or .jpg extension?
-            icon += ".png";			// assume .png
-        QStringListIterator it(d->icon_dirs);
-        while (it.hasNext())
-        {
-            QString icondir(it.next());
-            if ( QFile::exists(icondir + "/" + icon) )
-            {
-                return QIcon(icondir + "/" + icon);
-            }
-        }
-    }
-    return QVariant();
+    return QIcon::fromTheme(icon);
 }
  
 void YQDesktopFilesModel::sort( int, Qt::SortOrder order )
