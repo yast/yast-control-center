@@ -32,7 +32,6 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QListView window;
     YQDesktopFilesModel model(&window);
-    model.addIconPath("/usr/share/YaST2/theme/current/icons/32x32/apps");
     model.addDesktopFilesPath("/usr/share/applications/YaST2/groups");
     
     window.setModel(&model);
@@ -40,8 +39,6 @@ int main(int argc, char *argv[])
 
     //QListView window2;
     //YQDesktopFilesModel model2("/usr/share/applications/YaST2", &window2);
-    //model2.addIconPath("/usr/share/YaST2/theme/current/icons/32x32/apps");
-    //model2.addIconPath("/usr/share/icons/hicolor/32x32/apps");
     
     //window2.setModel(&model2);
     //window2.show();

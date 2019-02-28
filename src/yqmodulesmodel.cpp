@@ -65,8 +65,6 @@ YQModulesModel::YQModulesModel( QObject * parent )
     QString alt_dir = QString( getenv( "YAST2_DESKTOP_DIR") );   
 
     addDesktopFilesPath( alt_dir.isEmpty() ? default_dir : alt_dir );
-    addIconPath( ICON_DIR );
-    addIconPath( FALLBACK_ICON_DIR );
     removeEmptyGroups();
 }
 

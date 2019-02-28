@@ -71,11 +71,6 @@ public:
      * Add a directory where Desktop files will be searched
      */
     void addDesktopFilesPath( const QString & dir );
-    
-    /**
-     * Add a directory where to look for icons
-     */
-    void addIconPath( const QString &dir );
 
     // reimplemented methods from QAbstractItemModel
     
@@ -122,8 +117,6 @@ protected:
         
         // directories to read
         QStringList desktop_dirs;
-
-        QStringList icon_dirs;
 
         // list of .desktop files read from disk
         QStringList desktop_files;

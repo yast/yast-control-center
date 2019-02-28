@@ -81,11 +81,6 @@ void YQDesktopFilesModel::addDesktopFilesPath( const QString &dir )
     readDesktopFiles();
 }
 
-void YQDesktopFilesModel::addIconPath( const QString &dir )
-{
-    d->icon_dirs << dir;
-}
-
 void YQDesktopFilesModel::slotDesktopFilesDirectoryChanged( const QString &path )
 {
     //emit dataChanged();
@@ -278,6 +273,11 @@ QVariant YQDesktopFilesModel::translatedPropertyValue( const QModelIndex &index,
  
 QVariant YQDesktopFilesModel::findIcon(  QString &icon ) const
 {
+    // qt5ct doesn't set a default theme
+    if ( QIcon::themeName().isEmpty() )
+    {
+        QIcon::setThemeName( "hicolor" );
+    }
     return QIcon::fromTheme(icon);
 }
  
