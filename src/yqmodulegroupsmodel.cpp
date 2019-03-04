@@ -30,8 +30,6 @@
 
 #include "yqmodulegroupsmodel.h"
 
-#define DEFAULT_GROUP_ICON	"yast-default-group.png"
-
 bool paircmp( QPair<int, QString> p1, QPair<int, QString> p2)
 {
 	if ( p1.first != p2.first )
@@ -48,8 +46,6 @@ YQModuleGroupsModel::YQModuleGroupsModel( QObject * parent )
     QString alt_dir = QString( getenv( "YAST2_DESKTOP_DIR") );   
 
     addDesktopFilesPath( alt_dir.isEmpty() ? default_dir : alt_dir + "/groups/");
-    addIconPath( ICON_DIR );
-    addIconPath( FALLBACK_ICON_DIR );
     reindex();
     //addPersonalStuff();
 }
@@ -157,14 +153,7 @@ QVariant YQModuleGroupsModel::data( const QModelIndex &index, int role ) const
     else if ( role == Qt::DecorationRole )
     {
 	QVariant icon = YQDesktopFilesModel::data( index, role );
-	QString fallback_icon = "yast-default-group";
-
-	if ( icon.isValid() )
-	    return icon;
-	else
-	{
-	    return findIcon( fallback_icon );
-	}
+	return icon;
     }
     else
         return YQDesktopFilesModel::data(index, role);
