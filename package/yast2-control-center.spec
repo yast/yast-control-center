@@ -60,6 +60,10 @@ Requires:       yast2-control-center
 Provides:       yast2-control-center-binary
 Provides:       yast2-control-center:%{_prefix}/lib/YaST2/bin/y2controlcenter
 Requires:       libyui-qt
+
+# bsc#1130700: Need Qt SVG support for icons
+Requires:       libQt5Svg5
+
 Supplements:    kdebase3
 Supplements:    kdebase4-session
 Supplements:    plasma5-session
