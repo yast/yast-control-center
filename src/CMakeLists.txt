@@ -58,10 +58,10 @@ TARGET_LINK_LIBRARIES(y2controlcenter Qt5::Widgets Qt5::Gui)
 INSTALL(TARGETS y2controlcenter DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/YaST2/bin)
 
 INSTALL(DIRECTORY icons DESTINATION ${CMAKE_INSTALL_PREFIX}/share/ )
-INSTALL(FILES YaST.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications )
+INSTALL(FILES org.openSUSE.YaST.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications )
 INSTALL(FILES YaST-systemsettings.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/kde4/services )
 INSTALL(FILES YaST-systemsettings.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/kservices5 )
-INSTALL(FILES YaST.appdata.xml DESTINATION ${CMAKE_INSTALL_PREFIX}/share/appdata )
+INSTALL(FILES org.openSUSE.YaST.appdata.xml DESTINATION ${CMAKE_INSTALL_PREFIX}/share/metainfo )
 
 SET(MODELS_TEST_SRCS
   models_test.cpp

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+  <id>org.openSUSE.YaST</id>
+  <launchable type="desktop-id">org.openSUSE.YaST.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0</project_license>
+  <name>YaST</name>
+  <summary>Configuration and System Management Software</summary>
+  <description>
+    <p>YaST is both an extremely flexible installer and a powerful control center. It's an all-purpose tool for system management.</p>
+    <p>A multitude of modules allows to flexibly extend the capabilities of YaST.</p>
+  </description>
+  <categories>
+    <category>Settings</category>
+    <category>HardwareSettings</category>
+    <category>DesktopSettings</category>
+  </categories>
+  <screenshots>
+    <screenshot type="default">https://yast.opensuse.org/assets/images/screenshots/screenshot_1.png</screenshot>
+  </screenshots>
+  <url type="homepage">https://yast.opensuse.org/</url>
+  <url type="bugtracker">https://bugzilla.opensuse.org/</url>
+  <update_contact>yast-devel@opensuse.org</update_contact>
+</application>
