@@ -105,7 +105,7 @@ rm -rf "$RPM_BUILD_ROOT"
 
 %files
 %defattr(-,root,root)
-%dir %{_datadir}/appdata
+%dir %{_datadir}/metainfo
 %{_datadir}/metainfo/org.openSUSE.YaST.appdata.xml
 %{_datadir}/applications/org.openSUSE.YaST.desktop
 %dir %{_datadir}/kde4/
