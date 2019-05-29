@@ -16,9 +16,9 @@
     <category>DesktopSettings</category>
   </categories>
   <screenshots>
-    <screenshot type="default">https://yast.opensuse.org/assets/images/screenshots/screenshot_1.png</screenshot>
+    <screenshot type="default">http://yast.opensuse.org/assets/images/screenshots/screenshot_1.png</screenshot>
   </screenshots>
-  <url type="homepage">https://yast.opensuse.org/</url>
+  <url type="homepage">http://yast.opensuse.org/</url>
   <url type="bugtracker">https://bugzilla.opensuse.org/</url>
   <update_contact>yast-devel@opensuse.org</update_contact>
 </application>
