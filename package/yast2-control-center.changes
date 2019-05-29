@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Mon May 20 18:52:00 UTC 2019 - Stasiek Michalski <hellcp@mailbox.org>
+
+- Change location of appdataa and fix it up (fate#319035)
+- 4.2.0
+
+-------------------------------------------------------------------
 Mon Apr  8 15:05:04 UTC 2019 - Stefan Hundhammer <shundhammer@suse.com>
 
 - Require libQt5Svg5 to support SVG icons (bsc#1127245)

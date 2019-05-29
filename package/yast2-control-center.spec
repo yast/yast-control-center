@@ -17,7 +17,7 @@
 
 
 Name:           yast2-control-center
-Version:        4.1.8
+Version:        4.2.0
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -97,7 +97,7 @@ cd build
 make install DESTDIR=$RPM_BUILD_ROOT
 cd ..
 
-%suse_update_desktop_file -G "Administrator Settings"  %{buildroot}%{_datadir}/applications/YaST.desktop Core-System X-SuSE-ControlCenter-System X-GNOME-SystemSettings
+%suse_update_desktop_file -G "Administrator Settings"  %{buildroot}%{_datadir}/applications/org.openSUSE.YaST.desktop Core-System X-SuSE-ControlCenter-System X-GNOME-SystemSettings
 %suse_update_desktop_file %{buildroot}%{_datadir}/kde4/services/YaST-systemsettings.desktop 
 
 %clean
@@ -105,9 +105,9 @@ rm -rf "$RPM_BUILD_ROOT"
 
 %files
 %defattr(-,root,root)
-%dir %{_datadir}/appdata
-%{_datadir}/appdata/YaST.appdata.xml
-%{_datadir}/applications/YaST.desktop
+%dir %{_datadir}/metainfo
+%{_datadir}/metainfo/org.openSUSE.YaST.appdata.xml
+%{_datadir}/applications/org.openSUSE.YaST.desktop
 %dir %{_datadir}/kde4/
 %dir %{_datadir}/kde4/services
 %{_datadir}/kde4/services/YaST-systemsettings.desktop
