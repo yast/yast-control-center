@@ -2,7 +2,7 @@
 <application>
   <id>org.openSUSE.YaST</id>
   <launchable type="desktop-id">org.openSUSE.YaST.desktop</launchable>
-  <metadata_license>CC0-1.0</metadata_license>
+  <metadata_license>GPL-2.0</metadata_license>
   <project_license>GPL-2.0</project_license>
   <name>YaST</name>
   <summary>Configuration and System Management Software</summary>
