@@ -56,6 +56,7 @@ public:
     {
       Name,
       GenericName,
+      Comment,
       Group,
       Icon,
       SortKey,

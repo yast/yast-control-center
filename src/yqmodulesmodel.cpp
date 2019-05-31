@@ -82,7 +82,7 @@ PropertyMap YQModulesModel::readDesktopFile( const QString &path )
     PropertyMap data;
     const QString rootOnly = "X-SuSE-YaST-RootOnly";
     const QString group = "X-SuSE-YaST-Group";
-    const QString name = "Name";
+    const QString name = "GenericName";
 
     QSettings desktopFile( path, QSettings::IniFormat );
 
@@ -142,7 +142,7 @@ QModelIndex YQModulesModel::firstModuleInGroup( const QModelIndex &index ) const
     qDebug() << "Look up 1st module in group " << grpid;
 
     QString firstMod = priv->groupStringCache[grpid];
-    return indexForValue("Name", firstMod );    
+    return indexForValue("GenericName", firstMod );
 }
 
 Qt::ItemFlags YQModulesModel::flags ( const QModelIndex & index ) const
@@ -187,10 +187,10 @@ QVariant YQModulesModel::data( const QModelIndex &index, int role ) const
     {
 	return translatedPropertyValue( index, "X-SuSE-YaST-Keywords" );
     }
-    else if ( role == GenericNameRole )
+    else if ( role == CommentRole )
     {
         //QString tooltip = d->infoProvider.provideInfo( this, index );
-        QString tooltip = translatedPropertyValue(index, "GenericName").toString();
+        QString tooltip = translatedPropertyValue(index, "Comment").toString();
         return tooltip;       
     }
     else if ( role == Qt::DecorationRole )

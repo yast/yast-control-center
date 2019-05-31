@@ -255,7 +255,7 @@ void MainWindow::slotModulePressed( const QModelIndex &index )
         return;
     
     qDebug() << "Module Click:" << d->modmodel->data(srcidx).toString();
-    qDebug() << "-> " << srcidx.row() << " : " << d->modmodel->propertyValue(srcidx, "GenericName").toString();
+    qDebug() << "-> " << srcidx.row() << " : " << d->modmodel->propertyValue(srcidx, "Comment").toString();
 }
 
 void MainWindow::slotLaunchModule( const QModelIndex &index)

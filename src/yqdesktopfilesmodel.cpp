@@ -299,7 +299,7 @@ QVariant YQDesktopFilesModel::data( const QModelIndex &index, int role ) const
     // check the role and column
     if ( role == Qt::DisplayRole )
     {
-	return translatedPropertyValue( index, "Name");
+	return translatedPropertyValue( index, "GenericName");
     }
     else if ( role == Qt::DecorationRole )
     {
@@ -314,8 +314,10 @@ QVariant YQDesktopFilesModel::data( const QModelIndex &index, int role ) const
         {
         case Name:
             return propertyValue( index, "Name" );
-	case GenericName:
-	    return propertyValue ( index, "GenericName" );
+        case GenericName:
+           return propertyValue( index, "GenericName" );
+        case Comment:
+            return propertyValue ( index, "Comment" );
         case Group:
             return propertyValue( index, "X-SuSE-YaST-Group" );
         case Icon:
