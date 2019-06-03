@@ -76,7 +76,7 @@ void ModuleIconItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 	    newFont.setPointSize( option.font.pointSize() - 2);
 	    QFontMetrics newFm = QFontMetrics( newFont );
 
-	    QString descr = newFm.elidedText( index.data( YQModulesModel::GenericNameRole ).toString(), Qt::ElideRight, option.rect.width() );
+	    QString descr = newFm.elidedText( index.data( YQModulesModel::CommentRole ).toString(), Qt::ElideRight, option.rect.width() );
 	    QRect tr = option.rect;
 	    tr.setTop( tr.top() + decorationSize.height() + 2*style->pixelMetric( QStyle::PM_FocusFrameVMargin) );
 	    tr.setLeft( tr.left() + 2*style->pixelMetric( QStyle::PM_FocusFrameHMargin ));
