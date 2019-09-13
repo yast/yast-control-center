@@ -54,6 +54,8 @@ int main(int argc, char **argv)
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication app(argc, argv);
+    app.setApplicationName("org.opensuse.YaST");
+    app.setDesktopFileName("org.opensuse.YaST.desktop");
     set_textdomain("control-center");
 
     bool fullscreen = false;
@@ -85,14 +87,6 @@ int main(int argc, char **argv)
 
     mainWin.setFullScreen ( fullscreen );
     mainWin.setNoBorder( noborder );
-    if (QIcon::hasThemeIcon("yast-control-center"))
-    {
-	mainWin.setWindowIcon( QIcon::fromTheme( "yast-control-center" ) );
-    }
-    else
-    {
-	mainWin.setWindowIcon( QIcon::fromTheme( "yast" ) );
-    }
 
     if ( fullscreen )
     {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application>
-  <id>org.openSUSE.YaST</id>
-  <launchable type="desktop-id">org.openSUSE.YaST.desktop</launchable>
+<component type="desktop-application" xmlns="https://specifications.freedesktop.org/metainfo/1.0">
+  <id>org.opensuse.YaST.desktop</id>
+  <launchable type="desktop-id">org.opensuse.YaST.desktop</launchable>
   <metadata_license>GPL-2.0</metadata_license>
   <project_license>GPL-2.0</project_license>
   <name>YaST</name>
@@ -21,4 +21,4 @@
   <url type="homepage">http://yast.opensuse.org/</url>
   <url type="bugtracker">https://bugzilla.opensuse.org/</url>
   <update_contact>yast-devel@opensuse.org</update_contact>
-</application>
+</component>
