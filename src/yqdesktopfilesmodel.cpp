@@ -271,14 +271,16 @@ QVariant YQDesktopFilesModel::translatedPropertyValue( const QModelIndex &index,
 
 }
  
-QVariant YQDesktopFilesModel::findIcon(  QString &icon ) const
+QVariant YQDesktopFilesModel::findIcon(  QString &iconName ) const
 {
+    QIcon icon = QIcon::fromTheme( iconName );
     // qt5ct doesn't set a default theme
-    if ( QIcon::themeName().isEmpty() )
+    if ( icon.isNull() && QIcon::themeName().isEmpty() )
     {
-        QIcon::setThemeName( "hicolor" );
+	QIcon::setThemeName( "hicolor" );
+	icon = QIcon::fromTheme( iconName );
     }
-    return QIcon::fromTheme(icon);
+    return icon;
 }
  
 void YQDesktopFilesModel::sort( int, Qt::SortOrder order )
