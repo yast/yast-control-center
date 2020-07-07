@@ -110,7 +110,7 @@ cd ..
 %{yast_icondir}
 
 %files qt
-%{_libexecdir}/YaST2/bin/y2controlcenter
+%{_prefix}/lib/YaST2/bin/y2controlcenter
 %license COPYING.GPL2
 
 %changelog
