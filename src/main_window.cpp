@@ -290,7 +290,8 @@ void MainWindow::slotLaunchModule( const QModelIndex &index)
     QString argument = d->modmodel->data( i2, Qt::UserRole ).toString();
     QString name = d->modmodel->data( i3, Qt::UserRole ).toString();
 
-    QString cmd = QString("/sbin/yast2 ");
+    // Do not send HUP signal when control center is closed, bsc#1154854.
+    QString cmd = QString("/usr/bin/nohup /sbin/yast2 ");
     cmd += client;
 
     if ( d->noBorder )	
