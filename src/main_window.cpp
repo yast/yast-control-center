@@ -305,7 +305,9 @@ void MainWindow::slotLaunchModule( const QModelIndex &index)
 	cmd += argument;
 	cmd +="'";
     }
-    cmd += " &";
+
+    // Redirect nohup output to ensure that $HOME/nohup.out file is not created (bsc#1189651)
+    cmd += " > /var/log/YaST2/nohup.out 2>&1 &";
 
     //FIXME: use something more intelligent (unique) to remember used modules, names suck
     d->recentlyUsed.enqueue( name );  
