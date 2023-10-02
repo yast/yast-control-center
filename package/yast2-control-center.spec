@@ -17,7 +17,7 @@
 
 
 Name:           yast2-control-center
-Version:        4.6.0
+Version:        4.6.1
 Release:        0
 Url:            https://github.com/yast/yast-control-center
 Summary:        YaST2 - Control Center
@@ -60,6 +60,8 @@ Requires:       yast2-control-center
 Requires:       libyui-qt
 # bsc#1130700: Need Qt SVG support for icons
 Requires:       libQt5Svg5
+# bsc#1211869: xdg-utils no longer automatically installed
+Requires:       xdg-utils
 
 Provides:       yast2-control-center-binary
 Provides:       yast2-control-center:%{_prefix}/lib/YaST2/bin/y2controlcenter
