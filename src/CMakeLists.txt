@@ -59,8 +59,8 @@ INSTALL(TARGETS y2controlcenter DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/YaST2/bi
 
 INSTALL(DIRECTORY icons DESTINATION ${CMAKE_INSTALL_PREFIX}/share/ )
 INSTALL(FILES org.opensuse.YaST.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications )
-INSTALL(FILES YaST-systemsettings.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/kde4/services )
 INSTALL(FILES YaST-systemsettings.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/kservices5 )
+INSTALL(FILES YaST-systemsettings.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/plasma/systemsettings/externalmodules )
 INSTALL(FILES org.opensuse.YaST.appdata.xml DESTINATION ${CMAKE_INSTALL_PREFIX}/share/metainfo )
 
 SET(MODELS_TEST_SRCS
