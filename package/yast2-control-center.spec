@@ -17,7 +17,7 @@
 
 
 Name:           yast2-control-center
-Version:        5.0.2
+Version:        5.0.3
 Release:        0
 Url:            https://github.com/yast/yast-control-center
 Summary:        YaST2 - Control Center
@@ -90,7 +90,7 @@ cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_SKIP_RPATH=1 \
       ..
-make %{?jobs:-j %jobs} VERBOSE=1
+%make_build
 
 %install
 cd build
