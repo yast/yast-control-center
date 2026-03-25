@@ -17,7 +17,7 @@
 
 
 Name:           yast2-control-center
-Version:        5.0.3
+Version:        5.0.4
 Release:        0
 Url:            https://github.com/yast/yast-control-center
 Summary:        YaST2 - Control Center
@@ -30,7 +30,6 @@ BuildRequires:  cmake
 BuildRequires:  libdrm-devel
 BuildRequires:  libjpeg-devel
 BuildRequires:  pkgconfig
-BuildRequires:  update-desktop-files
 BuildRequires:  yast2-devtools >= 3.1.10
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Gui)
